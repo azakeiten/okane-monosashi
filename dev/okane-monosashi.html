@@ -596,6 +596,15 @@ table.fresh td:nth-child(2) { font-weight: 700; white-space: nowrap; }
 table.fresh .fq { display: inline-block; font-size: 11px; font-weight: 900; border-radius: 999px; padding: 1px 8px; background: var(--soft); color: var(--ink-2); white-space: nowrap; }
 table.fresh .fq.m { background: color-mix(in srgb, var(--good) 16%, var(--card)); color: var(--good); }
 
+/* ===== v16：章のアイコン ===== */
+svg.ic { flex: none; vertical-align: -0.18em; }
+.ch-head .q { display: flex; align-items: center; gap: 8px; }
+.ch-ic { width: 32px; height: 32px; border-radius: 9px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; }
+.toc-card .no svg.ic { color: var(--ruler-ink); }
+.toc-card .tn { display: block; font-family: var(--font-num); font-size: 11px; color: var(--muted); font-weight: 500; line-height: 1.2; }
+.part-band .chs a { display: inline-flex; align-items: center; gap: 6px; }
+.course ol li { display: inline-flex; align-items: center; gap: 4px; }
+
 /* 読んでいる位置のバー */
 .readbar { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--ruler); transform-origin: left center; transform: scaleX(0); pointer-events: none; }
 
@@ -613,7 +622,8 @@ table.fresh .fq.m { background: color-mix(in srgb, var(--good) 16%, var(--card))
 .part-band .chs { justify-content: flex-start !important; }
 
 /* もくじ（パートごと） */
-.toc-part .toc-grid { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); }
+#tocGrid { display: block; }
+.toc-part .toc-grid { grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
 @media (max-width: 720px) { .toc-part .toc-grid { grid-template-columns: minmax(0, 1fr); } }
 .toc-part { display: grid; gap: 10px; }
 .toc-part + .toc-part { margin-top: 18px; }
@@ -961,6 +971,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <button type="button" data-m="minutes" aria-pressed="true">買うのに何分？<span class="num">値段 ÷ その県の最低賃金</span></button>
           <button type="button" data-m="wage" aria-pressed="false">最低賃金<span class="num">2026年度</span></button>
           <button type="button" data-m="price" aria-pressed="false">値段<span class="num">県庁所在地・2025年</span></button>
+          <button type="button" data-m="rpi" aria-pressed="false">くらしの物価<span class="num">全国平均＝100</span></button>
+          <button type="button" data-m="realwage" aria-pressed="false">物価を考えた時給<span class="num">最低賃金 ÷ 物価</span></button>
         </div>
         <div class="field map-item"><label for="mapItem">品物</label><select id="mapItem"></select></div>
       </div>
@@ -981,6 +993,13 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <details class="deep">
           <summary>最低賃金が高い県は、物の値段も高い？</summary>
           <div class="body"><p id="mapInsight"></p></div>
+        </details>
+        <details class="deep">
+          <summary>「くらしの物価」と「物価を考えた時給」って何？</summary>
+          <div class="body">
+            <p><b>くらしの物価</b>は、国の「消費者物価地域差指数」です。食べ物、家賃、電気代など、くらしに使うもの全体の値段を、全国平均を100としてくらべた数字です。2025年は東京都が104.2でいちばん高く、群馬県が96.2でいちばん低くなりました。東京都が高いのは、家賃など「住居」が全国平均の約1.3倍だからです。</p>
+            <p><b>物価を考えた時給</b>は、最低賃金を「くらしの物価」でわって、全国と同じ物価だったらいくら分の値打ちがあるかを計算したものです（このサイトでの計算）。最低賃金が高い県でも、物価も高ければ、差は小さくなります。</p>
+          </div>
         </details>
         <details class="deep">
           <summary>なぜ県によって最低賃金がちがうの？</summary>
@@ -1654,6 +1673,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <div class="sources">
         <div class="src"><span class="what">消費者物価指数（全国・年平均、2025年＝100）</span><span class="when">1970〜2025年</span><span class="from">総務省統計局「2025年基準消費者物価指数 長期時系列データ」（政府統計の総合窓口 e-Stat） <a href="https://www.e-stat.go.jp/stat-search/files?tstat=000001243876" target="_blank" rel="noopener">e-stat.go.jp</a></span></div>
         <div class="src"><span class="what">品目の値段（東京都区部・年平均）</span><span class="when">2010・2015・2020・2025年</span><span class="from">総務省統計局「小売物価統計調査（動向編）」調査品目の月別価格及び年平均価格 <a href="https://www.stat.go.jp/data/kouri/doukou/3.html" target="_blank" rel="noopener">stat.go.jp</a></span></div>
+        <div class="src"><span class="what">都道府県のくらしの物価の高さ（全国平均＝100）</span><span class="when">2025年</span><span class="from">総務省統計局「小売物価統計調査（構造編）令和7年分 消費者物価地域差指数」（数字は香川県統計調査課の公開表から） <a href="https://www.stat.go.jp/data/kouri/kouzou/index.html" target="_blank" rel="noopener">stat.go.jp</a></span></div>
         <div class="src"><span class="what">都道府県の値段（県庁所在市・年平均）と最低賃金</span><span class="when">2025年・2026年度</span><span class="from">総務省統計局「小売物価統計調査（動向編）」、厚生労働省「令和8年度地域別最低賃金全国一覧」 <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
         <div class="src"><span class="what">地域別最低賃金（全国加重平均額）</span><span class="when">2002〜2026年度</span><span class="from">厚生労働省 <a href="https://www.mhlw.go.jp/stf/newpage_75950.html" target="_blank" rel="noopener">令和8年度の改定</a>（全国平均1,177円、最高1,280円、最低1,085円）、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">地域別最低賃金の全国一覧</a></span></div>
         <div class="src"><span class="what">家族（2人以上の世帯）の支出</span><span class="when">2000〜2025年</span><span class="from">総務省統計局「家計調査 長期時系列表 品目分類（年）」（e-Stat）、エンゲル係数は総務省の2025年平均の発表（28.6%） <a href="https://www.stat.go.jp/data/kakei/" target="_blank" rel="noopener">stat.go.jp/data/kakei</a></span></div>
@@ -1692,5 +1712,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-diary.js"></script>
 <script src="okane-age.js"></script>
 <script src="okane-pwa.js"></script>
+<script src="okane-icons.js"></script>
 <script src="okane-ux.js"></script>
 <script src="okane-course.js"></script>

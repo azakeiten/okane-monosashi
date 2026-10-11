@@ -46,7 +46,7 @@
       const done = s[c.id] || [], active = state && state.id === c.id;
       return `<div class="course" style="--cc:${c.c}"><div class="ch-k"><span class="ttl">${c.t}</span><span class="who">${c.who}</span></div>
         <p class="why">${c.why}</p>
-        <ol>${c.steps.map((st, k) => `<li class="${done.includes(st) ? "done" : ""}">${k + 1}. ${esc(shortLabel(st))}</li>`).join("")}</ol>
+        <ol>${c.steps.map((st, k) => `<li class="${done.includes(st) ? "done" : ""}">${D.OK.icon ? D.OK.icon(st, 13) : ""}${k + 1}. ${esc(shortLabel(st))}</li>`).join("")}</ol>
         <div class="go"><span class="hint">${c.steps.length}つの章・約${c.steps.length * 2}分${done.length ? `・${done.length}つ読んだ` : ""}</span><button type="button" class="btn${active ? " ghost" : ""}" data-c="${c.id}">${active ? "つづきから" : done.length === c.steps.length ? "もう一度" : "はじめる"}</button></div></div>`;
     }).join("");
     $("courseGrid").querySelectorAll("button[data-c]").forEach((b) => b.addEventListener("click", () => {

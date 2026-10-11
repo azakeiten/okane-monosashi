@@ -68,13 +68,14 @@
     const first = $(p.ids[0]); if (!first) return;
     const band = document.createElement("div");
     band.className = "part-band"; band.id = "part" + (i + 1);
-    band.innerHTML = `<div class="wrap"><span class="pn">PART ${i + 1}</span><div><h2>${p.t}</h2><p>${p.d}</p></div><nav class="chs" aria-label="パート${i + 1}の章">${p.ids.map((id) => `<a href="#${id}">${String(chNo(id)).padStart(2, "0")} ${esc(chTitle(id).replace(/[？?].*$/, "？"))}</a>`).join("")}</nav></div>`;
+    band.innerHTML = `<div class="wrap"><span class="pn">PART ${i + 1}</span><div><h2>${p.t}</h2><p>${p.d}</p></div><nav class="chs" aria-label="パート${i + 1}の章">${p.ids.map((id) => `<a href="#${id}">${D.OK.icon ? D.OK.icon(id, 15) : ""}${String(chNo(id)).padStart(2, "0")} ${esc(chTitle(id).replace(/[？?].*$/, "？"))}</a>`).join("")}</nav></div>`;
     first.parentNode.insertBefore(band, first);
   });
 
   // ===== もくじ =====
   function card(id, no, title, ans, done) {
-    return `<a class="toc-card" href="#${id}"><span class="no">${no}</span><span class="tq">${esc(title)}</span><span class="ta">${ans}</span>${done ? '<span class="done">読んだ</span>' : ""}</a>`;
+    const ic = D.OK.icon ? D.OK.icon(id, 24) : "";
+    return `<a class="toc-card" href="#${id}"><span class="no">${ic || no}</span><span class="tq">${ic && typeof no === "number" ? `<small class="tn">${String(no).padStart(2, "0")}</small>` : ""}${esc(title)}</span><span class="ta">${ans}</span>${done ? '<span class="done">読んだ</span>' : ""}</a>`;
   }
   function renderToc() {
     const got = new Set(store.get("stamps", []));

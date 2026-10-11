@@ -16,10 +16,14 @@
     const price = D.CITY[item];
     if (metric === "wage") return D.PREF_WAGE.slice();
     if (metric === "price") return price.slice();
+    if (metric === "rpi") return D.RPI_TOTAL.slice();
+    // 物価の高さを考えた最低賃金：最低賃金 ÷ 物価の高さ（全国＝100）× 100
+    if (metric === "realwage") return D.PREF_WAGE.map((w, i) => w / D.RPI_TOTAL[i] * 100);
     return price.map((p, i) => p == null ? null : p / D.PREF_WAGE[i] * 60);
   }
-  const fmt = (v) => v == null ? "—" : metric === "minutes" ? (v < 60 ? v.toFixed(1) : (v / 60).toFixed(1) + "h") : metric === "wage" ? yen(v) : v >= 10000 ? (v / 10000).toFixed(1) + "万" : yen(v);
-  const fmtLong = (v) => v == null ? "調査なし" : metric === "minutes" ? D.OK.hmText(v / 60) : yen(v) + "円";
+  const noItem = () => ["wage", "rpi", "realwage"].includes(metric);
+  const fmt = (v) => v == null ? "—" : metric === "minutes" ? (v < 60 ? v.toFixed(1) : (v / 60).toFixed(1) + "h") : metric === "rpi" ? v.toFixed(1) : (metric === "wage" || metric === "realwage") ? yen(v) : v >= 10000 ? (v / 10000).toFixed(1) + "万" : yen(v);
+  const fmtLong = (v) => v == null ? "調査なし" : metric === "minutes" ? D.OK.hmText(v / 60) : metric === "rpi" ? `${v.toFixed(1)}（全国＝100）` : yen(v) + "円";
   function rankOf(vals, i) {
     // 大きい順の順位（値段・最低賃金は高い順、分は長い順）
     const v = vals[i]; if (v == null) return null;
@@ -28,7 +32,7 @@
 
   function render() {
     [...$("mapMetric").children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.m === metric)));
-    itemSel.disabled = metric === "wage";
+    itemSel.disabled = noItem();
     const vals = values(), known = vals.filter((v) => v != null);
     const lo = Math.min(...known), hi = Math.max(...known);
     const bin = (v) => v == null ? 0 : Math.min(5, 1 + Math.floor(((v - lo) / (hi - lo || 1)) * 5));
@@ -45,7 +49,7 @@
       </g>`;
     });
     // 見出しと補助
-    const unitLabel = metric === "minutes" ? `${it().name}を買うのに何分はたらく？` : metric === "wage" ? "2026年度の最低賃金（円／時）" : `${it().name}（${it().unit}）の値段（円）`;
+    const unitLabel = metric === "minutes" ? `${it().name}を買うのに何分はたらく？` : metric === "wage" ? "2026年度の最低賃金（円／時）" : metric === "rpi" ? "くらし全体の物価の高さ（全国平均＝100）" : metric === "realwage" ? "物価の高さを考えた最低賃金（円／時）" : `${it().name}（${it().unit}）の値段（円）`;
     s += `<text x="8" y="24" font-family="Zen Kaku Gothic New, sans-serif" font-size="15" font-weight="700" fill="var(--ink)">${esc(unitLabel)}</text><text x="8" y="44" font-family="Zen Kaku Gothic New, sans-serif" font-size="12" fill="var(--muted)">マスを押すと、くわしい数字が出ます</text>`;
     $("mapSvg").innerHTML = s;
     $("mapSvg").querySelectorAll(".tile").forEach((g) => {
@@ -71,6 +75,8 @@
         <div><span class="k">最低賃金（2026年度）</span><span class="v">${yen(w)}円</span><span class="s">前の年度 ${yen(old)}円から +${w - old}円・${D.PREF_WAGE_DATE[i]}から</span></div>
         <div><span class="k">${esc(x.name)}（${esc(x.unit)}）</span><span class="v">${price == null ? "—" : yen(price) + "円"}</span><span class="s">東京23区は ${yen(D.CITY[item][12])}円</span></div>
         <div><span class="k">買うのにはたらく時間</span><span class="v">${mins == null ? "—" : D.OK.hmText(mins / 60)}</span><span class="s">値段 ÷ この県の最低賃金</span></div>
+        <div><span class="k">くらしの物価の高さ</span><span class="v">${D.RPI_TOTAL[i].toFixed(1)}</span><span class="s">全国平均＝100・家賃など住居は${D.RPI_HOUSING[i].toFixed(1)}</span></div>
+        <div><span class="k">物価を考えた最低賃金</span><span class="v">${yen(w / D.RPI_TOTAL[i] * 100)}円</span><span class="s">全国と同じ物価だったらいくら分か</span></div>
         <div><span class="k">地図の順位</span><span class="v">${rk == null ? "—" : rk + "位"}</span><span class="s">${rkText}</span></div>
       </div>`;
     const b = document.createElement("button");
@@ -84,9 +90,9 @@
   function renderRank(vals) {
     const rows = vals.map((v, i) => ({ v, i })).filter((r) => r.v != null).sort((a, b) => b.v - a.v);
     const top = rows.slice(0, 5), bot = rows.slice(-5).reverse();
-    const hiT = metric === "minutes" ? "長くはたらく" : "高い", loT = metric === "minutes" ? "短くてすむ" : metric === "wage" ? "低い" : "安い";
-    $("mapRankTitle").textContent = metric === "minutes" ? `${it().name}を買うのにかかる時間` : metric === "wage" ? "最低賃金" : `${it().name}の値段`;
-    const li = (r) => `<li><button type="button" data-i="${r.i}">${esc(D.OK.prefName(r.i))}</button><span class="num">${metric === "minutes" ? r.v.toFixed(1) + "分" : yen(r.v) + "円"}</span></li>`;
+    const hiT = metric === "minutes" ? "長くはたらく" : "高い", loT = metric === "minutes" ? "短くてすむ" : (metric === "wage" || metric === "realwage") ? "低い" : "安い";
+    $("mapRankTitle").textContent = metric === "minutes" ? `${it().name}を買うのにかかる時間` : metric === "wage" ? "最低賃金" : metric === "rpi" ? "くらしの物価の高さ" : metric === "realwage" ? "物価の高さを考えた最低賃金" : `${it().name}の値段`;
+    const li = (r) => `<li><button type="button" data-i="${r.i}">${esc(D.OK.prefName(r.i))}</button><span class="num">${metric === "minutes" ? r.v.toFixed(1) + "分" : metric === "rpi" ? r.v.toFixed(1) : yen(r.v) + "円"}</span></li>`;
     $("mapRank").innerHTML = `<div><h4>${hiT} 5県</h4><ol>${top.map(li).join("")}</ol></div><div><h4>${loT} 5県</h4><ol>${bot.map(li).join("")}</ol></div>`;
     $("mapRank").querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { sel = +b.dataset.i; render(); }));
   }
