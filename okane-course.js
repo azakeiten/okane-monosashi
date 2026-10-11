@@ -9,7 +9,7 @@
 
   // ===== おすすめコース =====
   const COURSES = [
-    { id: "first", t: "はじめての10分コース", who: "小学生・はじめての人", c: "var(--ruler)", why: "値段を「自分がはたらく時間」ではかる、いちばん大事なところだけ。", steps: ["try", "hours", "map", "rank", "quiz"] },
+    { id: "first", t: "はじめての10分コース", who: "小学生・はじめての人", c: "var(--ruler)", why: "値段を「自分がはたらく時間」ではかる、いちばん大事なところだけ。", steps: ["money", "try", "hours", "map", "rank", "quiz"] },
     { id: "news", t: "ニュースがわかるコース", who: "中学生・高校生", c: "var(--seg1)", why: "物価・円安・国の予算・消費税。ニュースによく出る言葉の意味がわかります。", steps: ["time", "race", "fx", "big", "tax", "words"] },
     { id: "future", t: "将来のお金コース", who: "中学生・高校生・大人", c: "var(--seg6)", why: "はたらいたら給料はいくら？ 何が引かれる？ どうやって貯める？", steps: ["agewage", "pay", "kakei", "save", "diary"] },
     { id: "study", t: "自由研究コース", who: "夏休みの宿題・授業の調べ学習", c: "var(--seg3)", why: "自分の数字を集めて、印刷できるワークシートにまとめます。", steps: ["mycard", "hours", "time", "diary", "sheet"] },

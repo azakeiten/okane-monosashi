@@ -631,6 +631,20 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .part-band .chs a { display: inline-flex; align-items: center; gap: 6px; }
 .course ol li { display: inline-flex; align-items: center; gap: 4px; }
 
+/* お金ってなに？ */
+.roles { margin-top: 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 760px) { .roles { grid-template-columns: minmax(0, 1fr); } }
+.role { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.role.on { border: 2px solid var(--ruler); }
+.role .rn { width: 34px; height: 34px; border-radius: 50%; background: var(--ruler); color: var(--ruler-ink); display: grid; place-items: center; font-family: var(--font-display); }
+.role b { font-size: 18px; }
+.role p { font-size: 14px; color: var(--ink-2); }
+.bx-pile { display: flex; flex-wrap: wrap; gap: 4px; }
+.bx-pile i { width: 16px; height: 16px; border-radius: 4px; background: var(--accent); position: relative; overflow: hidden; }
+.bx-pile i.part { background: var(--soft); }
+.bx-pile i.part b { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+.bx-pile i.one { background: var(--ruler); }
+
 /* クイズのモード */
 .quiz-modes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 @media (max-width: 640px) { .quiz-modes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -818,13 +832,14 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">円</span><span class="logo-t"><b>おかねの物差し</b><small>お金を、生活の単位ではかるサイト</small></span></a>
       <div class="my-unit">
         <a class="pill-btn" href="#myunit" id="unitPill" title="あなたの物差しを変える">時給 <span class="num" id="pillWage">1,177円</span></a>
-        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/16</span></a>
+        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/17</span></a>
         <button class="pill-btn" id="findBtn" type="button" aria-haspopup="dialog" title="ことばでさがす"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lg">さがす</span></button>
         <button class="pill-btn" id="easyToggle" type="button" aria-pressed="false" title="くわしい説明をたたんで、大事なところだけ表示します">かんたん<span class="lg">表示</span></button>
         <button class="pill-btn" id="furiToggle" type="button" aria-pressed="false">ふりがな</button>
       </div>
     </div>
     <nav class="chapters" id="chapters" aria-label="章">
+      <a href="#money"><span class="n">00</span>お金ってなに？</a>
       <a href="#hours"><span class="n">01</span>はたらく時間</a>
       <a href="#map"><span class="n">02</span>日本地図</a>
       <a href="#rank"><span class="n">03</span>値上がりランキング</a>
@@ -957,12 +972,74 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
     <section class="toc" id="toc" aria-labelledby="tocTitle">
       <div class="toc-head">
-        <h2 id="tocTitle">もくじ：4つのパート、17の章</h2>
+        <h2 id="tocTitle">もくじ：4つのパート、18の章</h2>
         <p>どこから読んでもだいじょうぶ。気になる問いを押してください。答えを先に書いておきます。</p>
       </div>
       <div class="toc-grid" id="tocGrid"></div>
     </section>
   </div>
+
+  <section class="ch" id="money">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>00</span><span>単位：円</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 00</div>
+        <h2>そもそも、お金ってなに？</h2>
+        <p>お金がなかったころ、人は物と物を直接とりかえていました（物々交換）。でも、それはとても大変。お金には、くらしを便利にする3つの役割があります。</p>
+      </div>
+      <div class="roles">
+        <div class="role"><span class="rn">1</span><b>とりかえる</b><p>お米がほしい魚屋さんと、魚がほしい米屋さんが出会わなくても、お金があれば、だれとでも売り買いできます。</p></div>
+        <div class="role on"><span class="rn">2</span><b>はかる（物差し）</b><p>「お米5kgは4,928円、ノートは207円」のように、どんな物の値打ちも、同じ「円」という物差しではかれます。このサイトの名前の由来です。</p></div>
+        <div class="role"><span class="rn">3</span><b>ためる</b><p>魚やお米はくさってしまいますが、お金はとっておいて、あとで使えます。ただし物価が上がると、ためたお金の値打ちは少しずつ下がります（06の章）。</p></div>
+      </div>
+      <h3 class="sub-h">物々交換の物差し：これ1つと、あれ何個が同じ値打ち？</h3>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><label for="bxA">これ1つ</label><select id="bxA"></select></div>
+          <div class="field"><label for="bxB">あれ何個？</label><select id="bxB"></select></div>
+          <p class="hint">値段は東京23区の2025年平均。お金という「物差し」があるから、ちがう物どうしの値打ちをくらべられます。</p>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label" id="bxLabel">—</div>
+            <div class="value" id="bxValue">—</div>
+            <div class="bx-pile" id="bxPile" aria-hidden="true"></div>
+            <p class="sub" id="bxSub"></p>
+          </div>
+        </div>
+      </div>
+      <h3 class="sub-h">硬貨のひみつ：その金額を、全部1種類の硬貨にすると？</h3>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><label for="cnAmt">金額</label><div class="yen"><input id="cnAmt" type="number" inputmode="numeric" min="1" value="10000"><span>円</span></div></div>
+          <div class="field"><span class="label">硬貨</span><div class="seg" id="cnSeg"></div></div>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label" id="cnLabel">—</div>
+            <div class="value" id="cnValue">—</div>
+            <div class="big-grid" id="cnGrid"></div>
+          </div>
+        </div>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>お金は、だれが作っているの？</summary>
+          <div class="body">
+            <p><b>硬貨</b>は国（政府）が発行し、独立行政法人造幣局が作っています。<b>紙幣</b>（日本銀行券）は、国立印刷局が印刷し、日本銀行が発行しています。2024年7月には、新しい1万円札（渋沢栄一）、5千円札（津田梅子）、千円札（北里柴三郎）が発行されました。</p>
+            <p>お金に値打ちがあるのは、紙や金属そのものに値打ちがあるからではなく、「みんながお金として受けとる」と信じているからです。</p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary>キャッシュレスでも、お金は「お金」？</summary>
+          <div class="body">
+            <p>カードやスマホで払うキャッシュレス決済でも、使っているのは銀行の口座などにある「円」です。手で持てなくても、とりかえる・はかる・ためるの3つの役割は同じです。</p>
+            <p>ただし、使ったお金が目に見えにくいので、使いすぎに気をつけましょう。おこづかい帳（14の章）で記録するのがおすすめです。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
 
   <section class="ch" id="hours">
     <div class="wrap">
@@ -1758,9 +1835,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <div>
             <div class="q" style="color:var(--accent);font-weight:900;font-size:13px;letter-spacing:.08em">STAMP RALLY</div>
             <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(24px,3.6vw,34px);line-height:1.35">物差しスタンプラリー</h2>
-            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。16こ全部あつめると「物差しはかせ」に認定！</p>
+            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。17こ全部あつめると「物差しはかせ」に認定！</p>
           </div>
-          <div class="stamp-count" id="stampCount">0 / 16</div>
+          <div class="stamp-count" id="stampCount">0 / 17</div>
         </div>
         <div class="stamp-grid" id="stampGrid"></div>
         <div id="cert"></div>
@@ -1813,6 +1890,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
 <script src="okane-data.js"></script>
 <script src="okane-app.js"></script>
+<script src="okane-money.js"></script>
 <script src="okane-charts.js"></script>
 <script src="okane-map.js"></script>
 <script src="okane-kakei.js"></script>

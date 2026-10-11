@@ -2,6 +2,7 @@
 (() => {
   const D = window;
   const P = {
+    money: '<ellipse cx="12" cy="6" rx="7" ry="2.5"/><path d="M5 6v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V6M5 10v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4M5 14v4c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-4"/>',
     hours: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
     map: '<path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>',
     rank: '<path d="M4 17l6-6 4 4 6-6"/><path d="M14 9h6v6"/>',

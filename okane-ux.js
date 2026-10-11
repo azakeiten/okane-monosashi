@@ -23,6 +23,7 @@
   const top = D.ITEMS.map((i) => ({ ...i, c: (i.p25 / i.p15 - 1) * 100 })).sort((a, b) => b.c - a.c)[0];
   const K = D.KAKEI, KY = D.KAKEI_FIRST_YEAR, ky1 = KY + K["消費支出"].length - 1;
   const ANSWERS = {
+    money: () => { const r = item("rice"), n = item("notebook"); return `お金には<b>とりかえる・はかる・ためる</b>の3つの役割があります。「円」という物差しがあるから、お米5kgはノート<b>約${Math.round(r.p25 / n.p25)}冊分</b>、とくらべられます。`; },
     hours: () => `時給${yen(D.OK.wage())}円なら、おにぎり1個は<b>${hmText(item("onigiri").p25 / D.OK.wage())}</b>、お米5kgは<b>${hmText(item("rice").p25 / D.OK.wage())}</b>はたらくと買えます。`,
     map: () => `おにぎり1個を買うのにはたらく時間は、県によって<b>${hmText(Math.min(...pmin) / 60)}</b>から<b>${hmText(Math.max(...pmin) / 60)}</b>までちがいます。`,
     rank: () => `10年でいちばん値上がりしたのは<b>${esc(top.name)}（${sgn(top.c)}）</b>。物価全体の上がり方は<b>${sgn(AVG10, 1)}</b>でした。`,
@@ -57,7 +58,7 @@
 
   // ===== 4つのパート =====
   const PARTS = [
-    { t: "自分の時間で、くらべる", d: "値段を「はたらく時間」に直して、品物や都道府県をくらべます。", ids: ["hours", "map", "rank"] },
+    { t: "自分の時間で、くらべる", d: "お金の役割を知り、値段を「はたらく時間」に直して、品物や都道府県をくらべます。", ids: ["money", "hours", "map", "rank"] },
     { t: "昔と今を、さかのぼる", d: "物価・給料・貯金の価値・円の値打ちが、時代とともにどう変わったかを見ます。", ids: ["time", "race", "save", "fx"] },
     { t: "くらしの、しくみを知る", d: "家族と自分のお金の使い道、学校にかかるお金、給料から引かれるお金、国の大きなお金、消費税のしくみ。", ids: ["kakei", "school", "pay", "agewage", "big", "tax", "diary"] },
     { t: "わかったことを、たしかめる", d: "クイズ、ことば辞典、自由研究ワークシート、スタンプラリーで、ふりかえりましょう。", ids: ["quiz", "words", "sheet"] },
@@ -82,7 +83,7 @@
     const got = new Set(store.get("stamps", []));
     $("tocGrid").innerHTML = PARTS.map((p, i) => {
       const cards = p.ids.map((id) => card(id, chNo(id), chTitle(id), ANSWERS[id](), got.has(id)));
-      if (i === PARTS.length - 1) cards.push(card("stamps", "★", "物差しスタンプラリー", `章を読むとスタンプ。<b>${got.size}/16</b>こ集めると「物差しはかせ」に認定。`, false));
+      if (i === PARTS.length - 1) cards.push(card("stamps", "★", "物差しスタンプラリー", `章を読むとスタンプ。<b>${got.size}/17</b>こ集めると「物差しはかせ」に認定。`, false));
       return `<div class="toc-part"><div class="toc-part-h"><span class="pn">PART ${i + 1}</span><b>${p.t}</b><span class="d">${p.d}</span></div><div class="toc-grid" style="--cols:${cards.length}">${cards.join("")}</div></div>`;
     }).join("") + `<p class="hint" style="margin-top:14px">数字はぜんぶ、国や公的機関の統計です。くわしくは<a href="#sources">データの出どころ</a>へ。</p>`;
   }
