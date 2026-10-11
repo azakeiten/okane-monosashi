@@ -580,6 +580,22 @@ body.in-course .to-top { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); 
 @media (max-width: 480px) { .course-bar .cb-b .pv { display: none; } }
 body.bigtext main, body.bigtext .course-bar { zoom: 1.14; }
 
+/* ===== v15：今の物価・データの新しさ ===== */
+.nowcpi { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 16px; align-items: center; text-decoration: none; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--hot); border-radius: var(--r); padding: 12px 16px; }
+.nowcpi:hover { border-color: var(--accent); border-left-color: var(--hot); }
+.nowcpi .nk { font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--hot); white-space: nowrap; }
+.nowcpi .nv { font-family: var(--font-display); font-size: 28px; line-height: 1; white-space: nowrap; }
+.nowcpi .nv small { font-size: .5em; margin-left: 2px; }
+.nowcpi .nt { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+.nowcpi .ns { grid-column: 1 / -1; font-size: 12px; color: var(--muted); }
+@media (max-width: 560px) { .nowcpi { grid-template-columns: auto minmax(0, 1fr); } .nowcpi .nt { grid-column: 1 / -1; } }
+.fresh-wrap { overflow-x: auto; }
+table.fresh td { font-family: var(--font-body); white-space: normal; text-align: left; }
+table.fresh th { text-align: left; }
+table.fresh td:nth-child(2) { font-weight: 700; white-space: nowrap; }
+table.fresh .fq { display: inline-block; font-size: 11px; font-weight: 900; border-radius: 999px; padding: 1px 8px; background: var(--soft); color: var(--ink-2); white-space: nowrap; }
+table.fresh .fq.m { background: color-mix(in srgb, var(--good) 16%, var(--card)); color: var(--good); }
+
 /* 読んでいる位置のバー */
 .readbar { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--ruler); transform-origin: left center; transform: scaleX(0); pointer-events: none; }
 
@@ -787,6 +803,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <span class="ex-k">たとえば、こんなことがわかります</span>
         <div class="ex-grid" id="exGrid"></div>
       </div>
+      <a class="nowcpi" id="nowCpi" href="#time" aria-live="polite"></a>
       <div class="try-head" id="try"><span class="sn">1</span><h2>ためしてみよう：値段を入れると、自分の単位に直ります</h2></div>
       <div class="converter">
         <div class="conv-in">
@@ -1629,6 +1646,11 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <h2>このサイトの数字の出どころ</h2>
         <p>使っている数字は、すべて国や公的機関が公表している統計です。自分でも確かめられるように、元のページを書いておきます。</p>
       </div>
+      <div class="chart-card">
+        <div class="chart-top"><h3>データの新しさ</h3><span class="hint">サイトの最終更新：<span id="freshUpdated"></span></span></div>
+        <p class="hint">それぞれの数字が「いつの数字か」と、国が次に新しい数字を出すおおよその時期です。新しい数字が出たら、このサイトも更新します。</p>
+        <div class="fresh-wrap"><table class="data fresh" id="freshTable"></table></div>
+      </div>
       <div class="sources">
         <div class="src"><span class="what">消費者物価指数（全国・年平均、2025年＝100）</span><span class="when">1970〜2025年</span><span class="from">総務省統計局「2025年基準消費者物価指数 長期時系列データ」（政府統計の総合窓口 e-Stat） <a href="https://www.e-stat.go.jp/stat-search/files?tstat=000001243876" target="_blank" rel="noopener">e-stat.go.jp</a></span></div>
         <div class="src"><span class="what">品目の値段（東京都区部・年平均）</span><span class="when">2010・2015・2020・2025年</span><span class="from">総務省統計局「小売物価統計調査（動向編）」調査品目の月別価格及び年平均価格 <a href="https://www.stat.go.jp/data/kouri/doukou/3.html" target="_blank" rel="noopener">stat.go.jp</a></span></div>
@@ -1655,7 +1677,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。</span><span>最終更新：2026年10月11日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。</span><span>最終更新：2026年10月12日</span></div></footer>
 
 <script src="okane-data.js"></script>
 <script src="okane-app.js"></script>
@@ -1666,6 +1688,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-me.js"></script>
 <script src="okane-tax.js"></script>
 <script src="okane-fx.js"></script>
+<script src="okane-now.js"></script>
 <script src="okane-diary.js"></script>
 <script src="okane-age.js"></script>
 <script src="okane-pwa.js"></script>
