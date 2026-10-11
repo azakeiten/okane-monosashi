@@ -51,6 +51,69 @@
     D.OK.copy(`【${name || "わたし"}の物差しカード】\n${lines.join("\n")}\n#おかねの物差し ${SITE}`, $("mcCopied"));
   });
 
+  // ===== カードを画像にする（1080×1350）。GitHub版のふつうのページでだけ使える =====
+  function cardRows() { const f = facts(); let rows = [f.wage, f.oni, f.rice, f.birth, f.mw, f.budget].filter(Boolean); if (rows.length % 2) rows = rows.slice(0, -1); return rows; }
+  const strip = (h) => String(h).replace(/<[^>]+>/g, "");
+  async function drawCard() {
+    try { await document.fonts.ready; } catch (e) {}
+    const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
+    const g = c.getContext("2d"), NAVY = "#191f45", PAPER = "#f2f3f7", YEL = "#f4b400", DISP = '"Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif', BODY = '"Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif', NUM = '"DM Mono", monospace';
+    g.fillStyle = NAVY; g.fillRect(0, 0, W, H);
+    // 上：ロゴと名前
+    g.fillStyle = YEL; g.fillRect(72, 72, 64, 64);
+    g.fillStyle = NAVY; g.font = `40px ${DISP}`; g.textBaseline = "middle"; g.textAlign = "center"; g.fillText("円", 104, 106);
+    g.textAlign = "left"; g.fillStyle = PAPER; g.font = `34px ${DISP}`; g.fillText("おかねの物差し", 160, 106);
+    const p = D.OK.pref(), y = birth(), name = mcName.value.trim() || "あなた";
+    g.font = `66px ${DISP}`; g.fillStyle = PAPER; g.textBaseline = "alphabetic";
+    g.fillText(`${name}の物差しカード`.slice(0, 15), 72, 250);
+    g.font = `32px ${BODY}`; g.fillStyle = "rgba(242,243,247,.75)";
+    g.fillText(`${p >= 0 ? D.OK.prefName(p) : "全国"}${y ? `・${y}年生まれ` : ""}`, 72, 306);
+    // まん中：数字のマス（2列）
+    const rows = cardRows(), colW = (W - 72 * 2 - 24) / 2, rowH = 230, top = 360;
+    rows.forEach((r, i) => {
+      const x = 72 + (i % 2) * (colW + 24), yy = top + Math.floor(i / 2) * (rowH + 24);
+      g.fillStyle = "rgba(242,243,247,.09)"; roundRect(g, x, yy, colW, rowH, 24); g.fill();
+      g.fillStyle = "rgba(242,243,247,.75)"; g.font = `26px ${BODY}`; g.fillText(strip(r.k).slice(0, 18), x + 28, yy + 56);
+      const v = String(r.v).replace(/<small>(.*?)<\/small>/, "\u0001$1").split("\u0001");
+      g.fillStyle = YEL; g.font = `64px ${DISP}`; g.fillText(strip(v[0]), x + 28, yy + 140);
+      if (v[1]) { const wv = g.measureText(strip(v[0])).width; g.fillStyle = PAPER; g.font = `32px ${DISP}`; g.fillText(strip(v[1]), x + 34 + wv, yy + 140); }
+      g.fillStyle = "rgba(242,243,247,.7)"; g.font = `22px ${BODY}`; wrap(g, strip(r.s), x + 28, yy + 186, colW - 56, 30, 2);
+    });
+    // 下：物差しの帯とURL
+    g.fillStyle = YEL; g.fillRect(0, H - 150, W, 150);
+    g.strokeStyle = NAVY; g.lineWidth = 3;
+    for (let i = 0; i <= 54; i++) { const x = 30 + i * 19; const h = i % 10 === 0 ? 50 : i % 5 === 0 ? 34 : 20; g.beginPath(); g.moveTo(x, H - 150); g.lineTo(x, H - 150 + h); g.stroke(); }
+    g.fillStyle = NAVY; g.font = `30px ${NUM}`; g.fillText("azakeiten.github.io/okane-monosashi", 72, H - 44);
+    g.font = `24px ${BODY}`; g.textAlign = "right"; g.fillText("数字は国の統計から", W - 72, H - 44);
+    return new Promise((ok) => c.toBlob((b) => ok(b), "image/png"));
+  }
+  function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+  function wrap(g, text, x, y, maxW, lh, maxLines) { let line = "", n = 0; for (const ch of text) { if (g.measureText(line + ch).width > maxW) { g.fillText(line, x, y + n * lh); line = ch; if (++n >= maxLines) return; } else line += ch; } if (line) g.fillText(line, x, y + n * lh); }
+  const framedPage = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+  if (framedPage) {
+    $("mcImgNote").innerHTML = `画像で保存するときは、<a href="${SITE}#mycard" target="_blank" rel="noopener">GitHub版のサイト</a>を開いてください。`;
+  } else {
+    $("mcSave").hidden = false;
+    $("mcSave").addEventListener("click", async () => {
+      const b = await drawCard(); if (!b) return;
+      const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "monosashi-card.png";
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+      $("mcCopied").textContent = "画像を保存しました。";
+    });
+    // スマホで「送る」（使える端末だけ）
+    try {
+      const test = new File([new Blob(["x"])], "t.png", { type: "image/png" });
+      if (navigator.canShare && navigator.canShare({ files: [test] })) {
+        $("mcShare").hidden = false;
+        $("mcShare").addEventListener("click", async () => {
+          const b = await drawCard(); if (!b) return;
+          try { await navigator.share({ files: [new File([b], "monosashi-card.png", { type: "image/png" })], title: "わたしの物差しカード", text: `#おかねの物差し ${SITE}` }); } catch (e) {}
+        });
+      }
+    } catch (e) {}
+  }
+  D.OK.drawCard = drawCard;
+
   // ===== 自由研究ワークシート =====
   // 章の番号と見出し（ページから読むので、章がふえても番号がずれない）
   function chLabel(id) { const s = $(id); if (!s) return id; const n = s.querySelector(".rule-band span"), h = s.querySelector(".ch-head h2"); const c = h ? h.cloneNode(true) : null; if (c) c.querySelectorAll("rt").forEach((r) => r.remove()); return `${n ? n.textContent + " " : ""}${c ? c.textContent.trim() : id}`; }

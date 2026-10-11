@@ -62,6 +62,7 @@
 ## ファイル
 
 - `index.html` … 公開されるページ（`dev/build.sh` で自動で作る）
+- `okane.bundle.js` … 公開用に、下のプログラムを1つにまとめたもの（`dev/build.sh` で自動で作る。直接は直さない）
 - `guide.html` … 先生・おうちの人への案内（45分の授業プラン3つ・よくある質問）。章の番号を変えたら、ここの番号も直す
 - `dev/okane-monosashi.html` … ページ本体のもと（見た目と文章はここを直す）
 - `dev/build.sh` … `bash dev/build.sh` で index.html を作り直す
@@ -73,7 +74,7 @@
 - `okane-kakei.js` … 家族の1万円・今日の発見・スタンプラリー
 - `okane-school.js` … 学校にかかるお金
 - `okane-big.js` … ニュースの大きな数字を1人あたりに・結果をコピー
-- `okane-me.js` … あなたの物差しカード・自由研究ワークシート
+- `okane-me.js` … あなたの物差しカード（画像で保存・送る）・自由研究ワークシート
 - `okane-tax.js` … 消費税のレシート・ほしい物までの貯金計画
 - `okane-fx.js` … 円安・円高（ドル円）・サイトの中をさがす
 - `okane-now.js` … ホームの「今の物価」・データの新しさの表

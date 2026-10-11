@@ -928,7 +928,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         </div>
         <div class="mc-card-wrap">
           <div class="mc-card" id="mcCard" aria-live="polite"></div>
-          <div class="share-row"><button type="button" class="btn" id="mcCopy">カードの内容をコピーする</button><span class="hint" id="mcCopied" aria-live="polite"></span></div>
+          <div class="share-row"><button type="button" class="btn" id="mcSave" hidden>画像で保存</button><button type="button" class="btn ghost" id="mcShare" hidden>画像を送る</button><button type="button" class="btn ghost" id="mcCopy">文章でコピー</button><span class="hint" id="mcCopied" aria-live="polite"></span></div>
+          <p class="hint" id="mcImgNote"></p>
         </div>
       </div>
     </section>

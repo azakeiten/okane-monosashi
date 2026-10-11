@@ -951,7 +951,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         </div>
         <div class="mc-card-wrap">
           <div class="mc-card" id="mcCard" aria-live="polite"></div>
-          <div class="share-row"><button type="button" class="btn" id="mcCopy">カードの内容をコピーする</button><span class="hint" id="mcCopied" aria-live="polite"></span></div>
+          <div class="share-row"><button type="button" class="btn" id="mcSave" hidden>画像で保存</button><button type="button" class="btn ghost" id="mcShare" hidden>画像を送る</button><button type="button" class="btn ghost" id="mcCopy">文章でコピー</button><span class="hint" id="mcCopied" aria-live="polite"></span></div>
+          <p class="hint" id="mcImgNote"></p>
         </div>
       </div>
     </section>
@@ -1888,24 +1889,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月12日</span></div></footer>
 
-<script src="okane-data.js"></script>
-<script src="okane-app.js"></script>
-<script src="okane-money.js"></script>
-<script src="okane-charts.js"></script>
-<script src="okane-map.js"></script>
-<script src="okane-kakei.js"></script>
-<script src="okane-school.js"></script>
-<script src="okane-big.js"></script>
-<script src="okane-me.js"></script>
-<script src="okane-tax.js"></script>
-<script src="okane-fx.js"></script>
-<script src="okane-now.js"></script>
-<script src="okane-diary.js"></script>
-<script src="okane-age.js"></script>
-<script src="okane-pwa.js"></script>
-<script src="okane-icons.js"></script>
-<script src="okane-ux.js"></script>
-<script src="okane-course.js"></script>
-<script src="okane-quiz.js"></script>
+<script src="okane.bundle.js?v=20261012015609"></script>
 </body>
 </html>

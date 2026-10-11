@@ -36,6 +36,19 @@ body_part=$(awk 'f{print} /^<\/style>$/{f=1}' "$SRC")
   echo '</html>'
 } > index.html
 touch .nojekyll
+STAMP=$(date +%Y%m%d%H%M%S)
+
+# 公開用：たくさんのプログラムファイルを、ページにのっている順に1つ（okane.bundle.js）にまとめる
+# （読みこみの回数が1回になり、ネットがおそいときでも早く表示される）
+grep -oE '<script src="okane-[a-z]+\.js"></script>' "$SRC" | sed -E 's/.*src="([^"]+)".*/\1/' > /tmp/okane-order.txt
+: > okane.bundle.js
+while read -r js; do printf '\n/* ===== %s ===== */\n' "$js" >> okane.bundle.js; cat "$js" >> okane.bundle.js; printf '\n;\n' >> okane.bundle.js; done < /tmp/okane-order.txt
+# index.html の中の <script src="okane-….js"> を消して、まとめたファイル1つにする
+awk -v stamp="$STAMP" '
+  /<script src="okane-[a-z]+\.js"><\/script>/ { if (!done) { print "<script src=\"okane.bundle.js?v=" stamp "\"></script>"; done = 1 } next }
+  { print }' index.html > index.tmp && mv index.tmp index.html
+echo "bundled $(wc -l < /tmp/okane-order.txt) files -> okane.bundle.js ($(wc -c < okane.bundle.js) bytes)"
+
 # オフライン用のしまい場所の名前を、作るたびに新しくする（古いものが残らないように）
-sed -i "s/^const VERSION = .*/const VERSION = \"okane-$(date +%Y%m%d%H%M%S)\";/" sw.js
+sed -i "s/^const VERSION = .*/const VERSION = \"okane-$STAMP\";/" sw.js
 echo "built index.html ($(wc -c < index.html) bytes)"
