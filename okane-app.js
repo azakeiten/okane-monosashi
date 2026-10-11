@@ -235,52 +235,6 @@
   }
   renderRank();
 
-  // ===== 07 クイズ =====
-  const quizBox = $("quizBox");
-  let qs = [], qi = 0, res = [];
-  function newQuiz() {
-    const pool = D.ITEMS.filter((i) => !i.n).map((i) => ({ ...i, c: pct(i.p15, i.p25) }));
-    qs = []; const used = new Set();
-    let guard = 0;
-    while (qs.length < 5 && guard++ < 500) {
-      const a = pool[Math.floor(Math.random() * pool.length)], b = pool[Math.floor(Math.random() * pool.length)];
-      if (a.id === b.id || used.has(a.id) || used.has(b.id) || Math.abs(a.c - b.c) < 12) continue;
-      used.add(a.id); used.add(b.id); qs.push([a, b]);
-    }
-    qi = 0; res = []; renderQ();
-  }
-  function dots() { return `<div class="dots">${qs.map((_, i) => `<i class="${res[i] || ""}${i === qi && !res[i] ? " now" : ""}"></i>`).join("")}</div>`; }
-  function renderQ() {
-    if (qi >= qs.length) {
-      const ok = res.filter((r) => r === "ok").length;
-      const msg = ok === 5 ? "全問正解！ 物価はかせになれます。" : ok >= 3 ? "よくできました。ランキングで答え合わせしてみよう。" : "意外なものが上がっていましたね。ランキングで確かめてみよう。";
-      quizBox.innerHTML = `<div class="quiz-top"><span class="q">けっか</span>${dots()}</div><div class="quiz-q">5問中 ${ok}問 正解</div><p>${msg}</p>`;
-      const b = document.createElement("button"); b.type = "button"; b.className = "btn"; b.textContent = "もう一回（問題が変わります）"; b.addEventListener("click", newQuiz);
-      quizBox.appendChild(b); return;
-    }
-    const [a, b] = qs[qi];
-    quizBox.innerHTML = `<div class="quiz-top"><span class="hint">第${qi + 1}問 / 5問</span>${dots()}</div>
-      <div class="quiz-q">10年間で、値上がりの割合が大きいのはどっち？</div>
-      <div class="quiz-opts">${[a, b].map((x, k) => `<button type="button" class="qopt" data-k="${k}"><span class="nm">${esc(x.name)}</span><span class="ut">${esc(x.unit)}</span><span class="rv" hidden></span></button>`).join("")}</div>
-      <div id="qAfter"></div>`;
-    quizBox.querySelectorAll(".qopt").forEach((el) => el.addEventListener("click", () => answer(+el.dataset.k)));
-  }
-  function answer(k) {
-    const pair = qs[qi], win = pair[0].c > pair[1].c ? 0 : 1;
-    res[qi] = k === win ? "ok" : "ng";
-    quizBox.querySelectorAll(".qopt").forEach((el, i) => {
-      el.disabled = true; el.classList.add(i === win ? "win" : "lose");
-      const x = pair[i], rv = el.querySelector(".rv");
-      rv.hidden = false; rv.textContent = `${yen(x.p15)}円 → ${yen(x.p25)}円（${sgn(x.c)}）`;
-    });
-    quizBox.querySelector(".dots").outerHTML = dots();
-    const after = quizBox.querySelector("#qAfter");
-    after.innerHTML = `<p style="margin-bottom:10px"><b>${k === win ? "正解！" : "ざんねん！"}</b> ${esc(pair[win].name)}のほうが大きく値上がりしました。</p>`;
-    const nb = document.createElement("button"); nb.type = "button"; nb.className = "btn"; nb.textContent = qi < 4 ? "次の問題" : "けっかを見る";
-    nb.addEventListener("click", () => { qi++; renderQ(); }); after.appendChild(nb); nb.focus();
-  }
-  newQuiz();
-
   // ===== 08 ことば辞典 =====
   const realMW = (D.MINWAGE[2025] / D.MINWAGE[2015]) / (cpiAt("総合", 2025) / cpiAt("総合", 2015));
   const WORDS = [

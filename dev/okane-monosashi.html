@@ -11,7 +11,7 @@
   --card: #ffffff;
   --ink: #191f45;
   --ink-2: #454b6e;
-  --muted: #6c7190;
+  --muted: #5c6182;
   --line: #d7d9e5;
   --soft: #e6e8f2;
   --ruler: #f4b400;
@@ -610,6 +610,20 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .part-band .chs a { display: inline-flex; align-items: center; gap: 6px; }
 .course ol li { display: inline-flex; align-items: center; gap: 4px; }
 
+/* クイズのモード */
+.quiz-modes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 640px) { .quiz-modes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.qm { border: 1.5px solid var(--line); background: var(--paper); border-radius: 12px; padding: 8px 10px; cursor: pointer; text-align: left; display: grid; gap: 1px; font: inherit; color: var(--ink); }
+.qm b { font-size: 14px; }
+.qm span { font-size: 11px; color: var(--muted); font-family: var(--font-num); }
+.qm[aria-selected="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.quiz-opts.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 640px) { .quiz-opts.three { grid-template-columns: minmax(0, 1fr); } .quiz-opts.three .qopt { min-height: 0; } }
+.newrec { margin-left: 12px; font-size: .6em; background: var(--ruler); color: var(--ruler-ink); border-radius: 999px; padding: 2px 12px; vertical-align: middle; }
+/* キーボードで使う人のための「本文へとぶ」 */
+.skip { position: absolute; left: 12px; top: -60px; z-index: 100; background: var(--ruler); color: var(--ruler-ink); padding: 8px 14px; border-radius: 8px; font-weight: 700; text-decoration: none; }
+.skip:focus { top: 12px; }
+
 /* 学校にかかるお金の横棒 */
 .sc-bars { display: grid; gap: 4px; }
 .sc-row { display: grid; grid-template-columns: 140px minmax(0, 1fr) 72px; gap: 10px; align-items: center; border: 0; background: none; padding: 4px 6px; border-radius: 8px; cursor: pointer; text-align: left; width: 100%; font: inherit; color: var(--ink); }
@@ -774,6 +788,7 @@ body.simple .easy-note { display: block; font-size: 13px; color: var(--muted); m
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
 </style>
 
+<a class="skip" href="#try">本文へとぶ</a>
 <header class="top">
   <div class="wrap">
     <div class="top-row">
@@ -801,7 +816,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a href="#big"><span class="n">12</span>1人あたりいくら？</a>
       <a href="#tax"><span class="n">13</span>消費税</a>
       <a href="#diary"><span class="n">14</span>おこづかい帳</a>
-      <a href="#quiz"><span class="n">15</span>クイズ</a>
+      <a href="#quiz"><span class="n">15</span>お金クイズ</a>
       <a href="#words"><span class="n">16</span>ことば辞典</a>
       <a href="#sheet"><span class="n">17</span>自由研究ワークシート</a>
       <a href="#sources"><span class="n">18</span>データの出どころ</a>
@@ -1659,8 +1674,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <div class="rule-band" aria-hidden="true"><span>15</span><span>単位：問</span></div>
       <div class="ch-head">
         <div class="q">QUIZ</div>
-        <h2>どっちが値上がりした？</h2>
-        <p>2015年から2025年までに、値上がりの割合が大きかったのはどちらでしょう。5問チャレンジ。答えはすべて本物の統計です。</p>
+        <h2>お金クイズ：4つのモードで力だめし</h2>
+        <p>「値上がりはどっち？」「何時間はたらく？」「日本地図クイズ」「昔の値段クイズ」の4つ。どれも5問で、答えはすべて本物の統計です。モードごとに、いちばんよかった点数が記録されます。</p>
       </div>
       <div class="quiz" id="quizBox"></div>
     </div>
@@ -1790,3 +1805,4 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-icons.js"></script>
 <script src="okane-ux.js"></script>
 <script src="okane-course.js"></script>
+<script src="okane-quiz.js"></script>
