@@ -1,0 +1,16 @@
+{
+  "name": "おかねの物差し",
+  "short_name": "物差し",
+  "description": "その値段、あなたの何時間ぶん？ 公的統計で、お金を自分の生活の単位ではかるアプリ。",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f2f3f7",
+  "theme_color": "#191f45",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

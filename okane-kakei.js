@@ -96,9 +96,9 @@
   if (auto) timer = setInterval(() => { if (!document.hidden) step(1); }, 8000);
 
   // ===== スタンプラリー =====
-  const CH = [["hours", "はたらく時間"], ["map", "日本地図"], ["rank", "ランキング"], ["time", "タイムマシン"], ["race", "給料と物価"], ["save", "貯金"], ["fx", "円安・円高"], ["kakei", "家族の1万円"], ["pay", "手取り"], ["big", "1人あたり"], ["tax", "消費税"], ["quiz", "クイズ"], ["words", "ことば"]];
+  const CH = [["hours", "はたらく時間"], ["map", "日本地図"], ["rank", "ランキング"], ["time", "タイムマシン"], ["race", "給料と物価"], ["save", "貯金"], ["fx", "円安・円高"], ["kakei", "家族の1万円"], ["pay", "手取り"], ["big", "1人あたり"], ["tax", "消費税"], ["diary", "おこづかい帳"], ["quiz", "クイズ"], ["words", "ことば"]];
   let got = new Set(store.get("stamps", []));
-  const rot = (i) => [-8, 6, -4, 9, -11, 5, -6, 10, -3, 7, -9, 4, -7][i];
+  const rot = (i) => [-8, 6, -4, 9, -11, 5, -6, 10, -3, 7, -9, 4, -7, 8][i];
   function renderStamps(popId) {
     $("stampGrid").innerHTML = CH.map(([id, t], i) => `<a class="stamp${got.has(id) ? " got" : ""}${popId === id ? " pop" : ""}" href="#${id}" style="--rot:${rot(i)}deg"><span><span class="n">${String(i + 1).padStart(2, "0")}</span>${got.has(id) ? t : "まだ"}</span></a>`).join("");
     $("stampCount").textContent = `${got.size} / ${CH.length}`;
