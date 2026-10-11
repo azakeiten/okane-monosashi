@@ -1,7 +1,7 @@
 // おかねの物差し：オフラインでも使えるようにする（GitHub版だけで動く）
 // VERSION は dev/build.sh が書きかえる
-const VERSION = "okane-20261012013530";
-const FILES = ["./", "index.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png",
+const VERSION = "okane-20261012013837";
+const FILES = ["./", "index.html", "guide.html", "manifest.webmanifest", "icons/icon-192.png", "icons/icon-512.png",
   "okane-data.js", "okane-app.js", "okane-charts.js", "okane-map.js", "okane-kakei.js", "okane-school.js", "okane-big.js",
   "okane-me.js", "okane-tax.js", "okane-fx.js", "okane-now.js", "okane-diary.js", "okane-age.js", "okane-pwa.js", "okane-icons.js", "okane-ux.js", "okane-course.js", "okane-quiz.js"];
 self.addEventListener("install", (e) => { e.waitUntil(caches.open(VERSION).then((c) => c.addAll(FILES)).then(() => self.skipWaiting())); });

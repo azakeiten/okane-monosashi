@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>おかねの物差し 先生・おうちの人へ</title>
+<meta name="description" content="「おかねの物差し」を授業や家庭で使うための案内。小学校・中学校・高校向けの45分の授業プラン、印刷のしかた、データの扱い。">
+<meta property="og:title" content="おかねの物差し 先生・おうちの人へ">
+<meta property="og:description" content="授業や家庭で使うための案内。45分の授業プラン3つつき。">
+<meta property="og:image" content="https://azakeiten.github.io/okane-monosashi/icons/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#191f45">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: サイト本体と同じ「物差し」の見た目。授業プランは、印刷すると1プラン1ページになる */
+:root { --paper: #f2f3f7; --card: #ffffff; --ink: #191f45; --ink-2: #454b6e; --muted: #5c6182; --line: #d7d9e5; --soft: #e6e8f2; --ruler: #f4b400; --ruler-ink: #191f45; --accent: #3341b5; --accent-soft: #e2e5fb; --inv: #191f45; --inv-ink: #f2f3f7;
+  --font-display: "Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif; --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif; --font-num: "DM Mono", ui-monospace, Menlo, monospace; --r: 14px; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --paper: #10132a; --card: #1a1e3b; --ink: #eceefb; --ink-2: #bcc0dc; --muted: #9196b6; --line: #2e3358; --soft: #242a4c; --ruler: #f5c433; --accent: #9aa6ff; --accent-soft: #283063; --inv: #2b3370; color-scheme: dark; } }
+:root[data-theme="dark"] { --paper: #10132a; --card: #1a1e3b; --ink: #eceefb; --ink-2: #bcc0dc; --muted: #9196b6; --line: #2e3358; --soft: #242a4c; --ruler: #f5c433; --accent: #9aa6ff; --accent-soft: #283063; --inv: #2b3370; color-scheme: dark; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 17px; line-height: 1.85; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 920px; margin: 0 auto; padding-inline: 20px; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+.num { font-family: var(--font-num); }
+.top { background: var(--inv); color: var(--inv-ink); }
+.top .wrap { display: flex; align-items: center; gap: 12px; padding-block: 12px; flex-wrap: wrap; }
+.logo { display: flex; gap: 10px; align-items: center; color: var(--inv-ink); text-decoration: none; font-family: var(--font-display); font-size: 18px; }
+.logo img { border-radius: 8px; }
+.top .back { margin-left: auto; color: var(--ruler); font-weight: 700; text-decoration: none; font-size: 15px; }
+.rule { height: 14px; background-color: var(--ruler); background-image: repeating-linear-gradient(90deg, var(--ruler-ink) 0 1.5px, transparent 1.5px 60px), repeating-linear-gradient(90deg, var(--ruler-ink) 0 1px, transparent 1px 12px); background-size: 100% 10px, 100% 5px; background-repeat: no-repeat; }
+.hero { padding-block: 40px 16px; display: grid; gap: 12px; }
+.eyebrow { font-size: 12px; font-weight: 900; letter-spacing: .14em; color: var(--muted); }
+h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(30px, 5.4vw, 48px); line-height: 1.3; }
+.lead { color: var(--ink-2); max-width: 40em; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.btn { display: inline-block; text-decoration: none; cursor: pointer; border-radius: 999px; padding: 11px 22px; font-weight: 700; font-size: 15px; border: 1.5px solid var(--accent); background: var(--accent); color: var(--card); font-family: inherit; }
+.btn.ghost { background: transparent; color: var(--accent); }
+section { padding-block: 28px; }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.35; margin-bottom: 12px; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 720px) { .facts { grid-template-columns: minmax(0, 1fr); } }
+.fact { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 4px; align-content: start; }
+.fact b { font-size: 16px; }
+.fact p { font-size: 14px; color: var(--ink-2); }
+.plans { display: grid; gap: 18px; }
+.plan { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 22px; display: grid; gap: 14px; break-inside: avoid; }
+.plan-h { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: center; }
+.plan-h .who { grid-row: 1 / 3; font-family: var(--font-display); background: var(--ruler); color: var(--ruler-ink); border-radius: 12px; padding: 10px 14px; text-align: center; font-size: 15px; line-height: 1.3; }
+.plan-h h3 { font-family: var(--font-display); font-weight: 400; font-size: 22px; line-height: 1.35; }
+.plan-h .sub { font-size: 14px; color: var(--muted); }
+.aim { background: var(--accent-soft); border-radius: 10px; padding: 10px 14px; font-size: 15px; }
+.aim b { color: var(--accent); }
+.flow { border-collapse: collapse; width: 100%; font-size: 15px; }
+.flow th, .flow td { border-bottom: 1px solid var(--line); padding: 10px 8px; text-align: left; vertical-align: top; }
+.flow th { font-size: 13px; color: var(--muted); }
+.flow td:first-child { font-family: var(--font-num); white-space: nowrap; width: 64px; }
+.flow td:nth-child(2) { font-weight: 700; width: 92px; }
+.flow .ch { display: inline-block; font-size: 12px; font-weight: 700; background: var(--soft); border-radius: 999px; padding: 0 9px; margin: 2px 2px 0 0; white-space: nowrap; }
+.flow a.ch { text-decoration: none; color: var(--ink); }
+.ask { display: grid; gap: 6px; font-size: 15px; }
+.ask li { margin-left: 1.2em; }
+.ask b, .eval b { font-size: 14px; color: var(--muted); letter-spacing: .04em; }
+.eval { font-size: 15px; }
+.faq { display: grid; gap: 10px; }
+details { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); }
+summary { cursor: pointer; padding: 14px 18px; font-weight: 700; list-style: none; }
+summary::-webkit-details-marker { display: none; }
+details > div { padding: 0 18px 16px; color: var(--ink-2); display: grid; gap: 8px; }
+footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var(--muted); font-size: 13px; }
+.print-hint { font-size: 13px; color: var(--muted); }
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: #fff; color: #111; font-size: 13px; }
+  .top, .rule, .hero .cta, .no-print, footer, .faq, .facts-sec { display: none !important; }
+  .plan { border: 1.5px solid #333; border-radius: 6px; page-break-after: always; box-shadow: none; background: #fff; }
+  .plan-h .who { border: 1.5px solid #333; background: #fff; }
+  .aim { background: #f3f3f3; }
+  a { color: #111; text-decoration: none; }
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="logo" href="./"><img src="icons/icon-192.png" alt="" width="32" height="32">おかねの物差し</a><a class="back" href="./">← サイトにもどる</a></div></header>
+<div class="rule" aria-hidden="true"></div>
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">FOR TEACHERS &amp; FAMILIES</div>
+    <h1>先生・おうちの人へ</h1>
+    <p class="lead">「おかねの物差し」は、ニュースに出てくるお金の数字を、子どもが自分の生活の単位（はたらく時間・おこづかい・昔の値段など）に直して考えられるようにするサイトです。数字はすべて国や公的機関の統計で、出典をサイトにのせています。登録もお金もいりません。</p>
+    <div class="cta"><a class="btn" href="./">サイトを開く</a><a class="btn ghost" href="#plans">授業プランを見る</a><button type="button" class="btn ghost no-print" id="printBtn">授業プランを印刷する</button></div>
+    <p class="print-hint no-print">印刷すると、授業プランが1つずつ1ページに出ます。</p>
+  </section>
+
+  <section class="facts-sec" aria-labelledby="h-facts">
+    <h2 id="h-facts">このサイトでできること</h2>
+    <div class="facts">
+      <div class="fact"><b>自分の単位に直す</b><p>値段を「時給で何時間」「おこづかい何か月」「おにぎり何個」に換算。都道府県と生まれた年を入れると、その子だけの「物差しカード」が作れます。</p></div>
+      <div class="fact"><b>くらべる・さかのぼる</b><p>47都道府県の最低賃金と物価、36品目の10年間の値上がり、1970年からの物価、ドル円、年れいごとの給料などを、グラフで見られます。</p></div>
+      <div class="fact"><b>しくみを知る・まとめる</b><p>家計・学習費・手取り・国の予算・消費税のしくみ。おこづかい帳、4つのモードのクイズ、印刷できる自由研究ワークシートもあります。</p></div>
+    </div>
+  </section>
+
+  <section id="plans" aria-labelledby="h-plans">
+    <h2 id="h-plans">45分の授業プラン</h2>
+    <div class="plans">
+      <article class="plan">
+        <div class="plan-h"><span class="who">小学校<br>5・6年</span><h3>その値段、何時間ぶん？</h3><span class="sub">算数（割合）・社会・総合的な学習の時間</span></div>
+        <p class="aim"><b>ねらい</b>　値段を「はたらく時間」に直すことで、お金の大きさを自分の生活とむすびつけて考える。わり算・割合を、身近な数字で使う。</p>
+        <table class="flow"><thead><tr><th>時間</th><th>場面</th><th>活動と、使う章</th></tr></thead><tbody>
+          <tr><td>0〜5分</td><td>導入</td><td>「おにぎり1個は、何分はたらけば買える？」と予想させる。換算機で答えを見る。<br><a class="ch" href="./#try">ホーム：換算機</a></td></tr>
+          <tr><td>5〜20分</td><td>展開1</td><td>ほしい物を3つえらび、時給で何時間かを計算（値段 ÷ 時給）。サイトで答え合わせ。<br><a class="ch" href="./#hours">01 はたらく時間</a></td></tr>
+          <tr><td>20〜32分</td><td>展開2</td><td>自分の県と他の県で、おにぎりを買う時間をくらべる。なぜちがうのかを話し合う。<br><a class="ch" href="./#map">02 日本地図</a></td></tr>
+          <tr><td>32〜40分</td><td>展開3</td><td>「値上がりはどっち？」クイズを全員で。意外だった品物を発表。<br><a class="ch" href="./#quiz">15 お金クイズ</a><a class="ch" href="./#rank">03 値上がりランキング</a></td></tr>
+          <tr><td>40〜45分</td><td>まとめ</td><td>ワークシートの「わかったこと」を書く。<br><a class="ch" href="./#sheet">17 自由研究ワークシート</a></td></tr>
+        </tbody></table>
+        <ul class="ask"><b>発問の例</b><li>同じおにぎりなのに、県によってはたらく時間がちがうのはなぜだろう？</li><li>10年前より値上がりした物と、あまり変わらない物のちがいは？</li></ul>
+        <p class="eval"><b>見とりのポイント</b>　値段と時給の関係を、わり算と割合を使って説明できているか。</p>
+      </article>
+
+      <article class="plan">
+        <div class="plan-h"><span class="who">中学校</span><h3>物価とわたしたちのくらし</h3><span class="sub">社会（公民的分野）：私たちと経済</span></div>
+        <p class="aim"><b>ねらい</b>　物価が上がる理由（原材料・円安・需要）を、実際の統計から考える。名目と実質のちがい、消費税のしくみを理解する。</p>
+        <table class="flow"><thead><tr><th>時間</th><th>場面</th><th>活動と、使う章</th></tr></thead><tbody>
+          <tr><td>0〜8分</td><td>導入</td><td>おうちの人が生まれた年に、今の1,000円の買い物はいくらだったかを調べる。<br><a class="ch" href="./#time">04 物価タイムマシン</a></td></tr>
+          <tr><td>8〜20分</td><td>展開1</td><td>最低賃金と物価、どちらが速く上がったかをグラフから読み取る。「実質」を説明する。<br><a class="ch" href="./#race">05 給料と物価</a></td></tr>
+          <tr><td>20〜32分</td><td>展開2</td><td>2021年から2024年の円安で、輸入品の値段がどう変わったかを調べ、物価との関係を考える。<br><a class="ch" href="./#fx">07 円安・円高</a></td></tr>
+          <tr><td>32〜42分</td><td>展開3</td><td>かごに品物を入れてレシートを出し、8%と10%（軽減税率）のちがいを確かめる。<br><a class="ch" href="./#tax">13 消費税</a></td></tr>
+          <tr><td>42〜45分</td><td>まとめ</td><td>「物価が上がると、だれが困り、だれが助かるか」を1文で書く。</td></tr>
+        </tbody></table>
+        <ul class="ask"><b>発問の例</b><li>給料が3%上がっても、くらしが楽にならないことがあるのはなぜ？</li><li>円安は、日本にとって良いこと？ 悪いこと？</li></ul>
+        <p class="eval"><b>見とりのポイント</b>　グラフの数字を根拠にして、物価の変化の理由を説明できているか。</p>
+      </article>
+
+      <article class="plan">
+        <div class="plan-h"><span class="who">高校</span><h3>はたらいたら、お金はどうなる？</h3><span class="sub">公共・家庭基礎（金融教育）</span></div>
+        <p class="aim"><b>ねらい</b>　年れいと給料、額面と手取り、家計の内わけ、インフレと貯金の関係から、将来のお金の見通しを立てる。</p>
+        <table class="flow"><thead><tr><th>時間</th><th>場面</th><th>活動と、使う章</th></tr></thead><tbody>
+          <tr><td>0〜8分</td><td>導入</td><td>20代前半と50代後半の給料の平均をくらべる。<br><a class="ch" href="./#agewage">11 年れいと給料</a></td></tr>
+          <tr><td>8〜20分</td><td>展開1</td><td>初任給の給与明細を見て、何がいくら引かれるか、何に使われるかを確かめる。<br><a class="ch" href="./#pay">10 手取りのひみつ</a></td></tr>
+          <tr><td>20〜30分</td><td>展開2</td><td>家族の支出を1万円にちぢめた100マスで、使い道の割合を読み取る。<br><a class="ch" href="./#kakei">08 家族の1万円</a></td></tr>
+          <tr><td>30〜42分</td><td>展開3</td><td>物価が毎年2%上がると、貯金の価値がどう変わるかを計算。ほしい物までの貯金計画を立てる。<br><a class="ch" href="./#save">06 貯金とインフレ</a></td></tr>
+          <tr><td>42〜45分</td><td>まとめ</td><td>「はたらき始めたら、毎月いくら貯金するか」とその理由を書く。</td></tr>
+        </tbody></table>
+        <ul class="ask"><b>発問の例</b><li>手取りが額面より少ないのは損なのだろうか？ 引かれたお金は何に使われている？</li><li>物価が上がる時代に、お金をどう持っておくのがよいだろう？</li></ul>
+        <p class="eval"><b>見とりのポイント</b>　統計の数字を使って、自分の将来の収入と支出を具体的に考えられているか。</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="faq" aria-labelledby="h-faq">
+    <h2 id="h-faq">よくある質問</h2>
+    <details><summary>子どもが入力した内容は、どこかに送られますか？</summary><div><p>送られません。おこづかい帳・物差しカード・スタンプなどの記録は、その端末のブラウザの中にだけ保存されます。サーバーに送ったり、ほかの人に見えたりすることはありません。ブラウザの記録を消すと、データも消えます。</p></div></details>
+    <details><summary>学校のタブレットで使えますか？ 電波がなくても使えますか？</summary><div><p>ブラウザがあれば使えます。一度開くと、つぎからは電波がなくても動きます。スマホやタブレットのホーム画面に追加すると、アプリのように全画面で使えます。</p></div></details>
+    <details><summary>数字はどこから取っていますか？ どれくらい新しいですか？</summary><div><p>総務省統計局・厚生労働省・文部科学省・財務省・内閣府・日本銀行などの公的統計です。サイトの「データの出どころ」に、それぞれの出典と「いつの数字か」「次に新しくなる時期」の表があります。年に1回以上、新しい数字に更新します。</p></div></details>
+    <details><summary>ワークシートを印刷するには？</summary><div><p>サイトの「17 自由研究ワークシート」で「印刷する」を押すと、ワークシートだけがA4に印刷されます。「答えの例を表示する」を押すと、その子の県や生まれた年に合わせた答えの例が入ります。</p></div></details>
+    <details><summary>計算は正確ですか？</summary><div><p>平均の数字を使った<b>目安</b>です。手取りの計算は、保険料率と税の基本的なしくみで近い値を出しています。一人ひとりの実際の値段や給料とはちがうことを、授業でも伝えてください。</p></div></details>
+  </section>
+</main>
+<footer><div class="wrap">おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="./">サイトにもどる</a></div></footer>
+<script>
+  // 印刷（Claudeのプレビューの中では印刷できないので、そのときはボタンを出さない）
+  (() => { const b = document.getElementById("printBtn"); let framed = true; try { framed = window.self !== window.top; } catch (e) {} if (framed) { b.hidden = true; return; } b.addEventListener("click", () => window.print()); })();
+</script>
+</body>
+</html>

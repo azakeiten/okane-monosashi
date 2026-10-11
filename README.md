@@ -6,6 +6,8 @@
 
 👉 **サイトを開く：https://azakeiten.github.io/okane-monosashi/**
 
+👩‍🏫 **先生・おうちの人へ（授業プラン3つ）：https://azakeiten.github.io/okane-monosashi/guide.html**
+
 ## できること
 
 | パート | 中身 |
@@ -59,6 +61,7 @@
 ## ファイル
 
 - `index.html` … 公開されるページ（`dev/build.sh` で自動で作る）
+- `guide.html` … 先生・おうちの人への案内（45分の授業プラン3つ・よくある質問）。章の番号を変えたら、ここの番号も直す
 - `dev/okane-monosashi.html` … ページ本体のもと（見た目と文章はここを直す）
 - `dev/build.sh` … `bash dev/build.sh` で index.html を作り直す
 - `okane-data.js` … 統計データ（年1回ここを更新）
