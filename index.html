@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="ニュースに出てくるお金の数字を、はたらく時間・おこづかい・昔の値段など、自分の生活の単位に直して見せるサイト。数字はすべて国の公的統計。">
+<meta property="og:title" content="おかねの物差し">
+<meta property="og:description" content="その値段、あなたの何時間ぶん？ 公的統計で、お金を自分の生活の単位ではかるサイト。">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%227%22 fill=%22%23f4b400%22/%3E%3Cpath d=%22M5 24v4M9 26v2M13 24v4M17 26v2M21 24v4M25 26v2%22 stroke=%22%23191f45%22 stroke-width=%221.6%22/%3E%3Ctext x=%2216%22 y=%2219%22 font-size=%2214%22 text-anchor=%22middle%22 font-weight=%22900%22 fill=%22%23191f45%22%3E%E5%86%86%3C/text%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}</style>
+<title>おかねの物差し</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: ページ全体が1本の「物差し」。各章の頭に黄色い定規が走り、その単位（時間・％・年・円…）が章の主題。
+   中身は「道具（入力）→答え→もっとくわしく」の3段。数字はDM Mono、見出しはDela Gothic One。 */
+:root {
+  --paper: #f2f3f7;
+  --paper-2: #e9ebf3;
+  --card: #ffffff;
+  --ink: #191f45;
+  --ink-2: #454b6e;
+  --muted: #6c7190;
+  --line: #d7d9e5;
+  --soft: #e6e8f2;
+  --ruler: #f4b400;
+  --ruler-2: #ffd34d;
+  --ruler-ink: #191f45;
+  --accent: #3341b5;
+  --accent-soft: #e2e5fb;
+  --cool: #3d4fc4;
+  --hot: #c4580a;
+  --good: #1b7a49;
+  --seg1: #3d4fc4; --seg2: #7383e3; --seg3: #c4580a; --seg4: #e29a52; --seg5: #8a68b7; --seg6: #2e8c8a;
+  --font-display: "Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-num: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 14px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #10132a; --paper-2: #161a35; --card: #1a1e3b; --ink: #eceefb; --ink-2: #bcc0dc; --muted: #9196b6;
+    --line: #2e3358; --soft: #242a4c; --ruler: #f5c433; --ruler-2: #f8d667; --ruler-ink: #191f45;
+    --accent: #9aa6ff; --accent-soft: #283063; --cool: #8e9cff; --hot: #f39a52; --good: #5fd39a;
+    --seg1: #8e9cff; --seg2: #5e6bd0; --seg3: #f39a52; --seg4: #b87430; --seg5: #b79be0; --seg6: #5fc6c3;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #10132a; --paper-2: #161a35; --card: #1a1e3b; --ink: #eceefb; --ink-2: #bcc0dc; --muted: #9196b6;
+  --line: #2e3358; --soft: #242a4c; --ruler: #f5c433; --ruler-2: #f8d667; --ruler-ink: #191f45;
+  --accent: #9aa6ff; --accent-soft: #283063; --cool: #8e9cff; --hot: #f39a52; --good: #5fd39a;
+  --seg1: #8e9cff; --seg2: #5e6bd0; --seg3: #f39a52; --seg4: #b87430; --seg5: #b79be0; --seg6: #5fc6c3;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body { background: var(--paper); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.75; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; }
+h1, h2, h3, h4 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: var(--accent); }
+button, input, select { font: inherit; color: inherit; }
+.num { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+rt { display: none; font-size: .55em; font-weight: 500; color: var(--muted); }
+body.furigana rt { display: ruby-text; }
+
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: color-mix(in srgb, var(--paper) 90%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.top-row { display: flex; align-items: center; gap: 12px; padding-block: 10px; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); flex: none; }
+.logo-mark { width: 34px; height: 34px; border-radius: 8px; background: var(--ruler); background-image: repeating-linear-gradient(90deg, var(--ruler-ink) 0 1.5px, transparent 1.5px 6px); background-size: 100% 9px; background-repeat: no-repeat; background-position: bottom; display: grid; place-items: center; font-family: var(--font-display); color: var(--ruler-ink); font-size: 15px; }
+.logo b { font-family: var(--font-display); font-weight: 400; font-size: 18px; letter-spacing: .04em; }
+.my-unit { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.pill-btn { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; white-space: nowrap; text-decoration: none; }
+.pill-btn .num { font-weight: 500; color: var(--accent); }
+.pill-btn[aria-pressed="true"] { background: var(--ruler); color: var(--ruler-ink); border-color: var(--ruler); }
+@media (max-width: 420px) { .logo b { font-size: 15px; } #unitPill { display: none; } }
+.chapters { display: flex; gap: 2px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+.chapters::-webkit-scrollbar { display: none; }
+.chapters a { flex: none; text-decoration: none; color: var(--ink-2); font-size: 13px; font-weight: 700; padding: 5px 10px; border-radius: 999px; }
+.chapters a .n { font-family: var(--font-num); color: var(--muted); margin-right: 4px; font-weight: 500; }
+.chapters a:hover, .chapters a.on { background: var(--soft); color: var(--ink); }
+
+.hero { padding-block: 44px 16px; display: grid; gap: 26px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .14em; color: var(--muted); }
+.hero h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(36px, 7vw, 74px); line-height: 1.18; margin-top: 8px; }
+.hero h1 .hl { background: linear-gradient(transparent 60%, var(--ruler) 60% 93%, transparent 93%); padding-inline: 2px; }
+.hero .lead { margin-top: 16px; max-width: 40em; color: var(--ink-2); font-size: 17px; }
+.converter { background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.conv-in { padding: 20px 22px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px 24px; align-items: end; border-bottom: 1px dashed var(--line); }
+@media (max-width: 720px) { .conv-in { grid-template-columns: minmax(0, 1fr); } }
+.conv-in label { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: .06em; }
+.big-input { display: flex; align-items: baseline; gap: 8px; border-bottom: 3px solid var(--ink); padding-bottom: 4px; }
+.field { grid-template-columns: minmax(0, 1fr); }
+.big-input input { flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; font-family: var(--font-display); font-size: clamp(34px, 6vw, 56px); line-height: 1.1; outline: none; padding: 0; }
+.big-input span { font-family: var(--font-display); font-size: 24px; }
+.conv-out { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 720px) { .conv-out { grid-template-columns: minmax(0, 1fr); } }
+.conv-cell { padding: 18px 22px; display: grid; gap: 4px; align-content: start; }
+.conv-cell + .conv-cell { border-left: 1px solid var(--line); }
+@media (max-width: 720px) { .conv-cell + .conv-cell { border-left: 0; border-top: 1px solid var(--line); } }
+.conv-cell .k { font-size: 13px; font-weight: 700; color: var(--muted); }
+.conv-cell .v { font-family: var(--font-display); font-size: clamp(26px, 3.6vw, 34px); line-height: 1.25; }
+.conv-cell .v small { font-size: .5em; margin-left: 2px; }
+.conv-cell .s { font-size: 13px; color: var(--ink-2); }
+.conv-ruler { padding: 4px 22px 18px; }
+.ruler-svg { width: 100%; height: auto; display: block; overflow: visible; }
+.unit-panel { background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--r); padding: 16px 18px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 20px; scroll-margin-top: 110px; }
+@media (max-width: 640px) { .unit-panel { grid-template-columns: minmax(0, 1fr); } }
+.unit-panel .ttl { grid-column: 1 / -1; font-weight: 700; display: flex; gap: 10px; flex-wrap: wrap; align-items: baseline; }
+.unit-panel .ttl small { font-weight: 500; color: var(--muted); font-size: 13px; }
+
+section.ch { padding-block: 44px 52px; scroll-margin-top: 104px; }
+.rule-band { height: 32px; border-radius: 6px; background-color: var(--ruler); color: var(--ruler-ink); background-image: repeating-linear-gradient(90deg, var(--ruler-ink) 0 1.5px, transparent 1.5px 60px), repeating-linear-gradient(90deg, var(--ruler-ink) 0 1px, transparent 1px 12px); background-size: 100% 15px, 100% 7px; background-repeat: no-repeat; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 10px 3px; font-size: 12px; font-weight: 900; letter-spacing: .08em; }
+.ch-head { margin-top: 22px; display: grid; gap: 10px; }
+.ch-head .q { font-size: 13px; font-weight: 900; color: var(--accent); letter-spacing: .08em; }
+.ch-head h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 4.4vw, 42px); line-height: 1.32; }
+.ch-head p { color: var(--ink-2); max-width: 42em; }
+.tool { margin-top: 24px; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px; align-items: start; }
+@media (max-width: 800px) { .tool { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 16px; min-width: 0; }
+.field { display: grid; gap: 7px; min-width: 0; }
+.field > label, .field > .label { font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.yen { display: flex; align-items: center; border: 1.5px solid var(--line); border-radius: 10px; background: var(--paper); overflow: hidden; }
+.yen:focus-within { border-color: var(--accent); }
+.yen input { flex: 1; min-width: 0; border: 0; background: transparent; font-family: var(--font-num); font-size: 20px; padding: 9px 12px; outline: none; }
+.yen span { padding: 0 12px; color: var(--muted); font-weight: 700; font-size: 14px; white-space: nowrap; }
+select { font-family: var(--font-body); font-size: 15px; padding: 9px 10px; border-radius: 10px; border: 1.5px solid var(--line); background: var(--paper); width: 100%; }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+.scale { display: flex; justify-content: space-between; font-family: var(--font-num); font-size: 12px; color: var(--muted); }
+.hint { font-size: 13px; color: var(--muted); line-height: 1.6; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1.5px solid var(--line); background: var(--card); padding: 6px 12px; border-radius: 999px; cursor: pointer; font-size: 14px; font-weight: 500; line-height: 1.4; }
+.chip .num { color: var(--muted); font-size: 12px; margin-left: 4px; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--card); }
+.chip[aria-pressed="true"] .num { color: inherit; opacity: .8; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button { flex: 1 1 auto; border: 1.5px solid var(--line); background: var(--card); padding: 8px 10px; border-radius: 10px; cursor: pointer; font-size: 14px; line-height: 1.35; text-align: left; }
+.seg button .num { display: block; font-size: 12px; color: var(--muted); }
+.seg button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); box-shadow: inset 0 0 0 1px var(--accent); }
+.result { display: grid; gap: 14px; min-width: 0; }
+.answer { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 20px; display: grid; gap: 12px; min-width: 0; }
+.answer .label { font-size: 12px; font-weight: 900; color: var(--muted); letter-spacing: .08em; }
+.answer .value { font-family: var(--font-display); font-size: clamp(32px, 5.6vw, 50px); line-height: 1.15; }
+.answer .value .u { font-size: .44em; margin-left: 3px; }
+.answer .sub { color: var(--ink-2); }
+.answer .sub b { font-family: var(--font-num); font-weight: 500; color: var(--ink); }
+.easy { background: var(--accent-soft); border-radius: var(--r); padding: 14px 18px; display: grid; gap: 4px; }
+.easy .tag { font-size: 12px; font-weight: 900; color: var(--accent); letter-spacing: .08em; }
+
+.items { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.item { text-align: left; cursor: pointer; border: 1.5px solid var(--line); background: var(--card); border-radius: 12px; padding: 10px 12px; display: grid; gap: 1px; min-width: 0; align-content: start; }
+.item:hover { border-color: var(--accent); }
+.item[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); background: var(--accent-soft); }
+.item .nm { font-weight: 700; font-size: 15px; line-height: 1.35; }
+.item .ut { font-size: 12px; color: var(--muted); }
+.item .pr { font-family: var(--font-num); font-size: 14px; margin-top: 2px; }
+.hours-viz { display: flex; flex-wrap: wrap; gap: 8px 10px; }
+.day { display: grid; grid-template-columns: repeat(8, 12px); gap: 2px; }
+.cell { width: 12px; height: 12px; border-radius: 3px; background: var(--soft); position: relative; overflow: hidden; }
+.cell i { position: absolute; inset: 0 auto 0 0; background: var(--accent); }
+.months { display: flex; flex-wrap: wrap; gap: 6px; }
+.month { width: 44px; height: 44px; border-radius: 8px; background: var(--soft); position: relative; overflow: hidden; display: grid; place-items: center; font-size: 11px; color: var(--ink-2); font-weight: 700; }
+.month i { position: absolute; inset: auto 0 0 0; background: var(--accent); }
+.month span { position: relative; }
+.month.full span { color: var(--card); }
+.viz-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); align-items: center; }
+.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; vertical-align: -2px; margin-right: 4px; }
+.then-now { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.then-now > div { background: var(--paper); border-radius: 10px; padding: 12px 14px; display: grid; gap: 2px; }
+.then-now .k { font-size: 12px; font-weight: 700; color: var(--muted); }
+.then-now .v { font-family: var(--font-num); font-size: 22px; }
+.then-now .s { font-size: 12px; color: var(--muted); }
+.note-flag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--hot); border: 1px solid var(--hot); border-radius: 4px; padding: 0 5px; margin-left: 6px; vertical-align: 2px; line-height: 1.6; }
+
+.chart-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 18px 18px 12px; position: relative; display: grid; gap: 10px; min-width: 0; margin-top: 18px; }
+.chart-card h3 { font-size: 17px; }
+.chart-top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: flex-start; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); }
+.legend span::before { content: ""; display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: 4px; margin-right: 6px; background: var(--c); }
+.legend span.box::before { height: 10px; width: 10px; border-radius: 3px; vertical-align: -1px; }
+.chart-scroll { overflow-x: auto; }
+svg.chart { width: 100%; height: auto; display: block; overflow: visible; }
+.chart-scroll svg.chart { min-width: 560px; }
+svg.chart text { font-family: var(--font-num); font-size: 11px; fill: var(--muted); }
+svg.chart .lbl { font-family: var(--font-body); font-size: 12px; font-weight: 700; fill: var(--ink); }
+svg.chart .ev { font-family: var(--font-body); font-size: 11px; fill: var(--ink-2); }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 8px 10px; font-size: 12px; line-height: 1.55; white-space: nowrap; transform: translate(-50%, -110%); z-index: 5; }
+.tip b { font-family: var(--font-num); font-weight: 500; }
+.linkbtn { background: none; border: 0; color: var(--accent); font-size: 13px; font-weight: 700; cursor: pointer; padding: 4px 0; justify-self: start; }
+.table-wrap { overflow: auto; max-height: 360px; }
+table.data { border-collapse: collapse; width: 100%; font-size: 13px; }
+table.data th, table.data td { padding: 6px 10px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+table.data th:first-child, table.data td:first-child { text-align: left; }
+table.data td { font-family: var(--font-num); font-variant-numeric: tabular-nums; }
+table.data th { color: var(--muted); font-weight: 700; position: sticky; top: 0; background: var(--card); }
+
+.rank-wrap { position: relative; }
+.rank { display: grid; gap: 3px; }
+.rank-row { display: grid; grid-template-columns: 150px minmax(0, 1fr) 64px; gap: 10px; align-items: center; cursor: pointer; border-radius: 8px; padding: 3px 6px; border: 0; background: none; text-align: left; width: 100%; }
+@media (max-width: 520px) { .rank-row { grid-template-columns: 100px minmax(0, 1fr) 52px; gap: 6px; } }
+.rank-row:hover, .rank-row[aria-pressed="true"] { background: var(--soft); }
+.rank-row .nm { font-size: 14px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-row .track { position: relative; height: 18px; }
+.rank-row .bar { position: absolute; top: 2px; bottom: 2px; border-radius: 0 4px 4px 0; }
+.rank-row .bar.neg { border-radius: 4px 0 0 4px; }
+.rank-row .axis { position: absolute; top: -3px; bottom: -3px; border-left: 2px dashed var(--ink-2); }
+.rank-row .zero { position: absolute; top: -3px; bottom: -3px; border-left: 1px solid var(--muted); }
+.rank-row .pc { font-family: var(--font-num); font-size: 13px; text-align: right; }
+.rank-detail { background: var(--paper); border-radius: 10px; padding: 14px 16px; display: grid; gap: 6px; }
+
+.events { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
+@media (max-width: 800px) { .events { grid-template-columns: minmax(0, 1fr); } }
+.event { border-top: 3px solid var(--ruler); padding-top: 10px; display: grid; gap: 4px; align-content: start; }
+.event .yr { font-family: var(--font-num); font-size: 13px; color: var(--muted); }
+.event b { font-size: 15px; }
+.event p { font-size: 14px; color: var(--ink-2); }
+.event svg { display: block; width: 100%; height: 46px; }
+
+.stack { display: flex; height: 52px; border-radius: 10px; overflow: hidden; gap: 2px; }
+.stack div { min-width: 2px; transition: flex-basis .35s ease; }
+.stack .take { background: repeating-linear-gradient(135deg, var(--ruler) 0 8px, var(--ruler-2) 8px 16px); }
+.deds { display: grid; gap: 6px; }
+.ded { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 10px 14px; border-radius: 10px; background: var(--paper); }
+.ded .sw { width: 14px; height: 14px; border-radius: 4px; margin: 5px 0 0; }
+.ded .name { font-weight: 700; }
+.ded .what { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.ded .amt { font-family: var(--font-num); white-space: nowrap; }
+.ded.total { background: transparent; border-top: 2px solid var(--ink); border-radius: 0; }
+.ded.total .amt { font-size: 18px; }
+
+.quiz { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 22px; display: grid; gap: 16px; margin-top: 22px; }
+.quiz-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+.quiz-q { font-family: var(--font-display); font-size: clamp(20px, 3vw, 26px); line-height: 1.4; }
+.quiz-opts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 520px) { .quiz-opts { grid-template-columns: minmax(0, 1fr); } }
+.qopt { cursor: pointer; border: 2px solid var(--line); background: var(--paper); border-radius: 16px; padding: 18px; display: grid; gap: 4px; text-align: left; min-height: 120px; align-content: start; }
+.qopt:hover:not([disabled]) { border-color: var(--accent); }
+.qopt .nm { font-family: var(--font-display); font-size: 22px; line-height: 1.3; }
+.qopt .ut { font-size: 13px; color: var(--muted); }
+.qopt .rv { font-family: var(--font-num); font-size: 15px; margin-top: 6px; }
+.qopt.win { border-color: var(--good); background: color-mix(in srgb, var(--good) 12%, var(--paper)); }
+.qopt.lose { opacity: .75; }
+.qopt[disabled] { cursor: default; }
+.dots { display: flex; gap: 6px; }
+.dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--line); }
+.dots i.ok { background: var(--good); }
+.dots i.ng { background: var(--hot); }
+.dots i.now { box-shadow: 0 0 0 2px var(--accent); }
+.btn { cursor: pointer; border-radius: 999px; padding: 9px 18px; font-weight: 700; font-size: 14px; border: 1.5px solid var(--accent); background: var(--accent); color: var(--card); justify-self: start; }
+.btn.ghost { background: transparent; color: var(--accent); }
+
+.words { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 22px; }
+@media (max-width: 800px) { .words { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .words { grid-template-columns: minmax(0, 1fr); } }
+.word { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: grid; gap: 6px; align-content: start; }
+.word .w { font-family: var(--font-display); font-size: 19px; line-height: 1.35; }
+.word .r { font-size: 12px; color: var(--muted); font-weight: 700; letter-spacing: .04em; }
+.word p { font-size: 14px; color: var(--ink-2); }
+.word .ex { font-size: 13px; background: var(--paper); border-radius: 8px; padding: 8px 10px; color: var(--ink-2); }
+
+details.deep { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); }
+details.deep summary { cursor: pointer; list-style: none; padding: 15px 18px; font-weight: 700; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+details.deep summary::-webkit-details-marker { display: none; }
+details.deep summary::after { content: "＋"; font-family: var(--font-num); color: var(--accent); font-size: 18px; transition: transform .2s; flex: none; }
+details.deep[open] summary::after { transform: rotate(45deg); }
+details.deep .body { padding: 0 18px 18px; display: grid; gap: 10px; color: var(--ink-2); }
+details.deep .body b { color: var(--ink); }
+.deeps { margin-top: 16px; display: grid; gap: 10px; }
+
+.sources { margin-top: 22px; display: grid; gap: 10px; }
+.src { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 16px; align-items: baseline; }
+.src .what { font-weight: 700; }
+.src .when { font-family: var(--font-num); font-size: 13px; color: var(--muted); white-space: nowrap; }
+.src .from { grid-column: 1 / -1; font-size: 14px; color: var(--ink-2); overflow-wrap: anywhere; }
+@media (max-width: 520px) { .src { grid-template-columns: minmax(0, 1fr); } }
+.rules { margin-top: 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+@media (max-width: 800px) { .rules { grid-template-columns: minmax(0, 1fr); } }
+.rules > div { border-top: 3px solid var(--ruler); padding-top: 10px; display: grid; gap: 4px; }
+.rules p { font-size: 14px; color: var(--ink-2); }
+footer { border-top: 1px solid var(--line); padding-block: 26px 44px; color: var(--muted); font-size: 13px; }
+
+/* ===== v3：地図の色（藍の5段階）・値札・給与明細 ===== */
+:root { --q1: #e4e7fb; --q2: #bcc3f3; --q3: #8d99e6; --q4: #5d6dd3; --q5: #2f3cab; --q-ink-lo: #191f45; --q-ink-hi: #ffffff; --tag: #fffdf6; --tag-line: #e6dcc2; --slip: #fbfcff; --slip-head: #eef0fa; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --q1: #232a55; --q2: #2f3b85; --q3: #4a5bc0; --q4: #7b8af0; --q5: #b9c2ff; --q-ink-lo: #e6e9ff; --q-ink-hi: #10132a; --tag: #20254a; --tag-line: #3a4170; --slip: #181c38; --slip-head: #222850; } }
+:root[data-theme="dark"] { --q1: #232a55; --q2: #2f3b85; --q3: #4a5bc0; --q4: #7b8af0; --q5: #b9c2ff; --q-ink-lo: #e6e9ff; --q-ink-hi: #10132a; --tag: #20254a; --tag-line: #3a4170; --slip: #181c38; --slip-head: #222850; }
+
+/* 値札（品物カード） */
+.items { grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 10px; }
+.item { position: relative; background: var(--tag); border: 1.5px solid var(--tag-line); border-radius: 6px 14px 14px 6px; padding: 10px 12px 10px 22px; clip-path: polygon(10px 0, 100% 0, 100% 100%, 10px 100%, 0 50%); }
+.item::before { content: ""; position: absolute; left: 9px; top: 50%; width: 7px; height: 7px; margin-top: -3.5px; border-radius: 50%; background: var(--paper); box-shadow: inset 0 0 0 1.5px var(--tag-line); }
+.item .pr { font-size: 17px; font-weight: 500; letter-spacing: -.01em; }
+.item .pr small { font-size: 11px; margin-left: 1px; }
+.item[aria-pressed="true"] { background: var(--ruler); border-color: var(--ruler); box-shadow: none; }
+.item[aria-pressed="true"] .nm, .item[aria-pressed="true"] .pr { color: var(--ruler-ink); }
+.item[aria-pressed="true"] .ut { color: color-mix(in srgb, var(--ruler-ink) 70%, transparent); }
+
+/* 地図 */
+.map-tools { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: end; }
+.map-tools .seg { flex: 2 1 420px; }
+.map-item { flex: 1 1 200px; }
+.map-layout { margin-top: 16px; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 18px; align-items: start; }
+@media (max-width: 860px) { .map-layout { grid-template-columns: minmax(0, 1fr); } }
+.map-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px; display: grid; gap: 10px; min-width: 0; }
+.map-svg { width: 100%; height: auto; display: block; }
+.map-svg .tile { cursor: pointer; }
+.map-svg .tile rect { stroke: var(--card); stroke-width: 2; transition: transform .15s; }
+.map-svg .tile:hover rect, .map-svg .tile:focus rect { stroke: var(--ink); }
+.map-svg .tile.sel rect { stroke: var(--ruler); stroke-width: 4; }
+.map-svg .tile text { font-family: var(--font-body); font-size: 12px; font-weight: 700; pointer-events: none; }
+.map-svg .tile text.v { font-family: var(--font-num); font-size: 10.5px; font-weight: 500; }
+.map-svg .tile:focus { outline: none; }
+.map-legend { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.map-legend .ramp { display: flex; gap: 2px; }
+.map-legend .ramp i { width: 34px; height: 12px; border-radius: 3px; }
+.map-legend .ends { display: flex; justify-content: space-between; width: 178px; font-family: var(--font-num); }
+.pref-card .pname { font-family: var(--font-display); font-size: clamp(28px, 4vw, 38px); line-height: 1.2; }
+.pref-card .pcity { font-size: 13px; color: var(--muted); }
+.pref-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.pref-stats > div { background: var(--paper); border-radius: 10px; padding: 10px 12px; display: grid; gap: 1px; }
+.pref-stats .k { font-size: 12px; font-weight: 700; color: var(--muted); }
+.pref-stats .v { font-family: var(--font-num); font-size: 20px; }
+.pref-stats .s { font-size: 12px; color: var(--muted); }
+.mini-rank { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 18px; font-size: 14px; }
+.mini-rank h4 { font-size: 12px; color: var(--muted); letter-spacing: .06em; margin-bottom: 2px; }
+.mini-rank ol { margin: 0; padding: 0; list-style: none; display: grid; gap: 2px; }
+.mini-rank li { display: flex; justify-content: space-between; gap: 8px; }
+.mini-rank li .num { color: var(--ink-2); }
+.mini-rank li button { background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); font-weight: 700; text-align: left; }
+.mini-rank li button:hover { color: var(--accent); text-decoration: underline; }
+
+/* ===== v5：見やすさ ===== */
+body { font-size: 17px; line-height: 1.85; }
+.ch-head p { font-size: 17px; }
+.hint { font-size: 14px; }
+.ch-head h2 { letter-spacing: .01em; }
+section.ch { padding-block: 56px 64px; }
+@media (max-width: 420px) { .my-unit { gap: 6px; } .pill-btn { padding: 6px 10px; font-size: 13px; } .pill-btn .lg { display: none; } .top-row { gap: 8px; } }
+
+/* ===== v6：何のサイトかを最初に伝える ===== */
+.logo-t { display: grid; line-height: 1.15; }
+.logo-t small { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: .02em; }
+@media (max-width: 640px) { .logo-t small { display: none; } }
+.hero { padding-block: 36px 16px; gap: 22px; }
+.intro { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 28px; align-items: center; }
+@media (max-width: 860px) { .intro { grid-template-columns: minmax(0, 1fr); } }
+.intro-text { display: grid; gap: 14px; }
+.intro-text h1 { margin-top: 0; }
+.what { font-size: clamp(18px, 2.2vw, 21px); line-height: 1.75; max-width: 34em; }
+.what b { background: linear-gradient(transparent 70%, color-mix(in srgb, var(--ruler) 55%, transparent) 70%); }
+.intro .lead { margin-top: 0; font-size: 16px; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.cta .btn { font-size: 16px; padding: 12px 24px; text-decoration: none; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; counter-reset: none; }
+.steps li { display: grid; grid-template-columns: 46px minmax(0, 1fr); gap: 14px; align-items: start; background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; }
+.steps li + li { position: relative; }
+.steps li + li::before { content: ""; position: absolute; left: 38px; top: -11px; height: 12px; border-left: 2px dashed var(--line); }
+.sn { width: 46px; height: 46px; border-radius: 50%; background: var(--ruler); color: var(--ruler-ink); display: grid; place-items: center; font-family: var(--font-display); font-size: 22px; flex: none; }
+.steps b { font-size: 17px; }
+.steps p { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+.examples { display: grid; gap: 10px; }
+.ex-k { font-size: 13px; font-weight: 900; color: var(--muted); letter-spacing: .06em; }
+.ex-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 860px) { .ex-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.ex-card { text-decoration: none; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: 14px 16px; display: grid; gap: 4px; align-content: start; }
+.ex-card:hover { border-color: var(--accent); }
+.ex-card .q { font-size: 13px; color: var(--ink-2); font-weight: 700; line-height: 1.5; }
+.ex-card .a { font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 28px); line-height: 1.25; }
+.ex-card .a small { font-size: .55em; }
+.ex-card .s { font-size: 12px; color: var(--muted); }
+.try-head { display: flex; align-items: center; gap: 12px; margin-top: 10px; scroll-margin-top: 110px; }
+.try-head h2 { font-size: clamp(18px, 2.4vw, 22px); line-height: 1.4; }
+
+/* ===== v7：アプリのような画面切りかえ ===== */
+[hidden] { display: none !important; }
+body.app .chapters { display: none; }
+.tabbar { display: flex; gap: 4px; padding-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
+.tabbar::-webkit-scrollbar { display: none; }
+.tabbar a { flex: none; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink-2); font-size: 14px; font-weight: 700; padding: 7px 14px; border-radius: 999px; border: 1.5px solid transparent; }
+.tabbar a .ti { font-family: var(--font-display); font-size: 12px; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; background: var(--soft); color: var(--ink-2); }
+.tabbar a:hover { background: var(--soft); color: var(--ink); }
+.tabbar a[aria-current="page"] { background: var(--ink); color: var(--paper); }
+.tabbar a[aria-current="page"] .ti { background: var(--ruler); color: var(--ruler-ink); }
+.tabbar a .tl-s { display: none; }
+@media (max-width: 760px) {
+  .tabbar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--card); border-top: 1px solid var(--line); padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px)); gap: 0; justify-content: space-around; overflow: visible; }
+  .tabbar a { flex: 1 1 0; flex-direction: column; gap: 2px; padding: 4px 2px; border-radius: 10px; font-size: 11px; min-width: 0; }
+  .tabbar a .tl { display: none; }
+  .tabbar a .tl-s { display: block; white-space: nowrap; }
+  .tabbar a .ti { width: 28px; height: 28px; font-size: 14px; }
+  .tabbar a[aria-current="page"] { background: transparent; color: var(--ink); }
+  body.app { padding-bottom: 76px; }
+  body.app .to-top { bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
+}
+.view-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding-block: 8px 40px; }
+.view-foot a { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 10px 18px; font-weight: 700; font-size: 15px; }
+.view-foot a:hover { border-color: var(--accent); }
+.view-foot a small { display: block; font-size: 12px; color: var(--muted); font-weight: 500; line-height: 1.2; }
+.view-foot .nx { margin-left: auto; background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.view-foot .nx small { color: color-mix(in srgb, var(--paper) 70%, transparent); }
+.part-band { margin-top: 0; }
+@media (prefers-reduced-motion: no-preference) { .view-in { animation: viewin .28s ease-out both; } }
+@keyframes viewin { from { opacity: .4; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* パートの帯 */
+.part-band { scroll-margin-top: 100px; background: var(--ink); color: var(--paper); margin-top: 24px; }
+.part-band .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 22px; align-items: center; padding-block: 28px; }
+.part-band .chs { grid-column: 1 / -1; }
+@media (max-width: 640px) { .part-band .wrap { grid-template-columns: minmax(0, 1fr); } }
+.part-band .pn { font-family: var(--font-display); font-size: 15px; color: var(--ruler-ink); background: var(--ruler); border-radius: 8px; padding: 6px 12px; letter-spacing: .08em; justify-self: start; }
+.part-band h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 3.6vw, 34px); line-height: 1.3; }
+.part-band p { color: color-mix(in srgb, var(--paper) 78%, transparent); font-size: 15px; }
+.part-band .chs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.part-band .chs a { color: var(--paper); text-decoration: none; font-size: 13px; font-weight: 700; border: 1px solid color-mix(in srgb, var(--paper) 35%, transparent); border-radius: 999px; padding: 4px 12px; }
+.part-band .chs a:hover { background: color-mix(in srgb, var(--paper) 12%, transparent); }
+.part-band .chs { justify-content: flex-start !important; }
+
+/* もくじ（パートごと） */
+.toc-part .toc-grid { grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); }
+@media (max-width: 720px) { .toc-part .toc-grid { grid-template-columns: minmax(0, 1fr); } }
+.toc-part { display: grid; gap: 10px; }
+.toc-part + .toc-part { margin-top: 18px; }
+.toc-part-h { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.toc-part-h .pn { font-family: var(--font-display); font-size: 13px; background: var(--ink); color: var(--paper); border-radius: 6px; padding: 2px 10px; letter-spacing: .06em; }
+.toc-part-h b { font-size: 18px; }
+.toc-part-h span.d { font-size: 14px; color: var(--muted); }
+
+/* あなたの物差し（たためるバー） */
+.unit-wrap { background: var(--paper-2); border: 1px solid var(--line); border-radius: var(--r); scroll-margin-top: 110px; }
+.unit-wrap > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 12px 16px; }
+.unit-wrap > summary::-webkit-details-marker { display: none; }
+.uw-k { font-size: 13px; font-weight: 900; letter-spacing: .06em; color: var(--muted); }
+.uw-v { font-weight: 700; font-family: var(--font-num); }
+.uw-btn { margin-left: auto; font-size: 13px; font-weight: 700; color: var(--accent); border: 1.5px solid var(--accent); border-radius: 999px; padding: 2px 12px; }
+.unit-wrap[open] .uw-btn { background: var(--accent); color: var(--card); }
+.unit-wrap .unit-panel { border: 0; border-top: 1px dashed var(--line); border-radius: 0 0 var(--r) var(--r); background: transparent; }
+
+/* もくじ */
+.toc { padding-block: 28px 8px; scroll-margin-top: 104px; }
+.toc-head { display: grid; gap: 4px; margin-bottom: 14px; }
+.toc-head h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 3.6vw, 32px); }
+.toc-head p { color: var(--ink-2); }
+.toc-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 860px) { .toc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .toc-grid { grid-template-columns: minmax(0, 1fr); } }
+.toc-card { position: relative; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 4px 12px; text-decoration: none; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: var(--r); padding: 14px 14px 14px 12px; align-content: start; }
+.toc-card:hover { border-color: var(--accent); }
+.toc-card .no { grid-row: 1 / 3; font-family: var(--font-display); font-size: 26px; line-height: 1; color: var(--ruler-ink); background: var(--ruler); border-radius: 10px; display: grid; place-items: center; height: 44px; }
+.toc-card .tq { font-weight: 700; line-height: 1.5; font-size: 16px; }
+.toc-card .ta { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+.toc-card .ta b { font-family: var(--font-num); font-weight: 500; color: var(--accent); }
+.toc-card .done { position: absolute; right: 10px; top: 8px; font-size: 11px; font-weight: 900; color: var(--hot); border: 1.5px solid var(--hot); border-radius: 999px; padding: 0 7px; transform: rotate(6deg); }
+
+/* この章のポイント */
+.takeaway { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; align-items: start; background: var(--card); border: 2px solid var(--ruler); border-radius: var(--r); padding: 14px 18px; max-width: 46em; }
+.takeaway .tk { font-size: 12px; font-weight: 900; letter-spacing: .08em; background: var(--ruler); color: var(--ruler-ink); border-radius: 6px; padding: 2px 8px; margin-top: 4px; white-space: nowrap; }
+.takeaway p { font-size: 18px; font-weight: 700; line-height: 1.65; color: var(--ink); }
+.takeaway p b { font-family: var(--font-num); font-weight: 500; color: var(--accent); }
+@media (max-width: 520px) { .takeaway { grid-template-columns: minmax(0, 1fr); } .takeaway .tk { justify-self: start; } .takeaway p { font-size: 17px; } }
+
+/* 次の章へ */
+.next-ch { margin-top: 26px; display: flex; justify-content: flex-end; }
+.next-ch a { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 8px 8px 8px 18px; font-weight: 700; font-size: 15px; }
+.next-ch a:hover { border-color: var(--accent); }
+.next-ch a .arw { width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: var(--card); display: grid; place-items: center; font-size: 16px; }
+.next-ch a small { color: var(--muted); font-weight: 500; font-size: 12px; display: block; line-height: 1.2; }
+
+/* 上へもどる */
+.to-top { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 25; width: 54px; height: 54px; border-radius: 50%; background: var(--ink); color: var(--paper); text-decoration: none; display: grid; place-items: center; align-content: center; font-size: 18px; line-height: 1; box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 30%, transparent); }
+.to-top span { font-size: 10px; font-weight: 700; margin-top: 2px; }
+
+/* かんたん表示：くわしい説明をたたむ */
+body.simple .deeps, body.simple .events, body.simple .linkbtn, body.simple .table-wrap, body.simple #trendNote, body.simple .rank-detail .hint,
+body.simple #kkStories, body.simple section.ch h3[style] { display: none !important; }
+body.simple .ch-head p { font-size: 16px; }
+.easy-note { display: none; }
+body.simple .easy-note { display: block; font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+/* 今日の発見 */
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px 16px; align-items: center; background: var(--ink); color: var(--paper); border-radius: var(--r); padding: 14px 18px; }
+@media (max-width: 640px) { .facts { grid-template-columns: minmax(0, 1fr) auto; } .facts-text { grid-column: 1 / -1; grid-row: 2; } }
+.facts-tag { font-size: 12px; font-weight: 900; letter-spacing: .1em; background: var(--ruler); color: var(--ruler-ink); border-radius: 999px; padding: 3px 10px; justify-self: start; }
+.facts-text { font-size: 15px; line-height: 1.6; }
+.facts-text b { color: var(--ruler); font-family: var(--font-num); font-weight: 500; }
+.facts-nav { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+.facts-nav .pill-btn { padding: 2px 12px; font-size: 18px; line-height: 1.2; background: transparent; color: var(--paper); border-color: color-mix(in srgb, var(--paper) 35%, transparent); }
+@media (max-width: 560px) { #stampPill { display: none; } }
+
+/* 家計 */
+.kakei-top { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: end; }
+.kakei-top .field { width: 150px; }
+.kk-total { margin-left: auto; text-align: right; }
+.kk-total .big { font-family: var(--font-display); font-size: clamp(26px, 4vw, 36px); line-height: 1.2; }
+.kk-total .s { font-size: 13px; color: var(--muted); }
+@media (max-width: 640px) { .kk-total { margin-left: 0; text-align: left; } }
+.waffle { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; max-width: 460px; width: 100%; margin: 0 auto; }
+.waffle button { aspect-ratio: 1; border: 0; border-radius: 4px; padding: 0; cursor: pointer; max-width: 100%; transition: transform .15s, opacity .15s; }
+.waffle button.dim { opacity: .22; }
+.waffle button:hover { transform: scale(1.08); }
+.kk-list { display: grid; gap: 4px; }
+.kk-row { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto auto; gap: 10px; align-items: baseline; padding: 8px 10px; border-radius: 8px; border: 0; background: none; text-align: left; cursor: pointer; width: 100%; }
+.kk-row:hover, .kk-row[aria-pressed="true"] { background: var(--soft); }
+.kk-row .sw { width: 12px; height: 12px; margin: 0; border-radius: 3px; }
+.kk-row .nm { font-weight: 700; }
+.kk-row .nm small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; line-height: 1.45; }
+.kk-row .amt { font-family: var(--font-num); white-space: nowrap; }
+.kk-row .ch { font-family: var(--font-num); font-size: 12px; white-space: nowrap; min-width: 52px; text-align: right; }
+.up { color: var(--hot); } .down { color: var(--cool); }
+
+/* スタンプラリー */
+.stamp-card { background: var(--card); border: 2px dashed var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 18px; }
+.stamp-head { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: flex-start; }
+.stamp-head > div:first-child { display: grid; gap: 6px; max-width: 40em; }
+.stamp-count { font-family: var(--font-display); font-size: 34px; line-height: 1; }
+.stamp-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 560px) { .stamp-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.stamp { text-decoration: none; aspect-ratio: 1; max-width: 120px; width: 100%; justify-self: center; border-radius: 50%; border: 2.5px dashed var(--line); display: grid; place-items: center; text-align: center; color: var(--muted); font-size: 12px; font-weight: 700; line-height: 1.3; padding: 8px; }
+.stamp .n { font-family: var(--font-num); font-size: 20px; display: block; }
+.stamp.got { border: 3px solid var(--hot); color: var(--hot); background: color-mix(in srgb, var(--hot) 8%, var(--card)); transform: rotate(var(--rot, -8deg)); }
+.stamp.got.pop { animation: stamp .45s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes stamp { from { transform: scale(1.8) rotate(0); opacity: 0; } to { transform: scale(1) rotate(var(--rot, -8deg)); opacity: 1; } }
+.cert { border: 6px double var(--ruler); border-radius: 12px; padding: 22px; text-align: center; display: grid; gap: 10px; justify-items: center; background: var(--paper); }
+.cert .t { font-family: var(--font-display); font-size: clamp(26px, 4.4vw, 40px); letter-spacing: .12em; }
+.cert input { font: inherit; font-size: 20px; text-align: center; border: 0; border-bottom: 2px solid var(--ink); background: transparent; padding: 4px 8px; width: min(320px, 100%); }
+.cert .seal { width: 76px; height: 76px; border-radius: 50%; border: 3px solid var(--hot); color: var(--hot); display: grid; place-items: center; font-weight: 900; transform: rotate(-10deg); line-height: 1.2; font-size: 13px; }
+
+/* 値段の移り変わり */
+#trendChart text.p { font-family: var(--font-num); font-size: 13px; fill: var(--ink); font-weight: 500; }
+
+/* 給与明細書 */
+.slip { background: var(--slip); border: 1.5px solid var(--ink); border-radius: 4px; overflow: hidden; font-size: 14px; position: relative; }
+.slip::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: radial-gradient(circle at 6px 8px, var(--card) 3px, transparent 3.5px) 0 0 / 12px 8px repeat-x; }
+.slip-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; padding: 10px 14px; border-bottom: 1.5px solid var(--ink); background: var(--slip-head); }
+.slip-head b { font-family: var(--font-display); font-weight: 400; font-size: 18px; letter-spacing: .2em; }
+.slip-head span { font-size: 12px; color: var(--muted); }
+.slip-sec { display: grid; grid-template-columns: 34px minmax(0, 1fr); border-bottom: 1px solid var(--line); }
+.slip-sec > .tag { writing-mode: vertical-rl; text-orientation: upright; background: var(--slip-head); border-right: 1px solid var(--line); font-size: 13px; font-weight: 900; display: grid; place-items: center; letter-spacing: .3em; padding: 8px 0; }
+.slip-rows { display: grid; }
+.slip-row { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; padding: 7px 14px; border-bottom: 1px dashed var(--line); }
+.slip-row:last-child { border-bottom: 0; }
+.slip-row .sw { width: 10px; height: 10px; border-radius: 2px; margin: 0; }
+.slip-row .nm { font-weight: 700; }
+.slip-row .nm small { display: block; font-weight: 400; font-size: 12px; color: var(--muted); line-height: 1.5; }
+.slip-row .amt { font-family: var(--font-num); white-space: nowrap; }
+.slip-row.sum { background: var(--paper); }
+.slip-total { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 12px 14px 20px; flex-wrap: wrap; }
+.slip-total b { font-size: 15px; }
+.slip-total .num { font-family: var(--font-display); font-size: 28px; }
+.slip-total b { margin-right: auto; }
+.slip-stamp { position: static; flex: none; width: 54px; height: 54px; border: 2.5px solid var(--hot); color: var(--hot); border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 900; line-height: 1.25; text-align: center; transform: rotate(-12deg); opacity: .85; }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="top-row">
+      <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">円</span><span class="logo-t"><b>おかねの物差し</b><small>お金を、生活の単位ではかるサイト</small></span></a>
+      <div class="my-unit">
+        <a class="pill-btn" href="#myunit" id="unitPill" title="あなたの物差しを変える">時給 <span class="num" id="pillWage">1,177円</span></a>
+        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/10</span></a>
+        <button class="pill-btn" id="easyToggle" type="button" aria-pressed="false" title="くわしい説明をたたんで、大事なところだけ表示します">かんたん<span class="lg">表示</span></button>
+        <button class="pill-btn" id="furiToggle" type="button" aria-pressed="false">ふりがな</button>
+      </div>
+    </div>
+    <nav class="chapters" id="chapters" aria-label="章">
+      <a href="#hours"><span class="n">01</span>はたらく時間</a>
+      <a href="#map"><span class="n">02</span>日本地図</a>
+      <a href="#rank"><span class="n">03</span>値上がりランキング</a>
+      <a href="#time"><span class="n">04</span>物価タイムマシン</a>
+      <a href="#race"><span class="n">05</span>給料と物価</a>
+      <a href="#save"><span class="n">06</span>貯金とインフレ</a>
+      <a href="#kakei"><span class="n">07</span>家族の1万円</a>
+      <a href="#pay"><span class="n">08</span>手取りのひみつ</a>
+      <a href="#quiz"><span class="n">09</span>クイズ</a>
+      <a href="#words"><span class="n">10</span>ことば辞典</a>
+      <a href="#sources"><span class="n">11</span>データの出どころ</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap">
+    <section class="hero">
+      <div class="intro">
+        <div class="intro-text">
+          <div class="eyebrow">ECONOMY, MEASURED IN YOUR LIFE</div>
+          <h1>その値段、<br>あなたの<span class="hl">何時間</span>ぶん？</h1>
+          <p class="what"><b>おかねの物差し</b>は、ニュースに出てくるお金の大きな数字を、<b>「はたらく時間」「おこづかい」「昔の値段」</b>など、<b>自分の生活の単位</b>に直して見せるサイトです。</p>
+          <p class="lead">使う数字は、ぜんぶ国が<ruby>公表<rt>こうひょう</rt></ruby>している<ruby>統計<rt>とうけい</rt></ruby>。小学生から大人まで、授業や自由研究にも使えます。登録もお金もいりません。</p>
+          <div class="cta"><a class="btn" href="#try">さっそく試す</a><a class="btn ghost" href="#toc">もくじを見る</a></div>
+        </div>
+        <ol class="steps" aria-label="使い方">
+          <li><span class="sn">1</span><div><b>値段を入れる</b><p>ほしい物や、ニュースで見た金額を入れます。</p></div></li>
+          <li><span class="sn">2</span><div><b>自分の単位に直る</b><p>何時間はたらけば買えるか、おこづかい何か月ぶんかがすぐわかります。</p></div></li>
+          <li><span class="sn">3</span><div><b>くらべて、さかのぼる</b><p>ほかの県、10年前、50年前とくらべて、お金の動きのしくみを知ります。</p></div></li>
+        </ol>
+      </div>
+      <div class="examples">
+        <span class="ex-k">たとえば、こんなことがわかります</span>
+        <div class="ex-grid" id="exGrid"></div>
+      </div>
+      <div class="try-head" id="try"><span class="sn">1</span><h2>ためしてみよう：値段を入れると、自分の単位に直ります</h2></div>
+      <div class="converter">
+        <div class="conv-in">
+          <div class="field">
+            <label for="heroPrice">値段を入れてみよう</label>
+            <div class="big-input"><input id="heroPrice" type="number" inputmode="numeric" min="1" value="4928"><span>円</span></div>
+          </div>
+          <div class="chips" id="heroChips" aria-label="例"></div>
+        </div>
+        <div class="conv-out" aria-live="polite">
+          <div class="conv-cell"><span class="k">はたらく時間</span><span class="v" id="cvHours">—</span><span class="s" id="cvHoursS"></span></div>
+          <div class="conv-cell"><span class="k">おこづかい</span><span class="v" id="cvAllow">—</span><span class="s" id="cvAllowS"></span></div>
+          <div class="conv-cell"><span class="k">おにぎり（1個176円）</span><span class="v" id="cvOni">—</span><span class="s">東京23区の2025年平均の値段で</span></div>
+        </div>
+        <div class="conv-ruler"><svg class="ruler-svg" id="heroRuler" viewBox="0 0 960 74" role="img" aria-label="1日8時間の物差し"></svg></div>
+      </div>
+      <details class="unit-wrap" id="unitWrap">
+      <summary><span class="uw-k">あなたの物差し</span><span class="uw-v" id="unitSummary">時給1,177円・おこづかい月3,000円</span><span class="uw-btn">かえる</span></summary>
+      <div class="unit-panel" id="myunit">
+        <div class="ttl"><small>ここを変えると、サイト全体の計算が変わります（このブラウザにだけ保存）</small></div>
+        <div class="field">
+          <label for="prefSel">住んでいる都道府県</label>
+          <select id="prefSel"><option value="">えらばない（全国平均）</option></select>
+          <label for="wageIn">時給</label>
+          <div class="seg" id="wageSeg">
+            <button type="button" data-wage="1177" aria-pressed="true">全国平均の最低賃金<span class="num">1,177円</span></button>
+            <button type="button" data-wage="1280" aria-pressed="false">いちばん高い都道府県<span class="num">1,280円</span></button>
+            <button type="button" data-wage="1085" aria-pressed="false">いちばん低い県<span class="num">1,085円</span></button>
+          </div>
+          <div class="yen"><input id="wageIn" type="number" inputmode="numeric" min="1" value="1177" aria-label="時給を自分で入力"><span>円／時</span></div>
+          <p class="hint">2026年度（令和8年度）の最低賃金。10月から順に新しい金額になります。</p>
+        </div>
+        <div class="field">
+          <label for="allowIn">1か月のおこづかい（例）</label>
+          <div class="yen"><input id="allowIn" type="number" inputmode="numeric" min="1" value="3000"><span>円／月</span></div>
+          <p class="hint">はじめの3,000円はただの例です。自分のおこづかいに書きかえてください。</p>
+        </div>
+      </div>
+      </details>
+      <div class="facts" aria-label="今日の発見">
+        <span class="facts-tag">今日の発見</span>
+        <p class="facts-text" id="factText" aria-live="polite"></p>
+        <div class="facts-nav"><button type="button" class="pill-btn" id="factPrev" aria-label="前の発見">‹</button><span class="num" id="factNo"></span><button type="button" class="pill-btn" id="factNext" aria-label="次の発見">›</button></div>
+      </div>
+    </section>
+
+    <section class="toc" id="toc" aria-labelledby="tocTitle">
+      <div class="toc-head">
+        <h2 id="tocTitle">もくじ：4つのパート、10の問い</h2>
+        <p>どこから読んでもだいじょうぶ。気になる問いを押してください。答えを先に書いておきます。</p>
+      </div>
+      <div class="toc-grid" id="tocGrid"></div>
+    </section>
+  </div>
+
+  <section class="ch" id="hours">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>01</span><span>単位：時間</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 01</div>
+        <h2>これを買うには、何時間はたらく？</h2>
+        <p>値段は、国が東京23区で毎月調べている実際の値段（2025年の平均）です。品物を選ぶと、あなたの時給で何時間はたらけば買えるかと、10年前と比べて買いやすくなったかがわかります。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><span class="label">なかま</span><div class="chips" id="groupChips"></div></div>
+          <div class="items" id="itemGrid"></div>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label" id="hLabel">はたらく時間</div>
+            <div class="value" id="hValue">—</div>
+            <p class="sub" id="hSub"></p>
+            <div id="hViz"></div>
+            <div class="viz-legend" id="hLegend"></div>
+          </div>
+          <div class="answer">
+            <div class="label">10年前と比べると</div>
+            <div class="then-now">
+              <div><span class="k">2015年</span><span class="v" id="tn15">—</span><span class="s" id="tn15s"></span></div>
+              <div><span class="k">2025年</span><span class="v" id="tn25">—</span><span class="s" id="tn25s"></span></div>
+            </div>
+            <p class="sub" id="tnText"></p>
+            <p class="hint">それぞれの年の値段を、その年度の最低賃金（全国平均）でわっています。</p>
+          </div>
+          <div class="answer">
+            <div class="label">値段の移り変わり（東京23区・年平均）</div>
+            <svg class="chart" id="trendChart" viewBox="0 0 560 170" role="img" aria-label="2010年から2025年までの値段の移り変わり"></svg>
+            <p class="hint" id="trendNote"></p>
+          </div>
+        </div>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>「はたらいた時間」で考えると、何がいいの？</summary>
+          <div class="body">
+            <p>1万円と聞いても、それが高いか安いかは人によってちがいます。「9時間はたらいたぶん」と言いかえると、自分の1日と比べられます。</p>
+            <p>値段だけを見ると「昔より高くなった」としか言えません。でも<b>かせぐ力も同時に上がっていれば</b>、実は買いやすくなっていることもあります。「10年前と比べると」は、そのことを見るためのものです。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="map">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>02</span><span>単位：分</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 02</div>
+        <h2>おにぎり1個、あなたの県では何分はたらく？</h2>
+        <p>最低賃金も、品物の値段も、住んでいる場所でちがいます。47都道府県の最低賃金（2026年度）と、県庁所在地の値段（2025年平均）を地図にしました。マスを押すと、その県のくわしい数字が出ます。</p>
+      </div>
+      <div class="map-tools">
+        <div class="seg" id="mapMetric">
+          <button type="button" data-m="minutes" aria-pressed="true">買うのに何分？<span class="num">値段 ÷ その県の最低賃金</span></button>
+          <button type="button" data-m="wage" aria-pressed="false">最低賃金<span class="num">2026年度</span></button>
+          <button type="button" data-m="price" aria-pressed="false">値段<span class="num">県庁所在地・2025年</span></button>
+        </div>
+        <div class="field map-item"><label for="mapItem">品物</label><select id="mapItem"></select></div>
+      </div>
+      <div class="map-layout">
+        <div class="map-card">
+          <svg class="map-svg" id="mapSvg" viewBox="0 0 600 470" role="img" aria-label="都道府県のタイル地図"></svg>
+          <div class="map-legend" id="mapLegend"></div>
+        </div>
+        <div class="result">
+          <div class="answer pref-card" id="prefCard" aria-live="polite"></div>
+          <div class="answer">
+            <div class="label" id="mapRankTitle">ランキング</div>
+            <div class="mini-rank" id="mapRank"></div>
+          </div>
+        </div>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>最低賃金が高い県は、物の値段も高い？</summary>
+          <div class="body"><p id="mapInsight"></p></div>
+        </details>
+        <details class="deep">
+          <summary>なぜ県によって最低賃金がちがうの？</summary>
+          <div class="body">
+            <p>最低賃金は、都道府県ごとに、その地域のくらしにかかるお金や、会社がどれくらい払えるかなどを考えて、毎年決められます。国の会議が全国の「目安」を示し、それをもとに各都道府県の会議が金額を決めます。</p>
+            <p>2026年度は、いちばん高い東京都（1,280円）といちばん低い宮崎県（1,085円）の差は195円でした。差は少しずつ小さくなっています。新しい金額になる日も県ごとにちがい、10月1日から12月2日まで分かれています。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="rank">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>03</span><span>単位：％</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 03</div>
+        <h2>この10年で、いちばん値上がりしたのは？</h2>
+        <p>2015年から2025年までに、それぞれの値段が何％上がったかを並べました。点線は、物価全体の平均の上がり方（<span class="num" id="avgPct">+14.0%</span>）です。点線より右にのびているものは、平均より大きく値上がりしています。</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top">
+          <div class="chips" id="rankChips"></div>
+          <div class="legend"><span class="box" style="--c:var(--hot)">平均より大きく上がった</span><span class="box" style="--c:var(--cool)">平均以下</span></div>
+        </div>
+        <div class="rank-wrap"><div class="rank" id="rankList"></div></div>
+        <div class="rank-detail" id="rankDetail" aria-live="polite"></div>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>どうしてお米は、こんなに上がったの？</summary>
+          <div class="body">
+            <p>2024年の夏ごろから、お米が店から少なくなるほど足りなくなり、値段が大きく上がりました。暑さで品質のよいお米が少なかったこと、外食や観光で使われるお米が増えたことなど、いくつもの理由が重なったと言われています。2025年には、国がたくわえていたお米（備蓄米）を売り出す対策もとられました。</p>
+            <p>このように、ひとつの品物の値段は、天気や世界のできごと、国の政策などで大きく動きます。物価の「平均」だけではわからないことです。</p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary>値段が変わらない・下がったものもあるのはなぜ？</summary>
+          <div class="body">
+            <p>工場でたくさん作れるもの、競争がはげしいものは、値段が上がりにくい傾向があります。</p>
+            <p>ただし、値段は同じでも<b>中身の量が減っている</b>ことがあります（「ステルス値上げ」と呼ばれます）。袋の大きさが変わった品物は、「100gあたり」などに直して比べています。条件が少し変わった品物には<span class="note-flag">条件変更</span>の印をつけました。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="time">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>04</span><span>単位：年</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 04</div>
+        <h2>その値段、昔はいくらだった？</h2>
+        <p>おうちの人が子どもだったころ、おじいちゃん・おばあちゃんが若かったころ。<ruby>消費者物価指数<rt>しょうひしゃぶっかしすう</rt></ruby>を使えば、1970年までさかのぼって「そのころなら、だいたいいくらか」を計算できます。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><label for="tmPrice">今（2025年）の値段</label><div class="yen"><input id="tmPrice" type="number" inputmode="numeric" min="1" value="1000"><span>円</span></div></div>
+          <div class="field">
+            <label for="tmYear">さかのぼる年：<span class="num" id="tmYearLabel">1990</span>年</label>
+            <input id="tmYear" type="range" min="1970" max="2024" step="1" value="1990">
+            <div class="scale"><span>1970</span><span>1990</span><span>2010</span><span>2024</span></div>
+            <div class="chips" id="tmPresets" aria-label="よく使う年"></div>
+          </div>
+          <div class="field">
+            <label for="tmCat">何の値段で計算する？</label>
+            <select id="tmCat"></select>
+            <p class="hint">「総合」は、くらしに使うもの全部の平均です。お菓子なら「菓子類」、レストランなら「外食」を選ぶと、より近い答えになります。</p>
+          </div>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label" id="tmLabel">—</div>
+            <div class="value" id="tmValue">—</div>
+            <p class="sub" id="tmSub"></p>
+            <p class="sub" id="tmWage"></p>
+          </div>
+          <div class="easy"><span class="tag">かんたんに言うと</span><p>国は毎月、みんながよく買う品物やサービスの値段を全国で調べて、平均してどれくらい変わったかを数字にしています。これが消費者物価指数です。今は2025年を100として、ほかの年がいくつかで表します。</p></div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top">
+          <h3 id="longTitle">物価の55年（2025年＝100）</h3>
+          <div class="legend" id="longLegend"></div>
+        </div>
+        <div class="chart-scroll"><svg class="chart" id="longChart" viewBox="0 0 760 330" role="img" aria-label="1970年から2025年までの消費者物価指数"></svg></div>
+        <div class="tip" id="longTip" hidden></div>
+        <button class="linkbtn" id="longTableBtn" type="button" aria-expanded="false">数字の表で見る</button>
+        <div class="table-wrap" id="longTable" hidden></div>
+      </div>
+      <h3 style="margin-top:30px;font-size:19px">値段の動きには、理由がある</h3>
+      <div class="events" id="events"></div>
+    </div>
+  </section>
+
+  <section class="ch" id="race">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>05</span><span>単位：倍</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 05</div>
+        <h2>給料と物価、どっちが速く上がった？</h2>
+        <p>2002年を100として、最低賃金（全国平均）と物価（総合）の伸びを比べました。物価の伸びを差し引いて、本当に買える量がどれだけ変わったかを「<ruby>実質<rt>じっしつ</rt></ruby>」と言います。</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top">
+          <h3>2002年を100とした伸び</h3>
+          <div class="legend"><span style="--c:var(--hot)">最低賃金（全国平均）</span><span style="--c:var(--cool)">物価（総合）</span></div>
+        </div>
+        <div class="chart-scroll"><svg class="chart" id="raceChart" viewBox="0 0 760 300" role="img" aria-label="2002年を100とした最低賃金と物価の推移"></svg></div>
+        <div class="tip" id="raceTip" hidden></div>
+        <p id="raceText" style="color:var(--ink-2)"></p>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>ニュースでよく聞く「実質賃金が下がった」とは？</summary>
+          <div class="body">
+            <p>給料の金額そのものを<b>名目</b>、物価の上がり方を差し引いて「実際にどれだけ物が買えるか」で見たものを<b>実質</b>と言います。給料が3％増えても、物価が4％上がったら、買える物は少し減ります。これが「名目賃金は増えたが、実質賃金は減った」という状態です。</p>
+            <p>このグラフは最低賃金の話です。はたらく人全体の平均でみた実質賃金は、2022年から物価が急に上がったため、前の年より下がった年が続きました。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="save">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>06</span><span>単位：年後</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 06</div>
+        <h2>貯金箱の1万円、10年後も1万円の価値？</h2>
+        <p>お金の金額は変わらなくても、物価が上がると、そのお金で買えるものは減っていきます。銀行の利息とくらべて、お金の「買う力」がどう変わるかを計算してみましょう。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><label for="svAmt">貯金</label><div class="yen"><input id="svAmt" type="number" inputmode="numeric" min="1" value="10000"><span>円</span></div></div>
+          <div class="field"><label for="svYears">何年後：<span class="num" id="svYearsLabel">10</span>年後</label><input id="svYears" type="range" min="1" max="40" value="10"><div class="scale"><span>1</span><span>20</span><span>40</span></div></div>
+          <div class="field">
+            <span class="label">物価の上がり方（1年あたり）</span>
+            <div class="seg" id="infSeg">
+              <button type="button" data-v="0" aria-pressed="false">0%<span class="num">上がらない</span></button>
+              <button type="button" data-v="1.3" aria-pressed="false">1.3%<span class="num">この10年の平均</span></button>
+              <button type="button" data-v="2" aria-pressed="true">2%<span class="num">日本銀行の目標</span></button>
+              <button type="button" data-v="3" aria-pressed="false">3%<span class="num">2023〜25年ごろ</span></button>
+            </div>
+          </div>
+          <div class="field"><label for="svRate">銀行の利息（1年あたり・例）</label><div class="yen"><input id="svRate" type="number" inputmode="decimal" min="0" max="20" step="0.1" value="0.2"><span>%</span></div><p class="hint">利息の率は銀行や預け方でちがいます。0.2%はただの例です。</p></div>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label" id="svLabel">10年後</div>
+            <div class="value" id="svValue">—</div>
+            <p class="sub" id="svSub"></p>
+            <svg class="chart" id="svChart" viewBox="0 0 560 220" role="img" aria-label="貯金の金額と買う力の変化"></svg>
+            <div class="legend"><span style="--c:var(--accent)">通帳にのっている金額</span><span style="--c:var(--hot)">今の値段でいうと（買う力）</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="deeps">
+        <details class="deep" open>
+          <summary>本当にあったこと：2015年の1万円は、今いくらの価値？</summary>
+          <div class="body"><p id="svReal"></p></div>
+        </details>
+        <details class="deep">
+          <summary>「72の法則」で、ざっくり計算</summary>
+          <div class="body">
+            <p><b>72 ÷ 物価の上がり方（％）</b>で、物の値段がだいたい2倍になるまでの年数がわかります。毎年2％上がると、72÷2＝36年で値段は約2倍。つまり、お金の買う力は半分になります。</p>
+            <p>同じ式は利息にも使えます。利息が年6％なら、72÷6＝12年でお金はだいたい2倍です。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="kakei">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>07</span><span>単位：1万円</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 07</div>
+        <h2>家族が使うお金、1万円にちぢめると何に使ってる？</h2>
+        <p>国の<ruby>家計調査<rt>かけいちょうさ</rt></ruby>は、全国の約9千世帯に家計簿をつけてもらって、何にいくら使ったかを調べています。2人以上で暮らす家族の1か月の支出を「1万円」にちぢめて、100マスで見てみましょう。</p>
+      </div>
+      <div class="kakei-top">
+        <div class="field"><label for="kkYear">年</label><select id="kkYear"></select></div>
+        <div class="field"><label for="kkComp">くらべる年</label><select id="kkComp"></select></div>
+        <div class="kk-total" id="kkTotal" aria-live="polite"></div>
+      </div>
+      <div class="map-layout">
+        <div class="map-card">
+          <div class="waffle" id="waffle" role="img" aria-label="1万円を使い道で分けた100マス"></div>
+          <p class="hint">1マス＝100円。マスを押すと、その使い道がわかります。</p>
+        </div>
+        <div class="answer">
+          <div class="label">使い道（1か月・1世帯あたり）</div>
+          <div class="kk-list" id="kkList"></div>
+        </div>
+      </div>
+      <h3 style="margin-top:28px;font-size:19px">家計簿からわかる、くらしの変化</h3>
+      <div class="events" id="kkStories"></div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>「エンゲル係数」が44年ぶりの高さに</summary>
+          <div class="body">
+            <p>使ったお金のうち、食べ物に使った割合を<b>エンゲル係数</b>と言います。食べ物は節約しにくいので、物の値段が上がるとこの割合が上がりやすくなります。</p>
+            <p>総務省の発表では、2025年の2人以上の世帯のエンゲル係数は<b>28.6%</b>で、1981年以来44年ぶりの高さでした。上の100マスは費目別の金額をそのまま使っているため、食料の割合は発表の数字と少しちがいます。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="pay">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>08</span><span>単位：円</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 08</div>
+        <h2>初任給の「<ruby>額面<rt>がくめん</rt></ruby>」と「<ruby>手取<rt>てど</rt></ruby>り」は、なぜちがう？</h2>
+        <p>会社が決めた給料（額面）から、税金や保険料が引かれて、残りが口座に入ります（手取り）。何に、いくら引かれるのかを見てみましょう。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field">
+            <span class="label">月の給料（額面）</span>
+            <div class="seg" id="paySeg">
+              <button type="button" data-pay="207300" aria-pressed="false">高校卒の初任給（平均）<span class="num">207,300円</span></button>
+              <button type="button" data-pay="262300" aria-pressed="true">大学卒の初任給（平均）<span class="num">262,300円</span></button>
+            </div>
+            <div class="yen"><input id="payIn" type="number" inputmode="numeric" min="0" value="262300" aria-label="月の給料を自分で入力"><span>円／月</span></div>
+            <p class="hint">初任給の平均は厚生労働省「令和7年賃金構造基本統計調査」。</p>
+          </div>
+          <div class="field">
+            <span class="label">はたらきはじめて</span>
+            <div class="seg" id="yearSeg">
+              <button type="button" data-y="1" aria-pressed="true">1年目</button>
+              <button type="button" data-y="2" aria-pressed="false">2年目から</button>
+            </div>
+            <p class="hint">住民税は前の年の収入で決まるので、1年目はふつう引かれません。</p>
+          </div>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label">手取り（口座に入るお金）</div>
+            <div class="value" id="netValue">—</div>
+            <p class="sub" id="netSub"></p>
+            <div class="stack" id="stack" role="img" aria-label="額面の内わけ"></div>
+            <div class="deds" id="deds"></div>
+          </div>
+        </div>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>実は会社も、同じくらいのお金を払っている</summary>
+          <div class="body"><p>健康保険と厚生年金は、はたらく人と会社が<b>半分ずつ</b>払うしくみです。</p><p id="employerText"></p></div>
+        </details>
+        <details class="deep">
+          <summary>引かれたお金は、どこへ行くの？</summary>
+          <div class="body">
+            <p><b>健康保険</b>：病院の窓口で払うお金が3割ですむのは、残りをこの保険が出しているからです。</p>
+            <p><b>厚生年金</b>：お年寄りになったときや、病気・けがで障害が残ったときにもらえるお金のもとです。今はたらく人が払ったお金で、今のお年寄りを支えています。</p>
+            <p><b>雇用保険</b>：仕事をなくしたときや、育児休業のときにお金がもらえます。</p>
+            <p><b>子ども・子育て支援金</b>：2026年度から始まったしくみで、子育てをする家庭への支援に使われます。</p>
+            <p><b>所得税・住民税</b>：学校、道路、警察や消防など、みんなで使うもののために使われます。</p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary>この計算の前提（わかる人向け）</summary>
+          <div class="body">
+            <p>ボーナスなし、40歳未満（介護保険料なし）、扶養する家族なし、の<b>目安</b>です。保険料は2026年度の料率で計算しています。健康保険は協会けんぽの全国平均9.9%の半分（4.95%）、子ども・子育て支援金は0.23%の半分（0.115%）、厚生年金は18.3%の半分（9.15%）、雇用保険は一般の事業の労働者負担0.5%です。実際は「標準報酬月額」という区切りの金額にかけますが、ここでは額面にそのままかけています。</p>
+            <p>所得税は月給の12か月分を1年の収入とみなし、給与所得控除・基礎控除・社会保険料控除を引いた残りに税率（復興特別所得税をふくむ）をかけ、12で割っています。控除の額は2025年分の制度で計算しています。住民税は所得割10%と均等割（森林環境税をふくむ年5,000円）です。実際の給料明細とは数百円〜数千円ずれることがあります。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="quiz">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>09</span><span>単位：問</span></div>
+      <div class="ch-head">
+        <div class="q">QUIZ</div>
+        <h2>どっちが値上がりした？</h2>
+        <p>2015年から2025年までに、値上がりの割合が大きかったのはどちらでしょう。5問チャレンジ。答えはすべて本物の統計です。</p>
+      </div>
+      <div class="quiz" id="quizBox"></div>
+    </div>
+  </section>
+
+  <section class="ch" id="words">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：ことば</span></div>
+      <div class="ch-head">
+        <div class="q">WORDS</div>
+        <h2>ことば辞典</h2>
+        <p>ニュースで聞くお金のことばを、このサイトの数字を使って説明します。</p>
+      </div>
+      <div class="words" id="wordGrid"></div>
+    </div>
+  </section>
+
+  <section class="ch" id="stamps">
+    <div class="wrap">
+      <div class="stamp-card">
+        <div class="stamp-head">
+          <div>
+            <div class="q" style="color:var(--accent);font-weight:900;font-size:13px;letter-spacing:.08em">STAMP RALLY</div>
+            <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(24px,3.6vw,34px);line-height:1.35">物差しスタンプラリー</h2>
+            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。10こ全部あつめると「物差しはかせ」に認定！</p>
+          </div>
+          <div class="stamp-count" id="stampCount">0 / 10</div>
+        </div>
+        <div class="stamp-grid" id="stampGrid"></div>
+        <div id="cert"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="sources">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：出典</span></div>
+      <div class="ch-head">
+        <div class="q">DATA</div>
+        <h2>このサイトの数字の出どころ</h2>
+        <p>使っている数字は、すべて国や公的機関が公表している統計です。自分でも確かめられるように、元のページを書いておきます。</p>
+      </div>
+      <div class="sources">
+        <div class="src"><span class="what">消費者物価指数（全国・年平均、2025年＝100）</span><span class="when">1970〜2025年</span><span class="from">総務省統計局「2025年基準消費者物価指数 長期時系列データ」（政府統計の総合窓口 e-Stat） <a href="https://www.e-stat.go.jp/stat-search/files?tstat=000001243876" target="_blank" rel="noopener">e-stat.go.jp</a></span></div>
+        <div class="src"><span class="what">品目の値段（東京都区部・年平均）</span><span class="when">2010・2015・2020・2025年</span><span class="from">総務省統計局「小売物価統計調査（動向編）」調査品目の月別価格及び年平均価格 <a href="https://www.stat.go.jp/data/kouri/doukou/3.html" target="_blank" rel="noopener">stat.go.jp</a></span></div>
+        <div class="src"><span class="what">都道府県の値段（県庁所在市・年平均）と最低賃金</span><span class="when">2025年・2026年度</span><span class="from">総務省統計局「小売物価統計調査（動向編）」、厚生労働省「令和8年度地域別最低賃金全国一覧」 <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
+        <div class="src"><span class="what">地域別最低賃金（全国加重平均額）</span><span class="when">2002〜2026年度</span><span class="from">厚生労働省 <a href="https://www.mhlw.go.jp/stf/newpage_75950.html" target="_blank" rel="noopener">令和8年度の改定</a>（全国平均1,177円、最高1,280円、最低1,085円）、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">地域別最低賃金の全国一覧</a></span></div>
+        <div class="src"><span class="what">家族（2人以上の世帯）の支出</span><span class="when">2000〜2025年</span><span class="from">総務省統計局「家計調査 長期時系列表 品目分類（年）」（e-Stat）、エンゲル係数は総務省の2025年平均の発表（28.6%） <a href="https://www.stat.go.jp/data/kakei/" target="_blank" rel="noopener">stat.go.jp/data/kakei</a></span></div>
+        <div class="src"><span class="what">新規学卒者の初任給</span><span class="when">2025年</span><span class="from">厚生労働省「令和7年賃金構造基本統計調査」 <a href="https://www.mhlw.go.jp/toukei/list/chinginkouzou.html" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
+        <div class="src"><span class="what">保険料率</span><span class="when">2026年度</span><span class="from">全国健康保険協会 <a href="https://www.kyoukaikenpo.or.jp/" target="_blank" rel="noopener">kyoukaikenpo.or.jp</a>、こども家庭庁（子ども・子育て支援金）、厚生労働省（雇用保険料率）、日本年金機構 <a href="https://www.nenkin.go.jp/" target="_blank" rel="noopener">nenkin.go.jp</a></span></div>
+      </div>
+      <div class="rules">
+        <div><b>年に1回、更新します</b><p>前の年の物価指数と品目の値段が出る毎年春と、最低賃金が決まる秋に見直します。</p></div>
+        <div><b>計算は「目安」です</b><p>平均の数字を使っているので、一人ひとりの値段や給料とはちがいます。品目の値段は東京23区の平均です。</p></div>
+        <div><b>まちがいを見つけたら</b><p>数字や説明のまちがいに気づいたら、作った人に教えてください。確かめてから直します。</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。</span><span>最終更新：2026年10月11日</span></div></footer>
+
+<script src="okane-data.js"></script>
+<script src="okane-app.js"></script>
+<script src="okane-charts.js"></script>
+<script src="okane-map.js"></script>
+<script src="okane-kakei.js"></script>
+<script src="okane-ux.js"></script>
+</body>
+</html>
