@@ -179,7 +179,7 @@ svg.chart { width: 100%; height: auto; display: block; overflow: visible; }
 svg.chart text { font-family: var(--font-num); font-size: 11px; fill: var(--muted); }
 svg.chart .lbl { font-family: var(--font-body); font-size: 12px; font-weight: 700; fill: var(--ink); }
 svg.chart .ev { font-family: var(--font-body); font-size: 11px; fill: var(--ink-2); }
-.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 8px 10px; font-size: 12px; line-height: 1.55; white-space: nowrap; transform: translate(-50%, -110%); z-index: 5; }
+.tip { position: absolute; pointer-events: none; background: var(--inv); color: var(--inv-ink); border-radius: 8px; padding: 8px 10px; font-size: 12px; line-height: 1.55; white-space: nowrap; transform: translate(-50%, -110%); z-index: 5; }
 .tip b { font-family: var(--font-num); font-weight: 500; }
 .linkbtn { background: none; border: 0; color: var(--accent); font-size: 13px; font-weight: 700; cursor: pointer; padding: 4px 0; justify-self: start; }
 .table-wrap { overflow: auto; max-height: 360px; }
@@ -374,7 +374,7 @@ body.app .chapters { display: none; }
 .tabbar a { flex: none; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink-2); font-size: 14px; font-weight: 700; padding: 7px 14px; border-radius: 999px; border: 1.5px solid transparent; }
 .tabbar a .ti { font-family: var(--font-display); font-size: 12px; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; background: var(--soft); color: var(--ink-2); }
 .tabbar a:hover { background: var(--soft); color: var(--ink); }
-.tabbar a[aria-current="page"] { background: var(--ink); color: var(--paper); }
+.tabbar a[aria-current="page"] { background: var(--inv); color: var(--inv-ink); }
 .tabbar a[aria-current="page"] .ti { background: var(--ruler); color: var(--ruler-ink); }
 .tabbar a .tl-s { display: none; }
 @media (max-width: 760px) {
@@ -391,8 +391,8 @@ body.app .chapters { display: none; }
 .view-foot a { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); border: 1.5px solid var(--line); background: var(--card); border-radius: 999px; padding: 10px 18px; font-weight: 700; font-size: 15px; }
 .view-foot a:hover { border-color: var(--accent); }
 .view-foot a small { display: block; font-size: 12px; color: var(--muted); font-weight: 500; line-height: 1.2; }
-.view-foot .nx { margin-left: auto; background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.view-foot .nx small { color: color-mix(in srgb, var(--paper) 70%, transparent); }
+.view-foot .nx { margin-left: auto; background: var(--inv); color: var(--inv-ink); border-color: var(--inv); }
+.view-foot .nx small { color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
 .part-band { margin-top: 0; }
 @media (prefers-reduced-motion: no-preference) { .view-in { animation: viewin .28s ease-out both; } }
 @keyframes viewin { from { opacity: .4; transform: translateY(8px); } to { opacity: 1; transform: none; } }
@@ -416,19 +416,19 @@ body.app .chapters { display: none; }
 .mc-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 18px; align-items: start; }
 @media (max-width: 800px) { .mc-layout { grid-template-columns: minmax(0, 1fr); } }
 .mc-card-wrap { display: grid; gap: 12px; min-width: 0; }
-.mc-card { position: relative; overflow: hidden; border-radius: 20px; background: var(--ink); color: var(--paper); padding: 22px 22px 26px; display: grid; gap: 14px; }
+.mc-card { position: relative; overflow: hidden; border-radius: 20px; background: var(--inv); color: var(--inv-ink); padding: 22px 22px 26px; display: grid; gap: 14px; }
 .mc-card::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 16px; background-color: var(--ruler); background-image: repeating-linear-gradient(90deg, var(--ruler-ink) 0 1.5px, transparent 1.5px 60px), repeating-linear-gradient(90deg, var(--ruler-ink) 0 1px, transparent 1px 12px); background-size: 100% 10px, 100% 5px; background-repeat: no-repeat; }
 .mc-top { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; flex-wrap: wrap; }
 .mc-name { font-family: var(--font-display); font-size: clamp(22px, 3vw, 28px); line-height: 1.3; }
-.mc-sub { font-size: 13px; color: color-mix(in srgb, var(--paper) 72%, transparent); }
+.mc-sub { font-size: 13px; color: color-mix(in srgb, var(--inv-ink) 72%, transparent); }
 .mc-rows { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 @media (max-width: 480px) { .mc-rows { grid-template-columns: minmax(0, 1fr); } }
-.mc-row { background: color-mix(in srgb, var(--paper) 9%, transparent); border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; }
-.mc-row .k { font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--paper) 70%, transparent); }
+.mc-row { background: color-mix(in srgb, var(--inv-ink) 9%, transparent); border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; }
+.mc-row .k { font-size: 12px; font-weight: 700; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
 .mc-row .v { font-family: var(--font-display); font-size: clamp(22px, 3vw, 28px); line-height: 1.2; color: var(--ruler); }
-.mc-row .v small { font-size: .5em; color: var(--paper); margin-left: 2px; }
-.mc-row .s { font-size: 12px; color: color-mix(in srgb, var(--paper) 70%, transparent); line-height: 1.5; }
-.mc-empty { font-size: 14px; color: color-mix(in srgb, var(--paper) 75%, transparent); }
+.mc-row .v small { font-size: .5em; color: var(--inv-ink); margin-left: 2px; }
+.mc-row .s { font-size: 12px; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); line-height: 1.5; }
+.mc-empty { font-size: 14px; color: color-mix(in srgb, var(--inv-ink) 75%, transparent); }
 
 .sheet-tools { margin-top: 20px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .sheet { margin-top: 14px; background: #ffffff; color: #1b1f33; border: 1px solid var(--line); border-radius: 6px; padding: 28px 30px; display: grid; gap: 22px; max-width: 820px; box-shadow: 0 2px 0 var(--line); }
@@ -561,14 +561,14 @@ dialog.find::backdrop { background: color-mix(in srgb, var(--ink) 45%, transpare
 .course .go { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
 .course .go .hint { font-size: 13px; }
 .unit-panel .field:has(#sizeSeg) { grid-column: 1 / -1; }
-.course-bar { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 35; width: min(720px, calc(100vw - 24px)); background: var(--ink); color: var(--paper); border-radius: 16px; padding: 10px 12px 10px 16px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; box-shadow: 0 10px 28px color-mix(in srgb, var(--ink) 35%, transparent); }
-.course-bar .cb-t { font-size: 12px; color: color-mix(in srgb, var(--paper) 70%, transparent); font-weight: 700; }
+.course-bar { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 35; width: min(720px, calc(100vw - 24px)); background: var(--inv); color: var(--inv-ink); border-radius: 16px; padding: 10px 12px 10px 16px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; box-shadow: 0 10px 28px color-mix(in srgb, var(--ink) 35%, transparent); }
+.course-bar .cb-t { font-size: 12px; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); font-weight: 700; }
 .course-bar .cb-n { font-weight: 700; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .course-bar .cb-dots { display: flex; gap: 4px; margin-top: 4px; }
-.course-bar .cb-dots i { width: 18px; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--paper) 25%, transparent); }
+.course-bar .cb-dots i { width: 18px; height: 4px; border-radius: 2px; background: color-mix(in srgb, var(--inv-ink) 25%, transparent); }
 .course-bar .cb-dots i.on { background: var(--ruler); }
 .course-bar .cb-b { display: flex; gap: 6px; grid-row: 1 / 3; grid-column: 2; }
-.course-bar button { border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 14px; cursor: pointer; background: color-mix(in srgb, var(--paper) 14%, transparent); color: var(--paper); }
+.course-bar button { border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: 14px; cursor: pointer; background: color-mix(in srgb, var(--inv-ink) 14%, transparent); color: var(--inv-ink); }
 .course-bar button.nx { background: var(--ruler); color: var(--ruler-ink); }
 body.in-course { padding-bottom: 96px; }
 body.in-course .to-top { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
@@ -579,6 +579,11 @@ body.in-course .to-top { bottom: calc(96px + env(safe-area-inset-bottom, 0px)); 
 }
 @media (max-width: 480px) { .course-bar .cb-b .pv { display: none; } }
 body.bigtext main, body.bigtext .course-bar { zoom: 1.14; }
+
+/* 濃い色のパネル（明るい表示でも暗い表示でも濃い紺のまま。黄色の文字が読みやすいように） */
+:root { --inv: #191f45; --inv-ink: #f2f3f7; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --inv: #2b3370; --inv-ink: #f2f3f7; } }
+:root[data-theme="dark"] { --inv: #2b3370; --inv-ink: #f2f3f7; }
 
 /* ===== v15：今の物価・データの新しさ ===== */
 .nowcpi { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 6px 16px; align-items: center; text-decoration: none; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--hot); border-radius: var(--r); padding: 12px 16px; }
@@ -605,20 +610,31 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .part-band .chs a { display: inline-flex; align-items: center; gap: 6px; }
 .course ol li { display: inline-flex; align-items: center; gap: 4px; }
 
+/* 学校にかかるお金の横棒 */
+.sc-bars { display: grid; gap: 4px; }
+.sc-row { display: grid; grid-template-columns: 140px minmax(0, 1fr) 72px; gap: 10px; align-items: center; border: 0; background: none; padding: 4px 6px; border-radius: 8px; cursor: pointer; text-align: left; width: 100%; font: inherit; color: var(--ink); }
+.sc-row:hover, .sc-row.on { background: var(--soft); }
+.sc-row.on .nm { font-weight: 900; }
+.sc-row .nm { font-size: 14px; font-weight: 700; }
+.sc-row .tr { display: flex; gap: 2px; height: 18px; min-width: 6px; }
+.sc-row .tr i { display: block; border-radius: 3px; }
+.sc-row .v { font-family: var(--font-num); font-size: 13px; text-align: right; white-space: nowrap; }
+@media (max-width: 480px) { .sc-row { grid-template-columns: 96px minmax(0, 1fr) 62px; } .sc-row .nm { font-size: 12px; } }
+
 /* 読んでいる位置のバー */
 .readbar { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--ruler); transform-origin: left center; transform: scaleX(0); pointer-events: none; }
 
 /* パートの帯 */
-.part-band { scroll-margin-top: 100px; background: var(--ink); color: var(--paper); margin-top: 24px; }
+.part-band { scroll-margin-top: 100px; background: var(--inv); color: var(--inv-ink); margin-top: 24px; }
 .part-band .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 22px; align-items: center; padding-block: 28px; }
 .part-band .chs { grid-column: 1 / -1; }
 @media (max-width: 640px) { .part-band .wrap { grid-template-columns: minmax(0, 1fr); } }
 .part-band .pn { font-family: var(--font-display); font-size: 15px; color: var(--ruler-ink); background: var(--ruler); border-radius: 8px; padding: 6px 12px; letter-spacing: .08em; justify-self: start; }
 .part-band h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 3.6vw, 34px); line-height: 1.3; }
-.part-band p { color: color-mix(in srgb, var(--paper) 78%, transparent); font-size: 15px; }
+.part-band p { color: color-mix(in srgb, var(--inv-ink) 78%, transparent); font-size: 15px; }
 .part-band .chs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-.part-band .chs a { color: var(--paper); text-decoration: none; font-size: 13px; font-weight: 700; border: 1px solid color-mix(in srgb, var(--paper) 35%, transparent); border-radius: 999px; padding: 4px 12px; }
-.part-band .chs a:hover { background: color-mix(in srgb, var(--paper) 12%, transparent); }
+.part-band .chs a { color: var(--inv-ink); text-decoration: none; font-size: 13px; font-weight: 700; border: 1px solid color-mix(in srgb, var(--inv-ink) 35%, transparent); border-radius: 999px; padding: 4px 12px; }
+.part-band .chs a:hover { background: color-mix(in srgb, var(--inv-ink) 12%, transparent); }
 .part-band .chs { justify-content: flex-start !important; }
 
 /* もくじ（パートごと） */
@@ -628,7 +644,7 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .toc-part { display: grid; gap: 10px; }
 .toc-part + .toc-part { margin-top: 18px; }
 .toc-part-h { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.toc-part-h .pn { font-family: var(--font-display); font-size: 13px; background: var(--ink); color: var(--paper); border-radius: 6px; padding: 2px 10px; letter-spacing: .06em; }
+.toc-part-h .pn { font-family: var(--font-display); font-size: 13px; background: var(--inv); color: var(--inv-ink); border-radius: 6px; padding: 2px 10px; letter-spacing: .06em; }
 .toc-part-h b { font-size: 18px; }
 .toc-part-h span.d { font-size: 14px; color: var(--muted); }
 
@@ -673,7 +689,7 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .next-ch a small { color: var(--muted); font-weight: 500; font-size: 12px; display: block; line-height: 1.2; }
 
 /* 上へもどる */
-.to-top { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 25; width: 54px; height: 54px; border-radius: 50%; background: var(--ink); color: var(--paper); text-decoration: none; display: grid; place-items: center; align-content: center; font-size: 18px; line-height: 1; box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 30%, transparent); }
+.to-top { position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 25; width: 54px; height: 54px; border-radius: 50%; background: var(--inv); color: var(--inv-ink); text-decoration: none; display: grid; place-items: center; align-content: center; font-size: 18px; line-height: 1; box-shadow: 0 4px 14px color-mix(in srgb, var(--ink) 30%, transparent); }
 .to-top span { font-size: 10px; font-weight: 700; margin-top: 2px; }
 
 /* かんたん表示：くわしい説明をたたむ */
@@ -684,13 +700,13 @@ body.simple .ch-head p { font-size: 16px; }
 body.simple .easy-note { display: block; font-size: 13px; color: var(--muted); margin-top: 10px; }
 
 /* 今日の発見 */
-.facts { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px 16px; align-items: center; background: var(--ink); color: var(--paper); border-radius: var(--r); padding: 14px 18px; }
+.facts { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px 16px; align-items: center; background: var(--inv); color: var(--inv-ink); border-radius: var(--r); padding: 14px 18px; }
 @media (max-width: 640px) { .facts { grid-template-columns: minmax(0, 1fr) auto; } .facts-text { grid-column: 1 / -1; grid-row: 2; } }
 .facts-tag { font-size: 12px; font-weight: 900; letter-spacing: .1em; background: var(--ruler); color: var(--ruler-ink); border-radius: 999px; padding: 3px 10px; justify-self: start; }
 .facts-text { font-size: 15px; line-height: 1.6; }
 .facts-text b { color: var(--ruler); font-family: var(--font-num); font-weight: 500; }
 .facts-nav { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-.facts-nav .pill-btn { padding: 2px 12px; font-size: 18px; line-height: 1.2; background: transparent; color: var(--paper); border-color: color-mix(in srgb, var(--paper) 35%, transparent); }
+.facts-nav .pill-btn { padding: 2px 12px; font-size: 18px; line-height: 1.2; background: transparent; color: var(--inv-ink); border-color: color-mix(in srgb, var(--inv-ink) 35%, transparent); }
 @media (max-width: 560px) { #stampPill { display: none; } }
 
 /* 家計 */
@@ -764,7 +780,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">円</span><span class="logo-t"><b>おかねの物差し</b><small>お金を、生活の単位ではかるサイト</small></span></a>
       <div class="my-unit">
         <a class="pill-btn" href="#myunit" id="unitPill" title="あなたの物差しを変える">時給 <span class="num" id="pillWage">1,177円</span></a>
-        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/15</span></a>
+        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/16</span></a>
         <button class="pill-btn" id="findBtn" type="button" aria-haspopup="dialog" title="ことばでさがす"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lg">さがす</span></button>
         <button class="pill-btn" id="easyToggle" type="button" aria-pressed="false" title="くわしい説明をたたんで、大事なところだけ表示します">かんたん<span class="lg">表示</span></button>
         <button class="pill-btn" id="furiToggle" type="button" aria-pressed="false">ふりがな</button>
@@ -779,15 +795,16 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a href="#save"><span class="n">06</span>貯金とインフレ</a>
       <a href="#fx"><span class="n">07</span>円安・円高</a>
       <a href="#kakei"><span class="n">08</span>家族の1万円</a>
-      <a href="#pay"><span class="n">09</span>手取りのひみつ</a>
-      <a href="#agewage"><span class="n">10</span>年れいと給料</a>
-      <a href="#big"><span class="n">11</span>1人あたりいくら？</a>
-      <a href="#tax"><span class="n">12</span>消費税</a>
-      <a href="#diary"><span class="n">13</span>おこづかい帳</a>
-      <a href="#quiz"><span class="n">14</span>クイズ</a>
-      <a href="#words"><span class="n">15</span>ことば辞典</a>
-      <a href="#sheet"><span class="n">16</span>自由研究ワークシート</a>
-      <a href="#sources"><span class="n">17</span>データの出どころ</a>
+      <a href="#school"><span class="n">09</span>学校にかかるお金</a>
+      <a href="#pay"><span class="n">10</span>手取りのひみつ</a>
+      <a href="#agewage"><span class="n">11</span>年れいと給料</a>
+      <a href="#big"><span class="n">12</span>1人あたりいくら？</a>
+      <a href="#tax"><span class="n">13</span>消費税</a>
+      <a href="#diary"><span class="n">14</span>おこづかい帳</a>
+      <a href="#quiz"><span class="n">15</span>クイズ</a>
+      <a href="#words"><span class="n">16</span>ことば辞典</a>
+      <a href="#sheet"><span class="n">17</span>自由研究ワークシート</a>
+      <a href="#sources"><span class="n">18</span>データの出どころ</a>
     </nav>
   </div>
 </header>
@@ -902,7 +919,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
     <section class="toc" id="toc" aria-labelledby="tocTitle">
       <div class="toc-head">
-        <h2 id="tocTitle">もくじ：4つのパート、16の章</h2>
+        <h2 id="tocTitle">もくじ：4つのパート、17の章</h2>
         <p>どこから読んでもだいじょうぶ。気になる問いを押してください。答えを先に書いておきます。</p>
       </div>
       <div class="toc-grid" id="tocGrid"></div>
@@ -1285,11 +1302,67 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </div>
   </section>
 
-  <section class="ch" id="pay">
+  <section class="ch" id="school">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>09</span><span>単位：円</span></div>
+      <div class="rule-band" aria-hidden="true"><span>09</span><span>単位：円／年</span></div>
       <div class="ch-head">
         <div class="q">QUESTION 09</div>
+        <h2>学校に通うのに、1年でいくらかかる？</h2>
+        <p>文部科学省の「子供の学習費調査」は、子ども1人の勉強のために、家族が1年にいくら使っているかを調べています。授業料や教材だけでなく、給食や、塾・習いごとのお金もふくみます。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><span class="label">学校</span><div class="seg" id="scLevel">
+            <button type="button" data-v="es" aria-pressed="true">小学校</button>
+            <button type="button" data-v="jh" aria-pressed="false">中学校</button>
+            <button type="button" data-v="hs" aria-pressed="false">高校</button>
+            <button type="button" data-v="kg" aria-pressed="false">幼稚園</button>
+          </div></div>
+          <div class="field"><span class="label">公立・私立</span><div class="seg" id="scType">
+            <button type="button" data-v="pub" aria-pressed="true">公立</button>
+            <button type="button" data-v="pri" aria-pressed="false">私立</button>
+          </div></div>
+          <p class="hint">「令和5年度 子供の学習費調査」の平均です（文部科学省が令和8年1月に数字を訂正したあとの値）。家によって大きくちがいます。</p>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label" id="scLabel">—</div>
+            <div class="value" id="scValue">—</div>
+            <p class="sub" id="scSub"></p>
+            <div class="stack" id="scBar" role="img" aria-label="学習費の内わけ"></div>
+            <div class="deds" id="scList"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top"><h3>学校ごとの1年の学習費</h3><div class="legend"><span class="box" style="--c:var(--seg1)">学校教育費</span><span class="box" style="--c:var(--seg6)">給食費</span><span class="box" style="--c:var(--seg3)">塾・習いごとなど</span></div></div>
+        <div class="sc-bars" id="scBars"></div>
+        <p id="scTotal" style="color:var(--ink-2)"></p>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>「学校教育費」と「学校外活動費」って？</summary>
+          <div class="body">
+            <p><b>学校教育費</b>は、授業料、教科書以外の教材、遠足や修学旅行、制服、通学の交通費など、学校に通うためのお金です。公立の小学校・中学校は授業料がかからないので少なめです。</p>
+            <p><b>学校外活動費</b>は、塾や家庭教師、参考書などの勉強のお金と、スポーツ・音楽・習字などの習いごとのお金です。公立小学校では、学校教育費よりもこちらのほうが多くなっています。</p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary>高い学費を助けるしくみはあるの？</summary>
+          <div class="body">
+            <p>高校の授業料には、国が家庭に代わって学校に払う「高等学校等就学支援金」などのしくみがあります。大学や専門学校にも、返さなくてよい給付型の奨学金や、授業料を減らす制度があります。</p>
+            <p>くわしい条件は、年度によって変わります。進学を考えるときは、学校や文部科学省のホームページで、そのときの制度を確かめましょう。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="pay">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：円</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 10</div>
         <h2>初任給の「<ruby>額面<rt>がくめん</rt></ruby>」と「<ruby>手取<rt>てど</rt></ruby>り」は、なぜちがう？</h2>
         <p>会社が決めた給料（額面）から、税金や保険料が引かれて、残りが口座に入ります（手取り）。何に、いくら引かれるのかを見てみましょう。</p>
       </div>
@@ -1351,9 +1424,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="agewage">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：千円／月</span></div>
+      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：千円／月</span></div>
       <div class="ch-head">
-        <div class="q">QUESTION 10</div>
+        <div class="q">QUESTION 11</div>
         <h2>大人になったら、給料はどう変わる？</h2>
         <p>国の<ruby>賃金構造基本統計調査<rt>ちんぎんこうぞうきほんとうけいちょうさ</rt></ruby>では、フルタイムではたらく人の給料を、年れいごとに調べています。何歳くらいで、いくらもらっている人が多いのか、見てみましょう。</p>
       </div>
@@ -1409,9 +1482,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="big">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：兆円</span></div>
+      <div class="rule-band" aria-hidden="true"><span>12</span><span>単位：兆円</span></div>
       <div class="ch-head">
-        <div class="q">QUESTION 11</div>
+        <div class="q">QUESTION 12</div>
         <h2>ニュースの「○兆円」、1人あたりいくら？</h2>
         <p>国の予算や借金は「兆円」という単位で出てきて、大きすぎて想像できません。日本に住む人の数でわって「1人あたり」に直したり、1万円札を積み上げた高さにしたりして、大きさをつかんでみましょう。</p>
       </div>
@@ -1468,9 +1541,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="tax">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>12</span><span>単位：％</span></div>
+      <div class="rule-band" aria-hidden="true"><span>13</span><span>単位：％</span></div>
       <div class="ch-head">
-        <div class="q">QUESTION 12</div>
+        <div class="q">QUESTION 13</div>
         <h2>おにぎり1個の中に、消費税はいくら入ってる？</h2>
         <p>お店で買い物をするとき、子どもも大人も同じように払っているのが<ruby>消費税<rt>しょうひぜい</rt></ruby>です。食べ物は8%、それ以外は10%。かごに品物を入れて、レシートで消費税をたしかめてみましょう。</p>
       </div>
@@ -1533,9 +1606,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="diary">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>13</span><span>単位：円／月</span></div>
+      <div class="rule-band" aria-hidden="true"><span>14</span><span>単位：円／月</span></div>
       <div class="ch-head">
-        <div class="q">QUESTION 13</div>
+        <div class="q">QUESTION 14</div>
         <h2>わたしのおこづかい、何に使ってる？</h2>
         <p>使ったお金を記録すると、使い道の割合、払った消費税、はたらく時間にするとどれくらいかが、自動でわかります。国の家計調査と同じように、自分の「家計簿」をつけてみましょう。記録は、このブラウザの中にだけ保存されます。</p>
       </div>
@@ -1583,7 +1656,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="quiz">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>14</span><span>単位：問</span></div>
+      <div class="rule-band" aria-hidden="true"><span>15</span><span>単位：問</span></div>
       <div class="ch-head">
         <div class="q">QUIZ</div>
         <h2>どっちが値上がりした？</h2>
@@ -1595,7 +1668,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="words">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>15</span><span>単位：ことば</span></div>
+      <div class="rule-band" aria-hidden="true"><span>16</span><span>単位：ことば</span></div>
       <div class="ch-head">
         <div class="q">WORDS</div>
         <h2>ことば辞典</h2>
@@ -1607,7 +1680,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="sheet">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>16</span><span>単位：ページ</span></div>
+      <div class="rule-band" aria-hidden="true"><span>17</span><span>単位：ページ</span></div>
       <div class="ch-head">
         <div class="q">WORKSHEET</div>
         <h2>自由研究ワークシート</h2>
@@ -1647,9 +1720,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <div>
             <div class="q" style="color:var(--accent);font-weight:900;font-size:13px;letter-spacing:.08em">STAMP RALLY</div>
             <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(24px,3.6vw,34px);line-height:1.35">物差しスタンプラリー</h2>
-            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。15こ全部あつめると「物差しはかせ」に認定！</p>
+            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。16こ全部あつめると「物差しはかせ」に認定！</p>
           </div>
-          <div class="stamp-count" id="stampCount">0 / 15</div>
+          <div class="stamp-count" id="stampCount">0 / 16</div>
         </div>
         <div class="stamp-grid" id="stampGrid"></div>
         <div id="cert"></div>
@@ -1659,7 +1732,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="sources">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>17</span><span>単位：出典</span></div>
+      <div class="rule-band" aria-hidden="true"><span>18</span><span>単位：出典</span></div>
       <div class="ch-head">
         <div class="q">DATA</div>
         <h2>このサイトの数字の出どころ</h2>
@@ -1676,6 +1749,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <div class="src"><span class="what">都道府県のくらしの物価の高さ（全国平均＝100）</span><span class="when">2025年</span><span class="from">総務省統計局「小売物価統計調査（構造編）令和7年分 消費者物価地域差指数」（数字は香川県統計調査課の公開表から） <a href="https://www.stat.go.jp/data/kouri/kouzou/index.html" target="_blank" rel="noopener">stat.go.jp</a></span></div>
         <div class="src"><span class="what">都道府県の値段（県庁所在市・年平均）と最低賃金</span><span class="when">2025年・2026年度</span><span class="from">総務省統計局「小売物価統計調査（動向編）」、厚生労働省「令和8年度地域別最低賃金全国一覧」 <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
         <div class="src"><span class="what">地域別最低賃金（全国加重平均額）</span><span class="when">2002〜2026年度</span><span class="from">厚生労働省 <a href="https://www.mhlw.go.jp/stf/newpage_75950.html" target="_blank" rel="noopener">令和8年度の改定</a>（全国平均1,177円、最高1,280円、最低1,085円）、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">地域別最低賃金の全国一覧</a></span></div>
+        <div class="src"><span class="what">学校にかかるお金（子ども1人・1年）</span><span class="when">令和5年度</span><span class="from">文部科学省「子供の学習費調査」（令和8年1月16日の訂正後の数字） <a href="https://www.mext.go.jp/b_menu/toukei/chousa03/gakushuuhi/1268091.htm" target="_blank" rel="noopener">mext.go.jp</a></span></div>
         <div class="src"><span class="what">家族（2人以上の世帯）の支出</span><span class="when">2000〜2025年</span><span class="from">総務省統計局「家計調査 長期時系列表 品目分類（年）」（e-Stat）、エンゲル係数は総務省の2025年平均の発表（28.6%） <a href="https://www.stat.go.jp/data/kakei/" target="_blank" rel="noopener">stat.go.jp/data/kakei</a></span></div>
         <div class="src"><span class="what">初任給・年れいごとの給料</span><span class="when">2025年</span><span class="from">厚生労働省「令和7年賃金構造基本統計調査」 <a href="https://www.mhlw.go.jp/toukei/list/chinginkouzou.html" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
         <div class="src"><span class="what">保険料率</span><span class="when">2026年度</span><span class="from">全国健康保険協会 <a href="https://www.kyoukaikenpo.or.jp/" target="_blank" rel="noopener">kyoukaikenpo.or.jp</a>、こども家庭庁（子ども・子育て支援金）、厚生労働省（雇用保険料率）、日本年金機構 <a href="https://www.nenkin.go.jp/" target="_blank" rel="noopener">nenkin.go.jp</a></span></div>
@@ -1704,6 +1778,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-charts.js"></script>
 <script src="okane-map.js"></script>
 <script src="okane-kakei.js"></script>
+<script src="okane-school.js"></script>
 <script src="okane-big.js"></script>
 <script src="okane-me.js"></script>
 <script src="okane-tax.js"></script>

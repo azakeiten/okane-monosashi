@@ -10,6 +10,7 @@
     save: '<path d="M5 12a7 6 0 0 1 13-2h2v4h-2a7 6 0 0 1-3 3v3h-3v-2h-3v2H6v-3a6 6 0 0 1-1-5z"/><path d="M10 7h4"/><circle cx="15" cy="11" r=".6" fill="currentColor"/>',
     fx: '<circle cx="12" cy="12" r="9"/><path d="M15 9.2a3 3 0 0 0-2.6-1.7h-.9a2.3 2.3 0 0 0 0 4.6h1a2.3 2.3 0 0 1 0 4.6h-.9A3 3 0 0 1 9 15M12 5.5v2M12 16.5v2"/>',
     kakei: '<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+    school: '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/>',
     pay: '<path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3M9 10h6M9 14h6M9 18h3"/>',
     agewage: '<path d="M3 20h5v-4h5v-4h5V8h3"/><path d="M17 4h4v4"/>',
     big: '<path d="M3 21h18M4 10h16M12 3l9 5H3z"/><path d="M6.5 10v8M10.5 10v8M13.5 10v8M17.5 10v8"/>',

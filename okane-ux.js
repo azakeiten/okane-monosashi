@@ -31,6 +31,7 @@
     kakei: () => `家族は1か月に平均<b>${yen(K["消費支出"][ky1 - KY] / 12)}円</b>を使い、そのうち<b>約${Math.round(K["食料"][ky1 - KY] / K["消費支出"][ky1 - KY] * 10)}割</b>が食べ物です。`,
     save: () => `物価が毎年2%上がると、1万円で買えるものは10年後に<b>約${yen(Math.round(10000 / Math.pow(1.02, 10) / 100) * 100)}円ぶん</b>に減ります。`,
     pay: () => { const r = D.OK.calcPay(262300, 1); return `大学卒の初任給<b>262,300円</b>でも、口座に入るのは<b>約${Math.round(r.net / 10000)}万円</b>。約<b>${Math.round((1 - r.net / 262300) * 100)}%</b>が税金と保険料です。`; },
+    school: () => { const g = (id) => D.SCHOOL.find((s) => s.id === id).total; return `1年の学習費は、公立小学校で<b>約${Math.round(g("es-pub") / 1e4)}万円</b>、私立小学校で<b>約${Math.round(g("es-pri") / 1e4)}万円</b>。公立小学校では、塾や習いごとのお金がいちばん多くなっています。`; },
     agewage: () => { const A = D.AGEWAGE, pk = A.all.indexOf(Math.max(...A.all)); return `20〜24歳の給料は平均<b>月${yen(A.all[1] * 1000)}円</b>。いちばん多いのは${A.ages[pk]}の<b>月${yen(A.all[pk] * 1000)}円</b>（約${(A.all[pk] / A.all[1]).toFixed(1)}倍）で、60歳をすぎると下がります。`; },
     big: () => { const P = D.POPULATION.value, m = (v) => (v / P / 1e4).toLocaleString("ja-JP", { maximumFractionDigits: 1 }); return `国の予算122.3兆円は、1人あたり<b>約${m(D.BIG[0].value)}万円</b>。国の借金1,145兆円は、1人あたり<b>約${Math.round(D.BIG[3].value / P / 1e4).toLocaleString()}万円</b>です。`; },
     fx: () => { const F = D.FX, y1 = D.FX_FIRST_YEAR + F.length - 1, lo = Math.min(...F), ly = D.FX_FIRST_YEAR + F.indexOf(lo), now = F[F.length - 1]; return `${y1}年の1ドルは平均<b>${now.toFixed(1)}円</b>。いちばん円高だった${ly}年（${lo.toFixed(1)}円）の約${(now / lo).toFixed(1)}倍で、100ドルの物は<b>約${yen(100 * lo)}円→約${yen(100 * now)}円</b>になりました。`; },
@@ -58,7 +59,7 @@
   const PARTS = [
     { t: "自分の時間で、くらべる", d: "値段を「はたらく時間」に直して、品物や都道府県をくらべます。", ids: ["hours", "map", "rank"] },
     { t: "昔と今を、さかのぼる", d: "物価・給料・貯金の価値・円の値打ちが、時代とともにどう変わったかを見ます。", ids: ["time", "race", "save", "fx"] },
-    { t: "くらしの、しくみを知る", d: "家族と自分のお金の使い道、給料から引かれるお金、国の大きなお金、消費税のしくみ。", ids: ["kakei", "pay", "agewage", "big", "tax", "diary"] },
+    { t: "くらしの、しくみを知る", d: "家族と自分のお金の使い道、学校にかかるお金、給料から引かれるお金、国の大きなお金、消費税のしくみ。", ids: ["kakei", "school", "pay", "agewage", "big", "tax", "diary"] },
     { t: "わかったことを、たしかめる", d: "クイズ、ことば辞典、自由研究ワークシート、スタンプラリーで、ふりかえりましょう。", ids: ["quiz", "words", "sheet"] },
   ];
   const chNo = (id) => { const s = $(id), b = s && s.querySelector(".rule-band span"); return b ? +b.textContent : ""; };
@@ -81,7 +82,7 @@
     const got = new Set(store.get("stamps", []));
     $("tocGrid").innerHTML = PARTS.map((p, i) => {
       const cards = p.ids.map((id) => card(id, chNo(id), chTitle(id), ANSWERS[id](), got.has(id)));
-      if (i === PARTS.length - 1) cards.push(card("stamps", "★", "物差しスタンプラリー", `章を読むとスタンプ。<b>${got.size}/15</b>こ集めると「物差しはかせ」に認定。`, false));
+      if (i === PARTS.length - 1) cards.push(card("stamps", "★", "物差しスタンプラリー", `章を読むとスタンプ。<b>${got.size}/16</b>こ集めると「物差しはかせ」に認定。`, false));
       return `<div class="toc-part"><div class="toc-part-h"><span class="pn">PART ${i + 1}</span><b>${p.t}</b><span class="d">${p.d}</span></div><div class="toc-grid" style="--cols:${cards.length}">${cards.join("")}</div></div>`;
     }).join("") + `<p class="hint" style="margin-top:14px">数字はぜんぶ、国や公的機関の統計です。くわしくは<a href="#sources">データの出どころ</a>へ。</p>`;
   }
