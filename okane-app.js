@@ -192,6 +192,10 @@
     if (vals.includes(null)) note += "「比べられない」年は、調べる品物の条件が大きくちがうため出していません。";
     $("trendNote").textContent = note;
   }
+  // さがす機能から、品物をえらんで開けるように
+  D.OK.selectItem = (id) => { const it = D.ITEMS.find((i) => i.id === id); if (!it) return; cur = id; group = it.g; store.set("item", cur); store.set("group", group); renderGrid(); renderHours(); };
+  // さがす機能から、品物をえらんで開けるように
+  D.OK.selectItem = (id) => { const it = D.ITEMS.find((i) => i.id === id); if (!it) return; cur = id; group = it.g; store.set("item", cur); store.set("group", group); renderGrid(); renderHours(); };
   D.OK.onUnit(renderHours);
   renderGrid(); renderHours();
 

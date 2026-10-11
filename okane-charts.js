@@ -56,6 +56,7 @@
     hit.addEventListener("pointerleave", () => { hov.style.display = "none"; tip.hidden = true; });
     return { X, Y };
   }
+  D.OK.lineChart = lineChart;
 
   // ===== 03 物価タイムマシン =====
   const tmCat = $("tmCat"), tmYear = $("tmYear"), tmPrice = $("tmPrice");

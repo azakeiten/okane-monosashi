@@ -105,6 +105,8 @@
     $("mapInsight").innerHTML = `「${esc(x.name)}」の値段と、その県の最低賃金をくらべると、<b>${word}</b>（相関係数 r＝${r.toFixed(2)}）。相関係数は、2つの数字が一緒に増えたり減ったりするかを −1〜1 で表したもので、1に近いほど「片方が高いともう片方も高い」ことを表します。<br>同じ${esc(x.name)}を買うのにはたらく時間がいちばん短いのは${esc(D.OK.prefName(best.i))}（${D.OK.hmText(best.m / 60)}）、いちばん長いのは${esc(D.OK.prefName(worst.i))}（${D.OK.hmText(worst.m / 60)}）。最低賃金が高い県でも、値段も高ければ、買いやすいとはかぎりません。`;
   }
 
+  // さがす機能から、県をえらんで開けるように
+  D.OK.selectPrefOnMap = (i) => { sel = i; render(); };
   D.OK.onUnit(render);
   render();
 })();

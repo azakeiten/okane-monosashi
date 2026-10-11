@@ -52,6 +52,8 @@
   });
 
   // ===== 自由研究ワークシート =====
+  // 章の番号と見出し（ページから読むので、章がふえても番号がずれない）
+  function chLabel(id) { const s = $(id); if (!s) return id; const n = s.querySelector(".rule-band span"), h = s.querySelector(".ch-head h2"); const c = h ? h.cloneNode(true) : null; if (c) c.querySelectorAll("rt").forEach((r) => r.remove()); return `${n ? n.textContent + " " : ""}${c ? c.textContent.trim() : id}`; }
   let showAns = false;
   function renderSheet() {
     const f = facts(), y = birth(), r = D.OK.calcPay(262300, 1);
@@ -65,7 +67,7 @@
       { q: "国の予算（一般会計）は、日本に住む1人あたりいくら？", u: "円", a: `約${yen(D.BIG[0].value / D.POPULATION.value)}`, h: "big", hn: "09 1人あたりいくら？" },
       { q: "大学卒の初任給（額面）262,300円のとき、手取り（1年目）はおよそいくら？", u: "円", a: `約${yen(r.net)}`, h: "pay", hn: "08 手取りのひみつ" },
     ];
-    $("sheetQs").innerHTML = QS.map((x) => `<li><span class="qt">${x.q}</span><span class="blank"><i>${showAns ? esc(x.a) : ""}</i>${x.u}</span><span class="qh hint">ヒント：<a href="#${x.h}">${x.hn}</a></span></li>`).join("");
+    $("sheetQs").innerHTML = QS.map((x) => `<li><span class="qt">${x.q}</span><span class="blank"><i>${showAns ? esc(x.a) : ""}</i>${x.u}</span><span class="qh hint">ヒント：<a href="#${x.h}">${chLabel(x.h)}</a></span></li>`).join("");
   }
   $("sheetFill").addEventListener("click", () => { showAns = !showAns; $("sheetFill").setAttribute("aria-pressed", String(showAns)); $("sheetFill").textContent = showAns ? "答えの例をかくす" : "答えの例を表示する"; renderSheet(); });
   // 印刷は、GitHub版のふつうのページでだけ使える（Claudeのプレビューの中では印刷できない）
