@@ -96,9 +96,9 @@
   if (auto) timer = setInterval(() => { if (!document.hidden) step(1); }, 8000);
 
   // ===== スタンプラリー =====
-  const CH = [["hours", "はたらく時間"], ["map", "日本地図"], ["rank", "ランキング"], ["time", "タイムマシン"], ["race", "給料と物価"], ["save", "貯金"], ["kakei", "家族の1万円"], ["pay", "手取り"], ["quiz", "クイズ"], ["words", "ことば"]];
+  const CH = [["hours", "はたらく時間"], ["map", "日本地図"], ["rank", "ランキング"], ["time", "タイムマシン"], ["race", "給料と物価"], ["save", "貯金"], ["kakei", "家族の1万円"], ["pay", "手取り"], ["big", "1人あたり"], ["quiz", "クイズ"], ["words", "ことば"]];
   let got = new Set(store.get("stamps", []));
-  const rot = (i) => [-8, 6, -4, 9, -11, 5, -6, 10, -3, 7][i];
+  const rot = (i) => [-8, 6, -4, 9, -11, 5, -6, 10, -3, 7, -9][i];
   function renderStamps(popId) {
     $("stampGrid").innerHTML = CH.map(([id, t], i) => `<a class="stamp${got.has(id) ? " got" : ""}${popId === id ? " pop" : ""}" href="#${id}" style="--rot:${rot(i)}deg"><span><span class="n">${String(i + 1).padStart(2, "0")}</span>${got.has(id) ? t : "まだ"}</span></a>`).join("");
     $("stampCount").textContent = `${got.size} / ${CH.length}`;
@@ -107,7 +107,7 @@
       const day = store.get("certDay", null) || (() => { const d = new Date(); const s = `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`; store.set("certDay", s); return s; })();
       $("cert").innerHTML = `<div class="cert"><span class="hint">にんていしょう</span><span class="t">物差しはかせ</span>
         <input id="certName" type="text" maxlength="20" placeholder="なまえを書こう" aria-label="なまえ" value="${esc(store.get("certName", ""))}">
-        <p>あなたは「おかねの物差し」の10の章をすべて読み、<br>お金を自分の生活の単位ではかる力を身につけました。</p>
+        <p>あなたは「おかねの物差し」の${CH.length}の章をすべて読み、<br>お金を自分の生活の単位ではかる力を身につけました。</p>
         <span class="seal">物差し<br>認定</span><span class="hint">${day}・スクリーンショットで残しておこう</span></div>`;
       $("certName").addEventListener("input", (e) => store.set("certName", e.target.value));
     } else {

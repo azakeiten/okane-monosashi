@@ -407,6 +407,19 @@ body.app .chapters { display: none; }
 @media (prefers-reduced-motion: no-preference) { .view-in { animation: viewin .28s ease-out both; } }
 @keyframes viewin { from { opacity: .4; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
+/* ===== v8：大きな数字・コピー ===== */
+.big-unit { display: grid; grid-template-columns: minmax(0, 1fr) 110px; gap: 8px; }
+.big-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.big-grid > div { background: var(--paper); border-radius: 10px; padding: 10px 12px; display: grid; gap: 1px; }
+.big-grid .k { font-size: 12px; font-weight: 700; color: var(--muted); }
+.big-grid .v { font-family: var(--font-num); font-size: 20px; }
+.big-grid .s { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.share-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.share-row .btn { font-size: 14px; }
+#stackChart text.lb { font-family: var(--font-body); font-size: 13px; font-weight: 700; fill: var(--ink); }
+#stackChart text.vl { font-family: var(--font-num); font-size: 12px; fill: var(--ink-2); }
+.conv-share { padding: 0 22px 18px; }
+
 /* パートの帯 */
 .part-band { scroll-margin-top: 100px; background: var(--ink); color: var(--paper); margin-top: 24px; }
 .part-band .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 22px; align-items: center; padding-block: 28px; }
@@ -564,7 +577,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">円</span><span class="logo-t"><b>おかねの物差し</b><small>お金を、生活の単位ではかるサイト</small></span></a>
       <div class="my-unit">
         <a class="pill-btn" href="#myunit" id="unitPill" title="あなたの物差しを変える">時給 <span class="num" id="pillWage">1,177円</span></a>
-        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/10</span></a>
+        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/11</span></a>
         <button class="pill-btn" id="easyToggle" type="button" aria-pressed="false" title="くわしい説明をたたんで、大事なところだけ表示します">かんたん<span class="lg">表示</span></button>
         <button class="pill-btn" id="furiToggle" type="button" aria-pressed="false">ふりがな</button>
       </div>
@@ -578,9 +591,10 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a href="#save"><span class="n">06</span>貯金とインフレ</a>
       <a href="#kakei"><span class="n">07</span>家族の1万円</a>
       <a href="#pay"><span class="n">08</span>手取りのひみつ</a>
-      <a href="#quiz"><span class="n">09</span>クイズ</a>
-      <a href="#words"><span class="n">10</span>ことば辞典</a>
-      <a href="#sources"><span class="n">11</span>データの出どころ</a>
+      <a href="#big"><span class="n">09</span>1人あたりいくら？</a>
+      <a href="#quiz"><span class="n">10</span>クイズ</a>
+      <a href="#words"><span class="n">11</span>ことば辞典</a>
+      <a href="#sources"><span class="n">12</span>データの出どころ</a>
     </nav>
   </div>
 </header>
@@ -1017,9 +1031,68 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </div>
   </section>
 
+  <section class="ch" id="big">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>09</span><span>単位：兆円</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 09</div>
+        <h2>ニュースの「○兆円」、1人あたりいくら？</h2>
+        <p>国の予算や借金は「兆円」という単位で出てきて、大きすぎて想像できません。日本に住む人の数でわって「1人あたり」に直したり、1万円札を積み上げた高さにしたりして、大きさをつかんでみましょう。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field">
+            <span class="label">ニュースの数字</span>
+            <div class="seg" id="bigSeg"></div>
+          </div>
+          <div class="field">
+            <label for="bigIn">自分で入れる</label>
+            <div class="big-unit"><div class="yen"><input id="bigIn" type="number" inputmode="decimal" min="0" step="any" value="122.3"></div><select id="bigUnit" aria-label="単位"><option value="1e12">兆円</option><option value="1e8">億円</option><option value="1e4">万円</option></select></div>
+            <p class="hint" id="bigNote"></p>
+          </div>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label">日本に住む1人あたり</div>
+            <div class="value" id="bigPer">—</div>
+            <p class="sub" id="bigPerSub"></p>
+            <div class="big-grid" id="bigGrid"></div>
+            <div class="share-row"><button type="button" class="btn ghost" id="bigCopy">結果をコピーする</button><span class="hint" id="bigCopied" aria-live="polite"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top"><h3>1万円札を積み上げると、どれくらいの高さ？</h3><span class="hint">100万円の札たば ≒ 約1cm</span></div>
+        <svg class="chart" id="stackChart" viewBox="0 0 760 260" role="img" aria-label="1万円札を積み上げた高さのくらべ"></svg>
+        <p class="hint" id="stackNote"></p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top"><h3>国の予算（一般会計）122.3兆円の使い道</h3><div class="legend"><span class="box" style="--c:var(--seg1)">社会保障</span><span class="box" style="--c:var(--seg3)">国債費（借金の返済と利息）</span><span class="box" style="--c:var(--muted)">それ以外</span></div></div>
+        <div class="stack" id="budgetBar" role="img" aria-label="一般会計の内わけ"></div>
+        <p id="budgetText" style="color:var(--ink-2)"></p>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>「1兆」ってどれくらい？</summary>
+          <div class="body">
+            <p>1兆は、1万 × 1万 × 1万。0が12こつく数（1,000,000,000,000）です。</p>
+            <p id="trillionFact"></p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary>国の借金は、1人ずつ返さなければいけないの？</summary>
+          <div class="body">
+            <p>国の借金（国債）は、国がお金を借りるために発行する「借用書」のようなものです。1人あたりの金額は大きさをつかむための計算で、一人ひとりに請求が来るわけではありません。</p>
+            <p>国債を持っているのは、主に日本の銀行や日本銀行、保険会社などで、そのお金のもとはわたしたちの預金や保険料です。借金がこのまま増えてよいかどうかは、専門家の間でも意見が分かれています。毎年の予算のうち、借金の返済と利息（国債費）に約4分の1が使われていることは、知っておきたい事実です。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section class="ch" id="quiz">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>09</span><span>単位：問</span></div>
+      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：問</span></div>
       <div class="ch-head">
         <div class="q">QUIZ</div>
         <h2>どっちが値上がりした？</h2>
@@ -1031,7 +1104,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="words">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：ことば</span></div>
+      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：ことば</span></div>
       <div class="ch-head">
         <div class="q">WORDS</div>
         <h2>ことば辞典</h2>
@@ -1048,9 +1121,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <div>
             <div class="q" style="color:var(--accent);font-weight:900;font-size:13px;letter-spacing:.08em">STAMP RALLY</div>
             <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(24px,3.6vw,34px);line-height:1.35">物差しスタンプラリー</h2>
-            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。10こ全部あつめると「物差しはかせ」に認定！</p>
+            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。11こ全部あつめると「物差しはかせ」に認定！</p>
           </div>
-          <div class="stamp-count" id="stampCount">0 / 10</div>
+          <div class="stamp-count" id="stampCount">0 / 11</div>
         </div>
         <div class="stamp-grid" id="stampGrid"></div>
         <div id="cert"></div>
@@ -1060,7 +1133,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="sources">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：出典</span></div>
+      <div class="rule-band" aria-hidden="true"><span>12</span><span>単位：出典</span></div>
       <div class="ch-head">
         <div class="q">DATA</div>
         <h2>このサイトの数字の出どころ</h2>
@@ -1092,6 +1165,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-charts.js"></script>
 <script src="okane-map.js"></script>
 <script src="okane-kakei.js"></script>
+<script src="okane-big.js"></script>
 <script src="okane-ux.js"></script>
 </body>
 </html>
