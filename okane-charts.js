@@ -46,9 +46,10 @@
       let top = Infinity;
       series.forEach((se, k) => { const c = hov.querySelector(".hc" + k); c.setAttribute("cx", X(i)); c.setAttribute("cy", Y(se.v[i])); top = Math.min(top, Y(se.v[i])); });
       const box = svg.getBoundingClientRect(), card = tip.parentElement.getBoundingClientRect(), sc = box.width / W;
+      const z = parseFloat(getComputedStyle(tip.parentElement).zoom) * (parseFloat(getComputedStyle(document.querySelector("main")).zoom) || 1) || 1; // 文字を大きくしたとき（zoom）のずれを直す
       tip.hidden = false;
-      tip.style.left = Math.max(80, Math.min(card.width - 80, box.left - card.left + X(i) * sc)) + "px";
-      tip.style.top = (box.top - card.top + top * sc - 8) + "px";
+      tip.style.left = Math.max(80, Math.min(card.width - 80, box.left - card.left + X(i) * sc)) / z + "px";
+      tip.style.top = (box.top - card.top + top * sc - 8) / z + "px";
       tip.innerHTML = onHover(i);
     }
     const hit = svg.querySelector(".hit");
