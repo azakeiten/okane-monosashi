@@ -1,7 +1,7 @@
 // おかねの物差し：アプリとしてホーム画面に追加・オフラインで使う（GitHub版のページでだけ動く）
 (() => {
   const framed = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
-  const secure = location.protocol === "https:" || location.hostname === "localhost";
+  const secure = location.protocol === "https:";
   if (framed || !secure) return;
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => { navigator.serviceWorker.register("sw.js").catch(() => {}); });

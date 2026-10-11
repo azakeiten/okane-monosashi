@@ -545,6 +545,9 @@ dialog.find::backdrop { background: color-mix(in srgb, var(--ink) 45%, transpare
 @media (max-width: 560px) { .install { grid-template-columns: 48px minmax(0, 1fr); } .install .btn { grid-column: 1 / -1; justify-self: stretch; } .install img { width: 48px; height: 48px; } }
 @media (display-mode: standalone) { .install { display: none !important; } }
 
+/* 読んでいる位置のバー */
+.readbar { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: var(--ruler); transform-origin: left center; transform: scaleX(0); pointer-events: none; }
+
 /* パートの帯 */
 .part-band { scroll-margin-top: 100px; background: var(--ink); color: var(--paper); margin-top: 24px; }
 .part-band .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 22px; align-items: center; padding-block: 28px; }
@@ -700,7 +703,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">円</span><span class="logo-t"><b>おかねの物差し</b><small>お金を、生活の単位ではかるサイト</small></span></a>
       <div class="my-unit">
         <a class="pill-btn" href="#myunit" id="unitPill" title="あなたの物差しを変える">時給 <span class="num" id="pillWage">1,177円</span></a>
-        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/14</span></a>
+        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/15</span></a>
         <button class="pill-btn" id="findBtn" type="button" aria-haspopup="dialog" title="ことばでさがす"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lg">さがす</span></button>
         <button class="pill-btn" id="easyToggle" type="button" aria-pressed="false" title="くわしい説明をたたんで、大事なところだけ表示します">かんたん<span class="lg">表示</span></button>
         <button class="pill-btn" id="furiToggle" type="button" aria-pressed="false">ふりがな</button>
@@ -716,13 +719,14 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a href="#fx"><span class="n">07</span>円安・円高</a>
       <a href="#kakei"><span class="n">08</span>家族の1万円</a>
       <a href="#pay"><span class="n">09</span>手取りのひみつ</a>
-      <a href="#big"><span class="n">10</span>1人あたりいくら？</a>
-      <a href="#tax"><span class="n">11</span>消費税</a>
-      <a href="#diary"><span class="n">12</span>おこづかい帳</a>
-      <a href="#quiz"><span class="n">13</span>クイズ</a>
-      <a href="#words"><span class="n">14</span>ことば辞典</a>
-      <a href="#sheet"><span class="n">15</span>自由研究ワークシート</a>
-      <a href="#sources"><span class="n">16</span>データの出どころ</a>
+      <a href="#agewage"><span class="n">10</span>年れいと給料</a>
+      <a href="#big"><span class="n">11</span>1人あたりいくら？</a>
+      <a href="#tax"><span class="n">12</span>消費税</a>
+      <a href="#diary"><span class="n">13</span>おこづかい帳</a>
+      <a href="#quiz"><span class="n">14</span>クイズ</a>
+      <a href="#words"><span class="n">15</span>ことば辞典</a>
+      <a href="#sheet"><span class="n">16</span>自由研究ワークシート</a>
+      <a href="#sources"><span class="n">17</span>データの出どころ</a>
     </nav>
   </div>
 </header>
@@ -821,7 +825,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
     <section class="toc" id="toc" aria-labelledby="tocTitle">
       <div class="toc-head">
-        <h2 id="tocTitle">もくじ：4つのパート、15の章</h2>
+        <h2 id="tocTitle">もくじ：4つのパート、16の章</h2>
         <p>どこから読んでもだいじょうぶ。気になる問いを押してください。答えを先に書いておきます。</p>
       </div>
       <div class="toc-grid" id="tocGrid"></div>
@@ -1259,11 +1263,69 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </div>
   </section>
 
-  <section class="ch" id="big">
+  <section class="ch" id="agewage">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：兆円</span></div>
+      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：千円／月</span></div>
       <div class="ch-head">
         <div class="q">QUESTION 10</div>
+        <h2>大人になったら、給料はどう変わる？</h2>
+        <p>国の<ruby>賃金構造基本統計調査<rt>ちんぎんこうぞうきほんとうけいちょうさ</rt></ruby>では、フルタイムではたらく人の給料を、年れいごとに調べています。何歳くらいで、いくらもらっている人が多いのか、見てみましょう。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field">
+            <label for="awAge">年れい：<span class="num" id="awAgeL">20〜24歳</span></label>
+            <input id="awAge" type="range" min="0" max="10" step="1" value="1">
+            <div class="scale"><span>10代</span><span>40代</span><span>60代</span></div>
+          </div>
+          <div class="field">
+            <span class="label">グラフに出す線</span>
+            <div class="seg" id="awShow">
+              <button type="button" data-v="all" aria-pressed="true">男女あわせて</button>
+              <button type="button" data-v="split" aria-pressed="false">男女べつにも見る</button>
+            </div>
+          </div>
+          <p class="hint">金額は、残業代やボーナスをのぞいた、毎月決まってもらう給料（所定内給与額）の平均です。税金などが引かれる前の「額面」です。</p>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label" id="awLabel">—</div>
+            <div class="value" id="awValue">—</div>
+            <p class="sub" id="awSub"></p>
+            <div class="big-grid" id="awGrid"></div>
+          </div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top"><h3>年れいごとの給料（月額・令和7年）</h3><div class="legend" id="awLegend"></div></div>
+        <div class="chart-scroll"><svg class="chart" id="awChart" viewBox="0 0 760 300" role="img" aria-label="年れいごとの給料の折れ線グラフ"></svg></div>
+        <div class="tip" id="awTip" hidden></div>
+        <p id="awText" style="color:var(--ink-2)"></p>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>どうして、年れいとともに給料が上がるの？</summary>
+          <div class="body">
+            <p>長くはたらくと、仕事になれて、できることがふえます。チームをまとめる役（係長・課長など）になると、給料も上がります。日本の会社では、長くつとめるほど給料が上がるしくみ（年功序列）が多く使われてきました。</p>
+            <p>60歳をすぎると下がるのは、多くの会社で「定年」があり、そのあとは、はたらく時間や仕事の内容を変えて、新しい条件でやとわれる人が多いためです。</p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary>男の人と女の人で、どうしてちがうの？</summary>
+          <div class="body">
+            <p>このグラフは「同じ仕事をしたときの給料」ではなく、「はたらいている人全体の平均」です。女性は、子育てなどで仕事を一度やめたり、勤続年数が短かったり、役職につく人が少なかったりすることが、差の大きな理由と言われています。</p>
+            <p>男女の差は、少しずつ小さくなっています。令和7年の調査でも、これまでで最も小さくなりました。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="ch" id="big">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：兆円</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 11</div>
         <h2>ニュースの「○兆円」、1人あたりいくら？</h2>
         <p>国の予算や借金は「兆円」という単位で出てきて、大きすぎて想像できません。日本に住む人の数でわって「1人あたり」に直したり、1万円札を積み上げた高さにしたりして、大きさをつかんでみましょう。</p>
       </div>
@@ -1320,9 +1382,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="tax">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：％</span></div>
+      <div class="rule-band" aria-hidden="true"><span>12</span><span>単位：％</span></div>
       <div class="ch-head">
-        <div class="q">QUESTION 11</div>
+        <div class="q">QUESTION 12</div>
         <h2>おにぎり1個の中に、消費税はいくら入ってる？</h2>
         <p>お店で買い物をするとき、子どもも大人も同じように払っているのが<ruby>消費税<rt>しょうひぜい</rt></ruby>です。食べ物は8%、それ以外は10%。かごに品物を入れて、レシートで消費税をたしかめてみましょう。</p>
       </div>
@@ -1385,9 +1447,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="diary">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>12</span><span>単位：円／月</span></div>
+      <div class="rule-band" aria-hidden="true"><span>13</span><span>単位：円／月</span></div>
       <div class="ch-head">
-        <div class="q">QUESTION 12</div>
+        <div class="q">QUESTION 13</div>
         <h2>わたしのおこづかい、何に使ってる？</h2>
         <p>使ったお金を記録すると、使い道の割合、払った消費税、はたらく時間にするとどれくらいかが、自動でわかります。国の家計調査と同じように、自分の「家計簿」をつけてみましょう。記録は、このブラウザの中にだけ保存されます。</p>
       </div>
@@ -1435,7 +1497,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="quiz">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>13</span><span>単位：問</span></div>
+      <div class="rule-band" aria-hidden="true"><span>14</span><span>単位：問</span></div>
       <div class="ch-head">
         <div class="q">QUIZ</div>
         <h2>どっちが値上がりした？</h2>
@@ -1447,7 +1509,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="words">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>14</span><span>単位：ことば</span></div>
+      <div class="rule-band" aria-hidden="true"><span>15</span><span>単位：ことば</span></div>
       <div class="ch-head">
         <div class="q">WORDS</div>
         <h2>ことば辞典</h2>
@@ -1459,7 +1521,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="sheet">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>15</span><span>単位：ページ</span></div>
+      <div class="rule-band" aria-hidden="true"><span>16</span><span>単位：ページ</span></div>
       <div class="ch-head">
         <div class="q">WORKSHEET</div>
         <h2>自由研究ワークシート</h2>
@@ -1499,9 +1561,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <div>
             <div class="q" style="color:var(--accent);font-weight:900;font-size:13px;letter-spacing:.08em">STAMP RALLY</div>
             <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(24px,3.6vw,34px);line-height:1.35">物差しスタンプラリー</h2>
-            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。14こ全部あつめると「物差しはかせ」に認定！</p>
+            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。15こ全部あつめると「物差しはかせ」に認定！</p>
           </div>
-          <div class="stamp-count" id="stampCount">0 / 14</div>
+          <div class="stamp-count" id="stampCount">0 / 15</div>
         </div>
         <div class="stamp-grid" id="stampGrid"></div>
         <div id="cert"></div>
@@ -1511,7 +1573,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="sources">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>16</span><span>単位：出典</span></div>
+      <div class="rule-band" aria-hidden="true"><span>17</span><span>単位：出典</span></div>
       <div class="ch-head">
         <div class="q">DATA</div>
         <h2>このサイトの数字の出どころ</h2>
@@ -1523,7 +1585,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <div class="src"><span class="what">都道府県の値段（県庁所在市・年平均）と最低賃金</span><span class="when">2025年・2026年度</span><span class="from">総務省統計局「小売物価統計調査（動向編）」、厚生労働省「令和8年度地域別最低賃金全国一覧」 <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
         <div class="src"><span class="what">地域別最低賃金（全国加重平均額）</span><span class="when">2002〜2026年度</span><span class="from">厚生労働省 <a href="https://www.mhlw.go.jp/stf/newpage_75950.html" target="_blank" rel="noopener">令和8年度の改定</a>（全国平均1,177円、最高1,280円、最低1,085円）、<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/koyou_roudou/roudoukijun/minimumichiran/" target="_blank" rel="noopener">地域別最低賃金の全国一覧</a></span></div>
         <div class="src"><span class="what">家族（2人以上の世帯）の支出</span><span class="when">2000〜2025年</span><span class="from">総務省統計局「家計調査 長期時系列表 品目分類（年）」（e-Stat）、エンゲル係数は総務省の2025年平均の発表（28.6%） <a href="https://www.stat.go.jp/data/kakei/" target="_blank" rel="noopener">stat.go.jp/data/kakei</a></span></div>
-        <div class="src"><span class="what">新規学卒者の初任給</span><span class="when">2025年</span><span class="from">厚生労働省「令和7年賃金構造基本統計調査」 <a href="https://www.mhlw.go.jp/toukei/list/chinginkouzou.html" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
+        <div class="src"><span class="what">初任給・年れいごとの給料</span><span class="when">2025年</span><span class="from">厚生労働省「令和7年賃金構造基本統計調査」 <a href="https://www.mhlw.go.jp/toukei/list/chinginkouzou.html" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
         <div class="src"><span class="what">保険料率</span><span class="when">2026年度</span><span class="from">全国健康保険協会 <a href="https://www.kyoukaikenpo.or.jp/" target="_blank" rel="noopener">kyoukaikenpo.or.jp</a>、こども家庭庁（子ども・子育て支援金）、厚生労働省（雇用保険料率）、日本年金機構 <a href="https://www.nenkin.go.jp/" target="_blank" rel="noopener">nenkin.go.jp</a></span></div>
       </div>
       <div class="rules">
@@ -1555,5 +1617,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-tax.js"></script>
 <script src="okane-fx.js"></script>
 <script src="okane-diary.js"></script>
+<script src="okane-age.js"></script>
 <script src="okane-pwa.js"></script>
 <script src="okane-ux.js"></script>
