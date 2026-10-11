@@ -479,6 +479,33 @@ body.app .chapters { display: none; }
   .sheet-qs .qh { display: none; }
 }
 
+/* ===== v10：レシート・貯金計画・数字の動き ===== */
+.sub-h { margin-top: 34px; font-size: 19px; }
+#tax .tool + .tool { margin-top: 18px; }
+.receipt { background: #fffdf8; color: #22252f; font-family: var(--font-num); font-size: 14px; line-height: 1.6; padding: 22px 22px 30px; max-width: 420px; width: 100%; justify-self: center; position: relative; box-shadow: 0 1px 0 var(--line), 0 6px 18px color-mix(in srgb, var(--ink) 10%, transparent); }
+.receipt::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 8px; background: linear-gradient(-45deg, transparent 6px, #fffdf8 0) 0 0 / 12px 8px repeat-x, linear-gradient(45deg, transparent 6px, #fffdf8 0) 0 0 / 12px 8px repeat-x; }
+.receipt .shop { text-align: center; font-family: var(--font-display); font-size: 18px; letter-spacing: .1em; }
+.receipt .date { text-align: center; font-size: 12px; color: #6b6e7a; margin-bottom: 8px; }
+.receipt .ln { display: flex; justify-content: space-between; gap: 10px; }
+.receipt .ln .nm { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.receipt .ln small { color: #6b6e7a; }
+.receipt hr { border: 0; border-top: 1px dashed #9a9cab; margin: 8px 0; }
+.receipt .tot { font-size: 18px; font-weight: 500; }
+.receipt .tax { color: #b4500a; }
+.receipt .empty { text-align: center; color: #6b6e7a; padding: 16px 0; font-family: var(--font-body); }
+.receipt .note { font-size: 11px; color: #6b6e7a; margin-top: 6px; font-family: var(--font-body); }
+.receipt .big-tax { margin-top: 10px; background: #fff1e4; border-radius: 6px; padding: 8px 10px; font-family: var(--font-body); font-size: 13px; color: #6a3205; }
+.receipt .big-tax b { font-family: var(--font-num); font-size: 16px; }
+.check { display: flex; gap: 8px; align-items: center; font-size: 14px; cursor: pointer; }
+.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+.goal-track { position: relative; height: 34px; border-radius: 999px; background: var(--soft); overflow: hidden; }
+.goal-track .fill { position: absolute; inset: 0 auto 0 0; background: repeating-linear-gradient(135deg, var(--ruler) 0 8px, var(--ruler-2) 8px 16px); border-radius: 999px; transition: width .4s ease; }
+.goal-track .lbl { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font-size: 12px; font-weight: 700; color: var(--ink); }
+@media (prefers-reduced-motion: no-preference) {
+  .bump { animation: bump .35s cubic-bezier(.2, 1.4, .4, 1); }
+  @keyframes bump { 0% { transform: translateY(4px); opacity: .35; } 100% { transform: none; opacity: 1; } }
+}
+
 /* パートの帯 */
 .part-band { scroll-margin-top: 100px; background: var(--ink); color: var(--paper); margin-top: 24px; }
 .part-band .wrap { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px 22px; align-items: center; padding-block: 28px; }
@@ -636,7 +663,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a class="logo" href="#top"><span class="logo-mark" aria-hidden="true">円</span><span class="logo-t"><b>おかねの物差し</b><small>お金を、生活の単位ではかるサイト</small></span></a>
       <div class="my-unit">
         <a class="pill-btn" href="#myunit" id="unitPill" title="あなたの物差しを変える">時給 <span class="num" id="pillWage">1,177円</span></a>
-        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/11</span></a>
+        <a class="pill-btn" href="#stamps" id="stampPill" title="スタンプラリー">スタンプ <span class="num" id="stampPillN">0/12</span></a>
         <button class="pill-btn" id="easyToggle" type="button" aria-pressed="false" title="くわしい説明をたたんで、大事なところだけ表示します">かんたん<span class="lg">表示</span></button>
         <button class="pill-btn" id="furiToggle" type="button" aria-pressed="false">ふりがな</button>
       </div>
@@ -651,10 +678,11 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <a href="#kakei"><span class="n">07</span>家族の1万円</a>
       <a href="#pay"><span class="n">08</span>手取りのひみつ</a>
       <a href="#big"><span class="n">09</span>1人あたりいくら？</a>
-      <a href="#quiz"><span class="n">10</span>クイズ</a>
-      <a href="#words"><span class="n">11</span>ことば辞典</a>
-      <a href="#sheet"><span class="n">12</span>自由研究ワークシート</a>
-      <a href="#sources"><span class="n">13</span>データの出どころ</a>
+      <a href="#tax"><span class="n">10</span>消費税</a>
+      <a href="#quiz"><span class="n">11</span>クイズ</a>
+      <a href="#words"><span class="n">12</span>ことば辞典</a>
+      <a href="#sheet"><span class="n">13</span>自由研究ワークシート</a>
+      <a href="#sources"><span class="n">14</span>データの出どころ</a>
     </nav>
   </div>
 </header>
@@ -747,7 +775,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
     <section class="toc" id="toc" aria-labelledby="tocTitle">
       <div class="toc-head">
-        <h2 id="tocTitle">もくじ：4つのパート、12の章</h2>
+        <h2 id="tocTitle">もくじ：4つのパート、13の章</h2>
         <p>どこから読んでもだいじょうぶ。気になる問いを押してください。答えを先に書いておきます。</p>
       </div>
       <div class="toc-grid" id="tocGrid"></div>
@@ -993,6 +1021,24 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           </div>
         </div>
       </div>
+      <h3 class="sub-h">ほしい物まで、あと何か月？ 貯金計画を立てよう</h3>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><label for="goalPrice">ほしい物の値段</label><div class="yen"><input id="goalPrice" type="number" inputmode="numeric" min="1" value="49980"><span>円</span></div><div class="chips" id="goalChips"></div></div>
+          <div class="field"><label for="goalSave">毎月ためる金額</label><div class="yen"><input id="goalSave" type="number" inputmode="numeric" min="1" value="1500"><span>円／月</span></div><p class="hint" id="goalSaveHint"></p></div>
+          <div class="field"><label for="goalStart">今ある貯金・お年玉</label><div class="yen"><input id="goalStart" type="number" inputmode="numeric" min="0" value="10000"><span>円</span></div></div>
+          <label class="check"><input type="checkbox" id="goalInf" checked> 物の値段が毎年2%上がる場合も考える</label>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label">買えるようになるまで</div>
+            <div class="value" id="goalValue">—</div>
+            <p class="sub" id="goalSub"></p>
+            <div class="goal-track" id="goalTrack" role="img" aria-label="貯金の進み具合"></div>
+            <div class="share-row"><button type="button" class="btn ghost" id="goalCopy">計画をコピーする</button><span class="hint" id="goalCopied" aria-live="polite"></span></div>
+          </div>
+        </div>
+      </div>
       <div class="deeps">
         <details class="deep" open>
           <summary>本当にあったこと：2015年の1万円は、今いくらの価値？</summary>
@@ -1169,9 +1215,74 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
     </div>
   </section>
 
+  <section class="ch" id="tax">
+    <div class="wrap">
+      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：％</span></div>
+      <div class="ch-head">
+        <div class="q">QUESTION 10</div>
+        <h2>おにぎり1個の中に、消費税はいくら入ってる？</h2>
+        <p>お店で買い物をするとき、子どもも大人も同じように払っているのが<ruby>消費税<rt>しょうひぜい</rt></ruby>です。食べ物は8%、それ以外は10%。かごに品物を入れて、レシートで消費税をたしかめてみましょう。</p>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field">
+            <span class="label">かごに入れる（押すたびに1こ追加）</span>
+            <div class="chips" id="taxChips"></div>
+          </div>
+          <div class="field">
+            <span class="label">外食は？</span>
+            <div class="seg" id="taxEat">
+              <button type="button" data-v="in" aria-pressed="true">お店の中で食べる<span class="num">10%</span></button>
+              <button type="button" data-v="out" aria-pressed="false">持ち帰る<span class="num">8%</span></button>
+            </div>
+          </div>
+          <button type="button" class="btn ghost" id="taxClear">かごを空にする</button>
+          <p class="hint">値段は東京23区の2025年平均（消費税こみ）。小売物価統計の値段は、消費税をふくめて調べられています。</p>
+        </div>
+        <div class="result">
+          <div class="receipt" id="receipt" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="tool">
+        <div class="panel">
+          <div class="field"><label for="taxAllow">1か月に使うお金</label><div class="yen"><input id="taxAllow" type="number" inputmode="numeric" min="0" value="3000"><span>円</span></div></div>
+          <div class="field"><label for="taxMix">そのうち食べ物（8%）の割合：<span class="num" id="taxMixL">50</span>%</label><input id="taxMix" type="range" min="0" max="100" step="10" value="50"><div class="scale"><span>0%</span><span>50%</span><span>100%</span></div></div>
+        </div>
+        <div class="result">
+          <div class="answer" aria-live="polite">
+            <div class="label">1年間に払う消費税</div>
+            <div class="value" id="taxYear">—</div>
+            <p class="sub" id="taxYearSub"></p>
+          </div>
+        </div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-top"><h3>国の税金の収入 83.7兆円（令和8年度予算）</h3><div class="legend"><span class="box" style="--c:var(--seg3)">消費税</span><span class="box" style="--c:var(--seg1)">所得税</span><span class="box" style="--c:var(--seg6)">法人税</span><span class="box" style="--c:var(--muted)">その他</span></div></div>
+        <div class="stack" id="taxBar" role="img" aria-label="国の税収の内わけ"></div>
+        <p id="taxBarText" style="color:var(--ink-2)"></p>
+      </div>
+      <div class="deeps">
+        <details class="deep">
+          <summary>どうして食べ物だけ8%なの？（軽減税率）</summary>
+          <div class="body">
+            <p>2019年10月に消費税が10%に上がったとき、毎日の生活に欠かせない<b>飲食料品</b>（お酒と外食はのぞく）と、定期購読の<b>新聞</b>は、8%のままにされました。これを<b>軽減税率</b>と言います。</p>
+            <p>同じハンバーガーでも、お店の中で食べると「外食」なので10%、持ち帰ると「飲食料品」なので8%になります。レシートの「※」や「軽」の印は、8%の品物という意味です。</p>
+          </div>
+        </details>
+        <details class="deep">
+          <summary>消費税は、だれが、何に使うの？</summary>
+          <div class="body">
+            <p>10%のうち<b>7.8%が国</b>、<b>2.2%が都道府県と市区町村</b>の分です（8%のときは国6.24%、地方1.76%）。お店は、あずかった消費税を、まとめて国に納めます。</p>
+            <p>国の分の消費税は、法律で<b>年金・医療・介護・子育て</b>の4つ（社会保障）に使うと決められています。お年寄りが増えても、はたらく世代だけに負担が集まらないよう、みんなで広く負担するしくみです。</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section class="ch" id="quiz">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>10</span><span>単位：問</span></div>
+      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：問</span></div>
       <div class="ch-head">
         <div class="q">QUIZ</div>
         <h2>どっちが値上がりした？</h2>
@@ -1183,7 +1294,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="words">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>11</span><span>単位：ことば</span></div>
+      <div class="rule-band" aria-hidden="true"><span>12</span><span>単位：ことば</span></div>
       <div class="ch-head">
         <div class="q">WORDS</div>
         <h2>ことば辞典</h2>
@@ -1195,7 +1306,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="sheet">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>12</span><span>単位：ページ</span></div>
+      <div class="rule-band" aria-hidden="true"><span>13</span><span>単位：ページ</span></div>
       <div class="ch-head">
         <div class="q">WORKSHEET</div>
         <h2>自由研究ワークシート</h2>
@@ -1235,9 +1346,9 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <div>
             <div class="q" style="color:var(--accent);font-weight:900;font-size:13px;letter-spacing:.08em">STAMP RALLY</div>
             <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(24px,3.6vw,34px);line-height:1.35">物差しスタンプラリー</h2>
-            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。11こ全部あつめると「物差しはかせ」に認定！</p>
+            <p style="color:var(--ink-2)">章を読むと、スタンプがおされます。12こ全部あつめると「物差しはかせ」に認定！</p>
           </div>
-          <div class="stamp-count" id="stampCount">0 / 11</div>
+          <div class="stamp-count" id="stampCount">0 / 12</div>
         </div>
         <div class="stamp-grid" id="stampGrid"></div>
         <div id="cert"></div>
@@ -1247,7 +1358,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
   <section class="ch" id="sources">
     <div class="wrap">
-      <div class="rule-band" aria-hidden="true"><span>13</span><span>単位：出典</span></div>
+      <div class="rule-band" aria-hidden="true"><span>14</span><span>単位：出典</span></div>
       <div class="ch-head">
         <div class="q">DATA</div>
         <h2>このサイトの数字の出どころ</h2>
@@ -1281,6 +1392,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-kakei.js"></script>
 <script src="okane-big.js"></script>
 <script src="okane-me.js"></script>
+<script src="okane-tax.js"></script>
 <script src="okane-ux.js"></script>
 </body>
 </html>

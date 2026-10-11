@@ -32,6 +32,7 @@
     save: () => `物価が毎年2%上がると、1万円で買えるものは10年後に<b>約${yen(Math.round(10000 / Math.pow(1.02, 10) / 100) * 100)}円ぶん</b>に減ります。`,
     pay: () => { const r = D.OK.calcPay(262300, 1); return `大学卒の初任給<b>262,300円</b>でも、口座に入るのは<b>約${Math.round(r.net / 10000)}万円</b>。約<b>${Math.round((1 - r.net / 262300) * 100)}%</b>が税金と保険料です。`; },
     big: () => { const P = D.POPULATION.value, m = (v) => (v / P / 1e4).toLocaleString("ja-JP", { maximumFractionDigits: 1 }); return `国の予算122.3兆円は、1人あたり<b>約${m(D.BIG[0].value)}万円</b>。国の借金1,145兆円は、1人あたり<b>約${Math.round(D.BIG[3].value / P / 1e4).toLocaleString()}万円</b>です。`; },
+    tax: () => { const p = item("onigiri").p25, t = Math.floor(p * 8 / 108); return `おにぎり${p}円の中に、消費税は<b>約${t}円</b>（8%）。国の税金でいちばん多いのが<b>消費税 ${(D.TAXREV.consumption / 1e12).toFixed(1)}兆円</b>です。`; },
     quiz: () => `答えはぜんぶ本物の統計。<b>5問</b>で、意外な値上がりを見つけよう。`,
     words: () => `ニュースでよく聞く<b>${document.querySelectorAll(".word").length}</b>のことばを、このサイトの数字で説明します。`,
     sheet: () => `サイトで答えをさがす<b>6問</b>と、近くのお店の値段しらべ。自由研究や授業に使えます。`,
@@ -54,7 +55,7 @@
   const PARTS = [
     { t: "自分の時間で、くらべる", d: "値段を「はたらく時間」に直して、品物や都道府県をくらべます。", ids: ["hours", "map", "rank"] },
     { t: "昔と今を、さかのぼる", d: "物価・給料・貯金の価値が、時代とともにどう変わったかを見ます。", ids: ["time", "race", "save"] },
-    { t: "くらしの、しくみを知る", d: "家族のお金の使い道、給料から引かれるお金、国の大きなお金のしくみ。", ids: ["kakei", "pay", "big"] },
+    { t: "くらしの、しくみを知る", d: "家族のお金の使い道、給料から引かれるお金、国の大きなお金、消費税のしくみ。", ids: ["kakei", "pay", "big", "tax"] },
     { t: "わかったことを、たしかめる", d: "クイズ、ことば辞典、自由研究ワークシート、スタンプラリーで、ふりかえりましょう。", ids: ["quiz", "words", "sheet"] },
   ];
   const chNo = (id) => { const s = $(id), b = s && s.querySelector(".rule-band span"); return b ? +b.textContent : ""; };
@@ -76,7 +77,7 @@
     const got = new Set(store.get("stamps", []));
     $("tocGrid").innerHTML = PARTS.map((p, i) => {
       const cards = p.ids.map((id) => card(id, chNo(id), chTitle(id), ANSWERS[id](), got.has(id)));
-      if (i === PARTS.length - 1) cards.push(card("stamps", "★", "物差しスタンプラリー", `章を読むとスタンプ。<b>${got.size}/11</b>こ集めると「物差しはかせ」に認定。`, false));
+      if (i === PARTS.length - 1) cards.push(card("stamps", "★", "物差しスタンプラリー", `章を読むとスタンプ。<b>${got.size}/12</b>こ集めると「物差しはかせ」に認定。`, false));
       return `<div class="toc-part"><div class="toc-part-h"><span class="pn">PART ${i + 1}</span><b>${p.t}</b><span class="d">${p.d}</span></div><div class="toc-grid" style="--cols:${cards.length}">${cards.join("")}</div></div>`;
     }).join("") + `<p class="hint" style="margin-top:14px">数字はぜんぶ、国や公的機関の統計です。くわしくは<a href="#sources">データの出どころ</a>へ。</p>`;
   }

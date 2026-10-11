@@ -177,3 +177,8 @@ window.BIG = [
   { id: "debt", name: "国の借金（普通国債残高）", value: 1145e12, short: "1,145兆円", note: "令和8年度末の見込み（財務省）。これまでに積み上がった借金", kind: "stock" },
   { id: "gdp", name: "日本のGDP（名目）", value: 663.5e12, short: "663.5兆円", note: "2025年・速報値（内閣府）。日本で1年間に生み出されたものの値打ちの合計", kind: "year" }
 ];
+
+// 国の税収（令和8年度予算・単位：円）。財務省「租税及び印紙収入予算額」より
+window.TAXREV = { total: 83.735e12, consumption: 26.688e12, income: 25.325e12, corporate: 20.696e12, note: "令和8年度予算（財務省）" };
+// 消費税率（%）：標準10%（国7.8・地方2.2）、軽減8%（国6.24・地方1.76）
+window.TAXRATE = { std: 10, reduced: 8, stdNational: 7.8, reducedNational: 6.24 };
