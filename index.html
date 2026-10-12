@@ -918,6 +918,28 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 }
 .fl-side { display: grid; gap: 10px; align-content: start; }
 
+/* つづきから */
+.resume { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: stretch; background: var(--inv); color: var(--inv-ink); border-radius: 20px; padding: 12px; }
+.resume[hidden] { display: none; }
+@media (max-width: 760px) { .resume { grid-template-columns: minmax(0, 1fr); } }
+.rs-prog { display: flex; align-items: center; gap: 12px; padding: 4px 10px 4px 4px; }
+.rs-ringwrap { position: relative; width: 64px; height: 64px; flex: none; }
+.rs-ring { width: 64px; height: 64px; display: block; }
+.rs-ring circle { fill: none; stroke-width: 8; }
+.rs-ring .bg { stroke: color-mix(in srgb, var(--inv-ink) 18%, transparent); }
+.rs-ring .fg { stroke: var(--ruler); stroke-linecap: round; transition: stroke-dasharray .5s ease; }
+.rs-pct { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-num); font-size: 11px; color: color-mix(in srgb, var(--inv-ink) 75%, transparent); }
+.rs-pct b { font-size: 18px; color: var(--inv-ink); display: contents; }
+.rs-hi { display: block; font-family: var(--font-display); font-size: 20px; }
+.rs-sub { display: block; font-size: 12px; color: color-mix(in srgb, var(--inv-ink) 72%, transparent); }
+.rs-card { text-decoration: none; color: var(--ink); background: var(--card); border-radius: 14px; padding: 10px 14px; display: grid; gap: 2px; align-content: center; border: 2px solid transparent; transition: transform .15s; }
+.rs-card:hover { transform: translateY(-2px); border-color: var(--ruler); }
+.rs-k { font-size: 11px; font-weight: 900; letter-spacing: .06em; color: var(--muted); }
+.rs-card.last .rs-k { color: var(--hot); }
+.rs-t { font-weight: 700; font-size: 15px; line-height: 1.45; }
+.rs-n { font-family: var(--font-num); color: var(--accent); margin-right: 8px; }
+.rs-go { font-size: 13px; font-weight: 700; color: var(--accent); justify-self: end; }
+
 /* チャレンジバッジ */
 .badges { margin-top: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 18px; }
 .badge-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
@@ -996,6 +1018,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <main id="top">
   <div class="wrap">
     <section class="hero">
+      <div class="resume" id="resume" hidden aria-label="つづきから"></div>
       <div class="intro">
         <div class="intro-text">
           <div class="eyebrow">ECONOMY, MEASURED IN YOUR LIFE</div>
@@ -2052,6 +2075,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月12日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261012231438"></script>
+<script src="okane.bundle.js?v=20261012231943"></script>
 </body>
 </html>
