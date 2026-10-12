@@ -594,6 +594,11 @@ body.bigtext main, body.bigtext .course-bar { zoom: 1.14; }
 .nowcpi .nt { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
 .nowcpi .ns { grid-column: 1 / -1; font-size: 12px; color: var(--muted); }
 @media (max-width: 560px) { .nowcpi { grid-template-columns: auto minmax(0, 1fr); } .nowcpi .nt { grid-column: 1 / -1; } }
+.nowcpi .spark { grid-column: 1 / -1; display: grid; gap: 2px; }
+.nowcpi .spark svg { width: 100%; height: auto; display: block; }
+.nowcpi .spark .sp-l { font-family: var(--font-num); font-size: 12px; fill: var(--ink); font-weight: 500; }
+.nowcpi .spark .sp-a { font-family: var(--font-num); font-size: 11px; fill: var(--muted); }
+.nowcpi .sp-t { font-size: 12px; color: var(--muted); }
 .fresh-wrap { overflow-x: auto; }
 table.fresh td { font-family: var(--font-body); white-space: normal; text-align: left; }
 table.fresh th { text-align: left; }
@@ -609,6 +614,16 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .toc-card .tn { display: block; font-family: var(--font-num); font-size: 11px; color: var(--muted); font-weight: 500; line-height: 1.2; }
 .part-band .chs a { display: inline-flex; align-items: center; gap: 6px; }
 .course ol li { display: inline-flex; align-items: center; gap: 4px; }
+
+/* 使い方ツアー */
+.tour-veil { position: fixed; inset: 0; z-index: 60; background: transparent; }
+.tour-ring { position: fixed; z-index: 61; border-radius: 16px; box-shadow: 0 0 0 4px var(--ruler), 0 0 0 9999px color-mix(in srgb, #0b0e22 55%, transparent); pointer-events: none; transition: all .25s ease; }
+.tour-tip { position: fixed; z-index: 62; background: var(--card); color: var(--ink); border: 2px solid var(--ruler); border-radius: 16px; padding: 16px 18px; display: grid; gap: 8px; box-shadow: 0 14px 36px rgba(0,0,0,.3); }
+.tour-tip .tt-k { font-size: 12px; font-weight: 900; letter-spacing: .08em; color: var(--muted); }
+.tour-tip b { font-family: var(--font-display); font-weight: 400; font-size: 20px; }
+.tour-tip p { font-size: 15px; color: var(--ink-2); line-height: 1.7; }
+.tour-tip .tt-b { display: flex; justify-content: flex-end; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { .tour-ring { transition: none; } }
 
 /* お金ってなに？ */
 .roles { margin-top: 22px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
@@ -848,7 +863,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
           <h1>その値段、<br>あなたの<span class="hl">何時間</span>ぶん？</h1>
           <p class="what"><b>おかねの物差し</b>は、ニュースに出てくるお金の大きな数字を、<b>「はたらく時間」「おこづかい」「昔の値段」</b>など、<b>自分の生活の単位</b>に直して見せるサイトです。</p>
           <p class="lead">使う数字は、ぜんぶ国が<ruby>公表<rt>こうひょう</rt></ruby>している<ruby>統計<rt>とうけい</rt></ruby>。小学生から大人まで、授業や自由研究にも使えます（<a href="guide.html">先生・おうちの人へ</a>）。登録もお金もいりません。</p>
-          <div class="cta"><a class="btn" href="#try">さっそく試す</a><a class="btn ghost" href="#toc">もくじを見る</a></div>
+          <div class="cta"><a class="btn" href="#try">さっそく試す</a><a class="btn ghost" href="#toc">もくじを見る</a><button type="button" class="btn ghost" id="tourBtn">使い方を見る</button></div>
         </div>
         <ol class="steps" aria-label="使い方">
           <li><span class="sn">1</span><div><b>値段を入れる</b><p>ほしい物や、ニュースで見た金額を入れます。</p></div></li>
@@ -1885,3 +1900,4 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-ux.js"></script>
 <script src="okane-course.js"></script>
 <script src="okane-quiz.js"></script>
+<script src="okane-tour.js"></script>

@@ -248,6 +248,9 @@ window.COINS = [
   { v: 500, name: "500円玉", d: 26.5, g: 7.10, m: "バイカラー・クラッド" }
 ];
 
+// 物価の上がり方（前の年の同じ月とくらべた%、全国・総合）。e-Stat「2025年基準消費者物価指数」月次の指数から、このサイトで計算（公表値と0.1ずれることがある）
+window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.6,3.4,3.2,2.9,2.9,2.9,2.7,2.0,1.5,1.3,1.4,1.3,1.5,1.7,1.9,1.9] };
+
 ;
 
 /* ===== okane-app.js ===== */
@@ -1613,7 +1616,26 @@ window.COINS = [
   // ホームの「今の物価」
   $("nowCpi").innerHTML = `<span class="nk">今の物価</span><span class="nv">+${L.yoy}<small>%</small></span>
     <span class="nt">${L.label}の物価は、1年前より<b>${L.yoy}%</b>上がりました。1年前に1,000円だった買い物は、今は約<b>${yen(1000 * (1 + L.yoy / 100))}円</b>です。</span>
-    <span class="ns">全国・総合。総務省統計局「消費者物価指数」${L.published}発表。押すと物価タイムマシンへ。</span>`;
+    <span class="ns">全国・総合。総務省統計局「消費者物価指数」${L.published}発表。押すと物価タイムマシンへ。</span>${spark()}`;
+
+  // 最近2年の上がり方（月ごとの棒）。いちばん高い月と、最新の月に数字をつける
+  function spark() {
+    const M = D.CPI_MONTHLY; if (!M) return "";
+    const v = M.yoy, n = v.length, [fy, fm] = M.from.split("-").map(Number);
+    const lab = (i) => { const d = new Date(fy, fm - 1 + i, 1); return `${d.getFullYear()}年${d.getMonth() + 1}月`; };
+    const W = innerWidth < 600 ? 340 : 640, H = 92, top = 22, base = 70, max = Math.max(...v, 1), bw = (W - 20) / n;
+    const pk = v.indexOf(Math.max(...v));
+    let s = `<line x1="0" x2="${W}" y1="${base}" y2="${base}" stroke="var(--line)"/>`;
+    v.forEach((x, i) => {
+      const h = Math.max(1, (x / max) * (base - top)), X = 10 + i * bw;
+      s += `<rect x="${X + 1}" y="${base - h}" width="${bw - 3}" height="${h}" rx="2" fill="${i === n - 1 ? "var(--hot)" : "color-mix(in srgb, var(--hot) 45%, var(--card))"}"><title>${lab(i)}：${x}%</title></rect>`;
+    });
+    const tx = (i) => 10 + i * bw + bw / 2;
+    s += `<text x="${tx(pk)}" y="${base - (v[pk] / max) * (base - top) - 6}" text-anchor="middle" class="sp-l">${lab(pk)} ${v[pk]}%</text>`;
+    s += `<text x="${tx(0)}" y="${H - 4}" class="sp-a">${lab(0)}</text><text x="${tx(n - 1)}" y="${H - 4}" text-anchor="end" class="sp-a">${lab(n - 1)}</text>`;
+    const trend = v[n - 1] < v[pk] ? `いちばん高かった${lab(pk)}の${v[pk]}%から、上がり方はゆっくりになっています。` : "";
+    return `<span class="spark"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="最近2年の物価の上がり方">${s}</svg><span class="sp-t">最近2年の物価の上がり方（前の年の同じ月とくらべて）。${trend}</span></span>`;
+  }
 
   // データの新しさ
   $("freshTable").innerHTML = `<thead><tr><th>データ</th><th>今の数字</th><th>次に新しくなる時期（目安）</th><th>更新</th></tr></thead><tbody>` +
@@ -2230,6 +2252,79 @@ window.COINS = [
     nb.addEventListener("click", () => { qi++; render(); }); after.appendChild(nb); nb.focus();
   }
   start(MODES[mode] ? mode : "rise");
+})();
+
+;
+
+/* ===== okane-tour.js ===== */
+// おかねの物差し：はじめての人への道案内ツアー（3ステップ）。最初に開いたときだけ自動で出る
+(() => {
+  const D = window, { $, store } = D.OK;
+  const STEPS = [
+    { sel: ".converter", t: "1. 値段を入れてみよう", d: "ここに値段を入れると、「はたらく時間」「おこづかい何か月」「おにぎり何個」に直ります。ためしに数字を変えてみてください。" },
+    { sel: ".tabbar", t: "2. 画面を切りかえる", d: "ホームと、4つのパート（くらべる・さかのぼる・しくみ・たしかめる）を切りかえます。スマホでは画面の下、パソコンでは上にあります。" },
+    { sel: "#courses", t: "3. 迷ったらコースから", d: "どこから読めばいいか迷ったら、おすすめコースを選ぶと、順番に案内します。はじめてなら「はじめての10分コース」がおすすめです。" },
+  ];
+  const veil = document.createElement("div"); veil.className = "tour-veil"; veil.hidden = true;
+  const ring = document.createElement("div"); ring.className = "tour-ring"; ring.hidden = true;
+  const tip = document.createElement("div"); tip.className = "tour-tip"; tip.hidden = true;
+  tip.setAttribute("role", "dialog"); tip.setAttribute("aria-modal", "false"); tip.setAttribute("aria-labelledby", "tourTitle");
+  document.body.append(veil, ring, tip);
+  let i = 0, open = false;
+
+  function place() {
+    const s = STEPS[i], el = document.querySelector(s.sel); if (!el) return;
+    // スマホでは下にタブバーがあるので、その上までを「見える場所」とする
+    const bar = document.querySelector(".tabbar"), isBar = s.sel.includes("tabbar");
+    const br = bar && !isBar ? bar.getBoundingClientRect() : null;
+    const bottomLimit = br && br.top > innerHeight / 2 ? br.top - 8 : innerHeight - 8, pad = 8;
+    const r = el.getBoundingClientRect(), top = Math.max(r.top, 8), bot = Math.min(r.bottom, bottomLimit);
+    Object.assign(ring.style, { left: r.left - pad + "px", top: top - pad + "px", width: r.width + pad * 2 + "px", height: Math.max(0, bot - top) + pad * 2 + "px" });
+    const tw = Math.min(360, innerWidth - 24), th = tip.offsetHeight;
+    tip.style.width = tw + "px"; tip.style.left = Math.min(Math.max(12, r.left), innerWidth - tw - 12) + "px";
+    // 下に入れば下、だめなら上、どちらも足りなければ画面の下のほうに重ねる
+    let y;
+    if (bot + pad + 12 + th <= bottomLimit) y = bot + pad + 12;
+    else if (top - pad - 12 - th >= 8) y = top - pad - 12 - th;
+    else y = bottomLimit - th - 4;
+    tip.style.top = y + "px";
+  }
+  function show() {
+    const s = STEPS[i], el = document.querySelector(s.sel);
+    if (el && !s.sel.includes("tabbar")) {
+      const tall = el.offsetHeight > innerHeight * 0.55;
+      el.scrollIntoView({ block: tall ? "start" : "center", behavior: "instant" });
+      // 上の見出しバーに隠れないように、少し下げる
+      const hd = document.querySelector("header");
+      if (tall && hd) scrollBy({ top: -(hd.getBoundingClientRect().bottom + 16), behavior: "instant" });
+    }
+    tip.innerHTML = `<div class="tt-k">使い方 ${i + 1} / ${STEPS.length}</div><b id="tourTitle">${s.t}</b><p>${s.d}</p>
+      <div class="tt-b"><button type="button" class="btn ghost" data-a="skip">とじる</button><button type="button" class="btn" data-a="next">${i === STEPS.length - 1 ? "はじめる" : "次へ"}</button></div>`;
+    veil.hidden = ring.hidden = tip.hidden = false;
+    requestAnimationFrame(() => { place(); tip.querySelector('[data-a="next"]').focus(); });
+  }
+  function start() {
+    // ホームの画面で案内する
+    const a = document.createElement("a"); a.href = "#home"; a.hidden = true; document.body.appendChild(a); a.click(); a.remove();
+    i = 0; open = true; setTimeout(show, 80);
+  }
+  function close() { open = false; veil.hidden = ring.hidden = tip.hidden = true; store.set("toured", true); }
+  tip.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.a === "skip") return close();
+    if (i < STEPS.length - 1) { i++; show(); } else close();
+  });
+  veil.addEventListener("click", close);
+  addEventListener("keydown", (e) => { if (open && e.key === "Escape") close(); });
+  addEventListener("resize", () => { if (open) place(); });
+  addEventListener("scroll", () => { if (open) place(); }, { passive: true });
+
+  // ホームの「使い方を見る」ボタン
+  const btn = $("tourBtn"); if (btn) btn.addEventListener("click", start);
+  // はじめて開いたとき（そして、ほかの章へのリンクから来たのではないとき）だけ自動で出す
+  const h = location.hash.slice(1);
+  const framed = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+  if (!framed && !store.get("toured", false) && (!h || h === "home")) setTimeout(start, 600);
 })();
 
 ;
