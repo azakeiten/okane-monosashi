@@ -38,7 +38,7 @@
     fx: () => { const F = D.FX, y1 = D.FX_FIRST_YEAR + F.length - 1, lo = Math.min(...F), ly = D.FX_FIRST_YEAR + F.indexOf(lo), now = F[F.length - 1]; return `${y1}年の1ドルは平均<b>${now.toFixed(1)}円</b>。いちばん円高だった${ly}年（${lo.toFixed(1)}円）の約${(now / lo).toFixed(1)}倍で、100ドルの物は<b>約${yen(100 * lo)}円→約${yen(100 * now)}円</b>になりました。`; },
     tax: () => { const p = item("onigiri").p25, t = Math.floor(p * 8 / 108); return `おにぎり${p}円の中に、消費税は<b>約${t}円</b>（8%）。国の税金でいちばん多いのが<b>消費税 ${(D.TAXREV.consumption / 1e12).toFixed(1)}兆円</b>です。`; },
     diary: () => `使ったお金を記録すると、<b>使い道の割合</b>・<b>払った消費税</b>・<b>はたらく時間</b>が自動でわかる、自分だけの家計簿です。`,
-    quiz: () => `<b>4つのモード</b>（値上がり・何時間・日本地図・昔の値段）で力だめし。答えはぜんぶ本物の統計です。`,
+    quiz: () => `<b>5つのモード</b>（値上がり・何時間・日本地図・昔の値段・しくみ）で力だめし。出てくる数字はぜんぶ本物の統計です。`,
     words: () => `ニュースでよく聞く<b>${document.querySelectorAll(".word").length}</b>のことばを、このサイトの数字で説明します。`,
     sheet: () => `サイトで答えをさがす<b>6問</b>と、近くのお店の値段しらべ。自由研究や授業に使えます。`,
   };

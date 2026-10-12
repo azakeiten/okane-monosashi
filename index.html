@@ -661,8 +661,10 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .bx-pile i.one { background: var(--ruler); }
 
 /* クイズのモード */
-.quiz-modes { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
-@media (max-width: 640px) { .quiz-modes { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.quiz-modes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 900px) { .quiz-modes { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.q-link { font-weight: 700; color: var(--accent); white-space: nowrap; }
+@media (max-width: 640px) { .quiz-modes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .qm:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .qm { border: 1.5px solid var(--line); background: var(--paper); border-radius: 12px; padding: 8px 10px; cursor: pointer; text-align: left; display: grid; gap: 1px; font: inherit; color: var(--ink); }
 .qm b { font-size: 14px; }
 .qm span { font-size: 11px; color: var(--muted); font-family: var(--font-num); }
@@ -1901,8 +1903,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <div class="rule-band" aria-hidden="true"><span>15</span><span>単位：問</span></div>
       <div class="ch-head">
         <div class="q">QUIZ</div>
-        <h2>お金クイズ：4つのモードで力だめし</h2>
-        <p>「値上がりはどっち？」「何時間はたらく？」「日本地図クイズ」「昔の値段クイズ」の4つ。どれも5問で、答えはすべて本物の統計です。モードごとに、いちばんよかった点数が記録されます。</p>
+        <h2>お金クイズ：5つのモードで力だめし</h2>
+        <p>「値上がりはどっち？」「何時間はたらく？」「日本地図クイズ」「昔の値段クイズ」「しくみクイズ」の5つ。どれも5問で、出てくる数字はすべて本物の統計です。答えのあとに、くわしく学べる章へのリンクが出ます。モードごとに、いちばんよかった点数が記録されます。</p>
       </div>
       <div class="quiz" id="quizBox"></div>
     </div>
@@ -2015,6 +2017,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月12日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261012224727"></script>
+<script src="okane.bundle.js?v=20261012230651"></script>
 </body>
 </html>

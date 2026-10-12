@@ -1,4 +1,4 @@
-// おかねの物差し：クイズ（4つのモード・いちばんよかった点数を記録）
+// おかねの物差し：クイズ（5つのモード・いちばんよかった点数を記録）
 (() => {
   const D = window, { $, yen, esc, store, sgn, cpiAt, hmText } = D.OK;
   const box = $("quizBox");
@@ -47,7 +47,31 @@
       while (all.length < 3) all.push(Math.round(p * 0.5 / 10) * 10);
       return { q: `今（2025年）なら1,000円の買い物は、${y}年ならだいたいいくら？`, opts: all.map((x) => ({ t: `${yen(x)}円` })), ans: all.indexOf(p), why: `${y}年の物価指数は${cpiAt("総合", y).toFixed(1)}（2025年＝100）なので、約${yen(p)}円です。` };
     } },
+    idea: { t: "しくみクイズ", d: "税金・円安・給料のしくみ、わかるかな？", make(used) {
+      const pool = IDEAS.map((x, k) => k).filter((k) => !used.has("i" + k)); if (!pool.length) return null;
+      const k = pick(pool), x = IDEAS[k]; used.add("i" + k);
+      const all = shuffle(x.o.map((t, j) => ({ t, ok: j === 0 })));
+      return { q: x.q, opts: all.map((o) => ({ t: o.t })), ans: all.findIndex((o) => o.ok), why: x.why, link: x.ch };
+    } },
   };
+  // しくみクイズの問題（答えは o の1つめ）。数字は okane-data.js から
+  const T = D.TAXREV, cho = (v) => (v / 1e12).toFixed(1) + "兆円", big = (id) => D.BIG.find((b) => b.id === id);
+  const IDEAS = [
+    { q: "おにぎりをお店で買って、持ち帰るときの消費税は？", o: ["8%", "10%", "5%"], why: "食べ物や飲み物（お酒と外食をのぞく）は「軽減税率」で8%です。", ch: "tax" },
+    { q: "ハンバーガーを、お店の中で食べるときの消費税は？", o: ["10%", "8%", "0%"], why: "お店の中で食べると「外食」になるので10%。持ち帰れば8%です。", ch: "tax" },
+    { q: "消費税10%のうち、国の分はどれだけ？", o: ["7.8%", "2.2%", "10%ぜんぶ"], why: "7.8%が国、2.2%が都道府県と市区町村の分です。", ch: "tax" },
+    { q: `国の税金の収入（${T.note}）で、いちばん多いのは？`, o: ["消費税", "所得税", "法人税"], why: `消費税${cho(T.consumption)}、所得税${cho(T.income)}、法人税${cho(T.corporate)}。消費税がいちばん多くなっています。`, ch: "tax" },
+    { q: "家計・会社・国のあいだを、お金が回っていくことを何という？", o: ["経済の循環", "物価", "為替"], why: "買い物の代金は会社へ、給料は家計へ、税金は国へ。お金はぐるぐるめぐっています。", ch: "tax" },
+    { q: "給料が3%増えて、物価が4%上がった。買える物は？", o: ["少しへる", "少しふえる", "変わらない"], why: "金額（名目）は増えても、物価の上がり方のほうが大きいので、買える量（実質）はへります。", ch: "race" },
+    { q: "物価が上がり続けることを何という？", o: ["インフレ", "デフレ", "円高"], why: "上がり続けるのがインフレ、下がり続けるのがデフレです。", ch: "words" },
+    { q: "1ドル100円が、1ドル150円になった。これは？", o: ["円安", "円高", "どちらでもない"], why: "1ドルを買うのに、前より多くの円が必要になりました。円の値打ちが下がったので「円安」です。", ch: "fx" },
+    { q: "円安になると、外国から買う物（輸入品）の値段は？", o: ["上がりやすい", "下がりやすい", "変わらない"], why: "同じ1ドルの品物を買うのに、より多くの円を払うことになるからです。", ch: "fx" },
+    { q: "給料から、税金や保険料が引かれたあとの金額を何という？", o: ["手取り", "額面", "時給"], why: "会社が決めた金額が額面、引かれたあと口座に入るのが手取りです。", ch: "pay" },
+    { q: `国の予算（${big("budget").short}）で、いちばん多い使い道は？`, o: ["社会保障（年金・医療など）", "国債費（借金の返済）", "公共事業（道路など）"], why: `社会保障が${big("social").short}でいちばん多く、次が国債費の${big("debtpay").short}です。`, ch: "big" },
+    { q: "物価が毎年2%上がると、値段が2倍になるのは約何年後？", o: ["約36年後", "約72年後", "約10年後"], why: "72の法則で、72÷2＝36年。2%は日本銀行が目標にしている上がり方です。", ch: "save" },
+    { q: "最低賃金は、どこごとに決まっている？", o: ["都道府県ごと", "市区町村ごと", "全国で1つ"], why: `都道府県ごとに毎年決まります。2026年度は${yen(D.MINWAGE_2026.min)}円から${yen(D.MINWAGE_2026.max)}円まで差があります。`, ch: "map" },
+    { q: "使ったお金のうち、食べ物に使った割合を何という？", o: ["エンゲル係数", "消費者物価指数", "相関係数"], why: "食べ物は節約しにくいので、物価が上がると高くなりやすい数字です。", ch: "kakei" },
+  ];
 
   let mode = store.get("quizMode", "rise"), qs = [], qi = 0, res = [], best = store.get("quizBest", {});
   function start(m) {
@@ -85,7 +109,8 @@
     });
     box.querySelector(".dots").outerHTML = dots();
     const after = $("qAfter");
-    after.innerHTML = `<p style="margin-bottom:10px"><b>${k === q.ans ? "正解！" : "ざんねん！"}</b> ${esc(q.why)}</p>`;
+    const ln = q.link && $(q.link) ? ` <a class="q-link" href="#${q.link}">→ ${esc(($(q.link).querySelector(".ch-head h2") || {}).textContent || "答えの章")}</a>` : "";
+    after.innerHTML = `<p style="margin-bottom:10px"><b>${k === q.ans ? "正解！" : "ざんねん！"}</b> ${esc(q.why)}${ln}</p>`;
     const nb = document.createElement("button"); nb.type = "button"; nb.className = "btn"; nb.textContent = qi < qs.length - 1 ? "次の問題" : "けっかを見る";
     nb.addEventListener("click", () => { qi++; render(); }); after.appendChild(nb); nb.focus();
   }
