@@ -896,6 +896,30 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   .fn .fn-s { display: none; }
 }
 .fl-side { display: grid; gap: 10px; align-content: start; }
+
+/* チャレンジバッジ */
+.badges { margin-top: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 18px; }
+.badge-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .badge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.badge { text-decoration: none; color: var(--ink); display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "m t" "m d"; gap: 2px 12px; align-items: center; padding: 12px; border-radius: 16px; border: 1.5px dashed var(--line); background: var(--paper); }
+.badge:hover { border-color: var(--accent); }
+.bd-medal { grid-area: m; width: 56px; height: 56px; display: grid; place-items: center; clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); background: var(--line); color: var(--muted); }
+.bd-t { grid-area: t; font-weight: 900; font-size: 15px; align-self: end; }
+.bd-d { grid-area: d; font-size: 12px; color: var(--muted); line-height: 1.5; align-self: start; }
+.badge.on { border-style: solid; border-color: color-mix(in srgb, var(--good) 45%, var(--line)); background: color-mix(in srgb, var(--good) 7%, var(--card)); }
+.badge.on .bd-medal { background: linear-gradient(140deg, var(--ruler), color-mix(in srgb, var(--ruler) 55%, var(--hot))); color: var(--ruler-ink); }
+.badge.on .bd-t { color: var(--good); }
+.badge.pop .bd-medal { animation: badgePop .5s cubic-bezier(.2, 1.6, .4, 1) both; }
+@keyframes badgePop { from { transform: scale(1.8); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (max-width: 640px) { .badge { grid-template-columns: minmax(0, 1fr); grid-template-areas: "m" "t" "d"; justify-items: center; text-align: center; } .bd-t, .bd-d { align-self: auto; } }
+.badge-toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 70; transform: translateX(-50%); display: flex; gap: 12px; align-items: center; background: var(--inv); color: var(--inv-ink); padding: 10px 18px 10px 10px; border-radius: 999px; box-shadow: 0 12px 30px rgba(0,0,0,.3); border: 2px solid var(--ruler); }
+.badge-toast .bt-ic { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; background: var(--ruler); color: var(--ruler-ink); }
+.badge-toast small { display: block; font-size: 11px; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
+.badge-toast b { font-size: 15px; }
+.badge-toast.show { animation: toastIn .4s cubic-bezier(.2, 1.4, .4, 1) both; }
+@keyframes toastIn { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@media (max-width: 760px) { .badge-toast { bottom: calc(88px + env(safe-area-inset-bottom, 0px)); } }
+@media (prefers-reduced-motion: reduce) { .badge-toast.show, .badge.pop .bd-medal { animation: none; } }
 .fl-k { font-size: 12px; font-weight: 900; letter-spacing: .06em; color: var(--muted); }
 .fl-side h4 { font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.4; }
 .fl-side p { color: var(--ink-2); line-height: 1.8; min-height: 5.4em; }
@@ -1948,6 +1972,17 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <div class="stamp-grid" id="stampGrid"></div>
         <div id="cert"></div>
       </div>
+      <div class="badges">
+        <div class="stamp-head">
+          <div>
+            <div class="q" style="color:var(--good);font-weight:900;font-size:13px;letter-spacing:.08em">CHALLENGE BADGES</div>
+            <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(22px,3.2vw,30px);line-height:1.35">チャレンジバッジ</h2>
+            <p style="color:var(--ink-2)">読むだけでなく、「やってみた」ことでもらえるバッジです。何をするともらえるかは、下に書いてあります。押すと、その場所にとべます。</p>
+          </div>
+          <div class="stamp-count" id="badgeCount">0 / 9</div>
+        </div>
+        <div class="badge-grid" id="badgeGrid"></div>
+      </div>
     </div>
   </section>
 
@@ -2016,3 +2051,4 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-tour.js"></script>
 <script src="okane-basket.js"></script>
 <script src="okane-flow.js"></script>
+<script src="okane-badges.js"></script>
