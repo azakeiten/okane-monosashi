@@ -6,14 +6,26 @@
   // ホームの「今の物価」
   $("nowCpi").innerHTML = `<span class="nk">今の物価</span><span class="nv">+${L.yoy}<small>%</small></span>
     <span class="nt">${L.label}の物価は、1年前より<b>${L.yoy}%</b>上がりました。1年前に1,000円だった買い物は、今は約<b>${yen(1000 * (1 + L.yoy / 100))}円</b>です。</span>
-    <span class="ns">全国・総合。総務省統計局「消費者物価指数」${L.published}発表。押すと物価タイムマシンへ。</span>${spark()}`;
+    <span class="ns">全国・総合。総務省統計局「消費者物価指数」${L.published}発表。押すと物価タイムマシンへ。</span><span class="spark" id="nowSpark"></span>`;
+  // 画面の幅に合わせて描く（文字の大きさがいつも同じになるように）
+  let lastW = 0;
+  const drawSpark = () => {
+    const cw = $("nowCpi").clientWidth; if (!cw) return;
+    const w = Math.round(Math.min(1100, Math.max(280, cw - 40))); if (w === lastW) return;
+    lastW = w; $("nowSpark").innerHTML = spark(w);
+  };
+  drawSpark();
+  addEventListener("resize", drawSpark);
+  addEventListener("hashchange", () => setTimeout(drawSpark, 50));
+  addEventListener("popstate", () => setTimeout(drawSpark, 50));
+  document.addEventListener("click", () => setTimeout(drawSpark, 80));
 
   // 最近2年の上がり方（月ごとの棒）。いちばん高い月と、最新の月に数字をつける
-  function spark() {
+  function spark(W) {
     const M = D.CPI_MONTHLY; if (!M) return "";
     const v = M.yoy, n = v.length, [fy, fm] = M.from.split("-").map(Number);
     const lab = (i) => { const d = new Date(fy, fm - 1 + i, 1); return `${d.getFullYear()}年${d.getMonth() + 1}月`; };
-    const W = innerWidth < 600 ? 340 : 640, H = 92, top = 22, base = 70, max = Math.max(...v, 1), bw = (W - 20) / n;
+    const H = 92, top = 22, base = 70, max = Math.max(...v, 1), bw = (W - 20) / n;
     const pk = v.indexOf(Math.max(...v));
     let s = `<line x1="0" x2="${W}" y1="${base}" y2="${base}" stroke="var(--line)"/>`;
     v.forEach((x, i) => {
@@ -24,7 +36,7 @@
     s += `<text x="${tx(pk)}" y="${base - (v[pk] / max) * (base - top) - 6}" text-anchor="middle" class="sp-l">${lab(pk)} ${v[pk]}%</text>`;
     s += `<text x="${tx(0)}" y="${H - 4}" class="sp-a">${lab(0)}</text><text x="${tx(n - 1)}" y="${H - 4}" text-anchor="end" class="sp-a">${lab(n - 1)}</text>`;
     const trend = v[n - 1] < v[pk] ? `いちばん高かった${lab(pk)}の${v[pk]}%から、上がり方はゆっくりになっています。` : "";
-    return `<span class="spark"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="最近2年の物価の上がり方">${s}</svg><span class="sp-t">最近2年の物価の上がり方（前の年の同じ月とくらべて）。${trend}</span></span>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="最近2年の物価の上がり方">${s}</svg><span class="sp-t">最近2年の物価の上がり方（前の年の同じ月とくらべて）。${trend}</span>`;
   }
 
   // データの新しさ

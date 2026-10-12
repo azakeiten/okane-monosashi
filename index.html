@@ -884,6 +884,48 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .bk-q button { width: 30px; height: 30px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; font-size: 16px; line-height: 1; }
 .bk-q button:hover { border-color: var(--accent); }
 .bk-hint, .bk-note { font-size: 12px; color: var(--muted); }
+
+/* お金のめぐり図 */
+.flow { margin-top: 18px; border-radius: var(--r); border: 1px solid var(--line); background: var(--card); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.flow .bk-badge { background: var(--good); color: var(--card); }
+.fl-box { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 18px; align-items: center; }
+@media (max-width: 860px) { .fl-box { grid-template-columns: minmax(0, 1fr); } }
+.fl-stage { background: var(--paper); border-radius: 16px; padding: 6px; }
+.fl-svg { width: 100%; height: auto; display: block; }
+.fl { cursor: pointer; }
+.fl-p { fill: none; stroke: var(--c); stroke-width: 6; stroke-linecap: round; transition: opacity .25s, stroke-width .25s; }
+.fl-t { font-size: 15px; font-weight: 700; fill: var(--c); paint-order: stroke; stroke: var(--paper); stroke-width: 5px; stroke-linejoin: round; transition: opacity .25s; }
+.fl-dot { fill: var(--c); stroke: var(--paper); stroke-width: 2; opacity: 0; }
+.fl.dim .fl-p { opacity: .14; }
+.fl.dim .fl-t { opacity: .3; }
+.fl.all .fl-p { opacity: .55; }
+.fl.on .fl-p { stroke-width: 9; }
+.fl.on .fl-dot, .fl.all .fl-dot { opacity: 1; }
+.fl.all .fl-dot { opacity: .7; }
+.fl:hover .fl-p { opacity: 1; }
+.fn rect { fill: var(--card); stroke: var(--c); stroke-width: 3; transition: opacity .25s; }
+.fn .fn-t { font-family: var(--font-display); font-size: 22px; fill: var(--ink); }
+.fn .fn-s { font-size: 12px; fill: var(--muted); }
+.fn:not(.on) { opacity: .4; }
+.fn.on rect { fill: color-mix(in srgb, var(--c) 12%, var(--card)); }
+@media (max-width: 600px) {
+  .fl-t { font-size: 22px; stroke-width: 7px; }
+  .fl.dim .fl-t, .fl.all .fl-t { opacity: 0; }
+  .fn .fn-t { font-size: 32px; transform: translateY(12px); }
+  .fn .fn-s { display: none; }
+}
+.fl-side { display: grid; gap: 10px; align-content: start; }
+.fl-k { font-size: 12px; font-weight: 900; letter-spacing: .06em; color: var(--muted); }
+.fl-side h4 { font-family: var(--font-display); font-weight: 400; font-size: 21px; line-height: 1.4; }
+.fl-side p { color: var(--ink-2); line-height: 1.8; min-height: 5.4em; }
+.fl-fact { background: var(--inv); color: var(--inv-ink); border-radius: 14px; padding: 12px 14px; display: grid; gap: 2px; }
+.fl-fact b { font-family: var(--font-num); font-size: 26px; color: var(--ruler); }
+.fl-fact span { font-size: 12px; color: color-mix(in srgb, var(--inv-ink) 75%, transparent); }
+.fl-nav { display: flex; align-items: center; gap: 10px; justify-content: space-between; }
+.fl-nav .btn:disabled { opacity: .35; cursor: default; }
+.fl-dots { display: flex; gap: 6px; }
+.fl-dots button { width: 10px; height: 10px; border-radius: 999px; border: 0; padding: 0; background: var(--line); cursor: pointer; }
+.fl-dots button[aria-current] { background: var(--accent); width: 22px; }
 </style>
 </head>
 <body>
@@ -1777,6 +1819,14 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <div class="stack" id="taxBar" role="img" aria-label="国の税収の内わけ"></div>
         <p id="taxBarText" style="color:var(--ink-2)"></p>
       </div>
+      <div class="flow">
+        <div class="bk-head">
+          <span class="bk-badge">図で見よう</span>
+          <h3 id="flowTitle">お金は、ぐるぐるめぐる</h3>
+          <p>払った税金は、どこへ行くの？ 家計・会社・国のあいだを、お金がどう回っているかを、順番に追いかけます。矢印を押しても見られます。</p>
+        </div>
+        <div class="fl-box" id="flowBox"></div>
+      </div>
       <div class="deeps">
         <details class="deep">
           <summary>どうして食べ物だけ8%なの？（軽減税率）</summary>
@@ -1965,6 +2015,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月12日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261012200832"></script>
+<script src="okane.bundle.js?v=20261012224727"></script>
 </body>
 </html>
