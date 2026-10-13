@@ -897,6 +897,41 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 }
 .fl-side { display: grid; gap: 10px; align-content: start; }
 
+/* 値段の決まり方 */
+.market { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--cool); background: color-mix(in srgb, var(--cool) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.market .bk-badge { background: var(--cool); color: var(--card); }
+.mk-body { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 18px; align-items: start; margin-top: 12px; }
+@media (max-width: 860px) { .mk-body { grid-template-columns: minmax(0, 1fr); } }
+.mk-chart { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 8px; }
+.mk-chart svg { width: 100%; height: auto; display: block; }
+.mk-grid { stroke: var(--line); stroke-dasharray: 2 4; }
+.mk-ax { font-size: 12px; fill: var(--muted); font-weight: 700; }
+.mk-base { stroke: var(--muted); stroke-width: 1.5; opacity: .5; }
+.mk-line { fill: none; stroke-width: 5; stroke-linecap: round; transition: all .3s ease; }
+.mk-line.dm, .mk-lb.dm { stroke: var(--cool); fill: var(--cool); }
+.mk-line.sp, .mk-lb.sp { stroke: var(--hot); fill: var(--hot); }
+.mk-line.dm, .mk-line.sp { fill: none; }
+.mk-lb { font-size: 14px; font-weight: 900; stroke: none !important; paint-order: stroke; }
+.mk-ghost { fill: none; stroke-width: 3; stroke-dasharray: 6 6; opacity: .35; }
+.mk-ghost.dm { stroke: var(--cool); } .mk-ghost.sp { stroke: var(--hot); }
+.mk-guide { stroke: var(--ink); stroke-dasharray: 4 4; opacity: .5; }
+.mk-dot { fill: var(--ruler); stroke: var(--ink); stroke-width: 3; }
+.mk-dot0 { fill: var(--card); stroke: var(--muted); stroke-width: 2; }
+.mk-side { display: grid; gap: 14px; }
+.mk-out { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; align-items: baseline; background: var(--inv); color: var(--inv-ink); border-radius: 14px; padding: 12px 16px; }
+.mk-out .mk-k { font-size: 12px; font-weight: 900; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
+.mk-out b { font-family: var(--font-display); font-weight: 400; font-size: 22px; }
+.mk-out .up { color: var(--ruler); } .mk-out .dn { color: color-mix(in srgb, var(--good) 60%, var(--inv-ink)); }
+.mk-sl { display: grid; gap: 4px; font-weight: 700; font-size: 14px; }
+.mk-sl em { font-style: normal; font-weight: 400; color: var(--muted); margin-left: 8px; font-size: 13px; }
+.mk-sl input { width: 100%; accent-color: var(--cool); }
+.mk-sl.s input { accent-color: var(--hot); }
+.mk-ends { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); font-weight: 400; }
+.mk-ends i { font-style: normal; }
+.mk-why { color: var(--ink-2); line-height: 1.8; min-height: 5.4em; }
+.mk-why a { font-weight: 700; color: var(--accent); }
+@media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
+
 /* つづきから */
 .resume { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: stretch; background: var(--inv); color: var(--inv-ink); border-radius: 20px; padding: 12px; }
 .resume[hidden] { display: none; }
@@ -1356,6 +1391,15 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       </div>
       <h3 style="margin-top:30px;font-size:19px">値段の動きには、理由がある</h3>
       <div class="events" id="events"></div>
+      <div class="market">
+        <div class="bk-head">
+          <span class="bk-badge">うごかしてみよう</span>
+          <h3>値段は、どうやって決まる？</h3>
+          <p>値段は、<b>ほしい人の多さ（<ruby>需要<rt>じゅよう</rt></ruby>）</b>と、<b>売りたい量（<ruby>供給<rt>きょうきゅう</rt></ruby>）</b>のつり合いで決まります。「こんなとき」を押すか、つまみを動かして、値段がどう変わるか見てみよう。</p>
+        </div>
+        <div id="mkBox"></div>
+        <p class="bk-note">このグラフは、しくみを見るための<b>模型</b>です（本物のデータではありません）。ほんとうの値段は、税金や、お店どうしの競争など、ほかの理由でも動きます。値段の例は、総務省統計局「小売物価統計調査」東京都区部の年平均です。</p>
+      </div>
     </div>
   </section>
 
@@ -2076,3 +2120,4 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-flow.js"></script>
 <script src="okane-badges.js"></script>
 <script src="okane-resume.js"></script>
+<script src="okane-market.js"></script>
