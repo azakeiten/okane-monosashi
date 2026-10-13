@@ -720,11 +720,14 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .toc-card .done { position: absolute; right: 10px; top: 8px; font-size: 11px; font-weight: 900; color: var(--hot); border: 1.5px solid var(--hot); border-radius: 999px; padding: 0 7px; transform: rotate(6deg); }
 
 /* この章のポイント */
-.takeaway { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; align-items: start; background: var(--card); border: 2px solid var(--ruler); border-radius: var(--r); padding: 14px 18px; max-width: 46em; }
+.takeaway { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 14px; align-items: center; background: var(--card); border: 2px solid var(--ruler); border-radius: var(--r); padding: 14px 18px; max-width: 46em; }
 .takeaway .tk { font-size: 12px; font-weight: 900; letter-spacing: .08em; background: var(--ruler); color: var(--ruler-ink); border-radius: 6px; padding: 2px 8px; margin-top: 4px; white-space: nowrap; }
 .takeaway p { font-size: 18px; font-weight: 700; line-height: 1.65; color: var(--ink); }
 .takeaway p b { font-family: var(--font-num); font-weight: 500; color: var(--accent); }
-@media (max-width: 520px) { .takeaway { grid-template-columns: minmax(0, 1fr); } .takeaway .tk { justify-self: start; } .takeaway p { font-size: 17px; } }
+.tk-b { display: grid; gap: 6px; min-width: 0; }
+.takeaway .tk-b .tk { justify-self: start; margin-top: 0; }
+.tk-m { align-self: start; }
+@media (max-width: 520px) { .takeaway { gap: 6px 10px; } .tk-m .mascot { width: 40px; height: 40px; } .takeaway p { font-size: 17px; } .takeaway .tk { white-space: normal; } }
 
 /* 次の章へ */
 .next-ch { margin-top: 26px; display: flex; justify-content: flex-end; }
@@ -932,6 +935,21 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* ものさしくん */
+.mascot { display: block; flex: none; overflow: visible; }
+.mascot rect { transition: transform .3s; }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.hello .mascot, .takeaway:hover .mascot { animation: bob 2.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .hello .mascot, .takeaway:hover .mascot { animation: none; } }
+.hello { display: flex; align-items: center; gap: 12px; }
+.hello-b { position: relative; background: var(--card); border: 1.5px solid var(--line); border-radius: 16px; padding: 10px 14px; color: var(--ink-2); font-size: 14px; line-height: 1.7; max-width: 46em; }
+.hello-b::before { content: ""; position: absolute; left: -8px; top: 50%; width: 14px; height: 14px; background: var(--card); border-left: 1.5px solid var(--line); border-bottom: 1.5px solid var(--line); transform: translateY(-50%) rotate(45deg); }
+.hello-b b { color: var(--ink); margin-right: 6px; }
+.q-say { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+.q-say p { margin: 0; }
+.tour-tip .tt-k { display: flex; align-items: center; gap: 8px; }
+.bk-empty .mascot { margin: 0 auto 4px; }
+
 /* つづきから */
 .resume { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 12px; align-items: stretch; background: var(--inv); color: var(--inv-ink); border-radius: 20px; padding: 12px; }
 .resume[hidden] { display: none; }
@@ -1046,7 +1064,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         </ol>
       </div>
       <div class="examples">
-        <span class="ex-k">たとえば、こんなことがわかります</span>
+        <div class="hello" id="hello"><p class="hello-b"><b>ぼく、ものさしくん！</b>値段を、きみの「はたらく時間」や「おこづかい」ではかってみせるよ。たとえば、こんなことがわかるんだ。</p></div>
         <div class="ex-grid" id="exGrid"></div>
       </div>
       <a class="nowcpi" id="nowCpi" href="#time" aria-live="polite"></a>

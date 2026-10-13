@@ -37,7 +37,7 @@
     });
     const now = JSON.stringify(cart);
     [...presets.children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.p !== "clear" && JSON.stringify(PRESETS[+b.dataset.p].c) === now)));
-    if (!ids.length) { out.innerHTML = `<div class="bk-empty">かごは、からっぽです。<br>棚の品物を押して、かごに入れてみよう。</div>`; return; }
+    if (!ids.length) { out.innerHTML = `<div class="bk-empty">${D.OK.mascot("think", 56)}かごは、からっぽです。<br>棚の品物を押して、かごに入れてみよう。</div>`; return; }
 
     const t15 = ids.reduce((s, id) => s + BY[id].p15 * cart[id], 0), t25 = ids.reduce((s, id) => s + BY[id].p25 * cart[id], 0);
     const h15 = t15 / W15, h25 = t25 / W25, diff = (h25 - h15) * 60, max = Math.max(h15, h25);

@@ -46,7 +46,7 @@
   const secs = IDS.map((id) => $(id)).filter(Boolean);
   secs.forEach((s) => {
     const head = s.querySelector(".ch-head"); if (!head) return;
-    const t = document.createElement("div"); t.className = "takeaway"; t.innerHTML = `<span class="tk">この章のポイント</span><p data-ans="${s.id}"></p>`;
+    const t = document.createElement("div"); t.className = "takeaway"; t.innerHTML = `<span class="tk-m">${D.OK.mascot("smile", 52)}</span><div class="tk-b"><span class="tk">ものさしくんの、この章のポイント</span><p data-ans="${s.id}"></p></div>`;
     head.appendChild(t);
     const note = document.createElement("p"); note.className = "easy-note"; note.textContent = "かんたん表示中：くわしい説明はたたんであります。上の「かんたん表示」をもう一度押すと全部見られます。";
     s.querySelector(".wrap").appendChild(note);

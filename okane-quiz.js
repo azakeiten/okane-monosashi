@@ -110,7 +110,7 @@
     box.querySelector(".dots").outerHTML = dots();
     const after = $("qAfter");
     const ln = q.link && $(q.link) ? ` <a class="q-link" href="#${q.link}">→ ${esc(($(q.link).querySelector(".ch-head h2") || {}).textContent || "答えの章")}</a>` : "";
-    after.innerHTML = `<p style="margin-bottom:10px"><b>${k === q.ans ? "正解！" : "ざんねん！"}</b> ${esc(q.why)}${ln}</p>`;
+    after.innerHTML = `<div class="q-say">${D.OK.mascot(k === q.ans ? "wow" : "think", 44)}<p><b>${k === q.ans ? "正解！" : "ざんねん！"}</b> ${esc(q.why)}${ln}</p></div>`;
     const nb = document.createElement("button"); nb.type = "button"; nb.className = "btn"; nb.textContent = qi < qs.length - 1 ? "次の問題" : "けっかを見る";
     nb.addEventListener("click", () => { qi++; render(); }); after.appendChild(nb); nb.focus();
   }

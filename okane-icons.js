@@ -25,6 +25,24 @@
   };
   D.OK.icon = (id, size = 22) => P[id] ? `<svg class="ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[id]}</svg>` : "";
 
+  // マスコット「ものさしくん」。mood：smile（にっこり）・wow（びっくり）・think（うーん）
+  D.OK.mascot = (mood = "smile", size = 56) => {
+    const ink = "var(--ruler-ink)";
+    const mouth = mood === "wow" ? `<ellipse cx="32" cy="37.5" rx="3.2" ry="4" fill="${ink}"/>`
+      : mood === "think" ? `<path d="M27 37.5q5-2.5 10 0" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M36 19.5l6-1.5" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>`
+      : `<path d="M26 34q6 6.5 12 0" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+    const eye = (cx) => mood === "smile" ? `<path d="M${cx - 3.4} 27q3.4-3.6 6.8 0" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+      : `<circle cx="${cx}" cy="26" r="3.3" fill="${ink}"/><circle cx="${cx + 1.1}" cy="24.9" r="1.1" fill="#fff"/>`;
+    const ticks = [16, 22, 28, 34, 40, 46].map((x, i) => `<path d="M${x} 56v-${i % 2 ? 4 : 7}" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`).join("");
+    return `<svg class="mascot m-${mood}" width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="9" y="8" width="46" height="50" rx="13" fill="var(--ruler)" stroke="${ink}" stroke-width="2.6"/>
+      <path d="M9 47h46" stroke="${ink}" stroke-width="2" opacity=".35"/>${ticks}
+      <ellipse cx="18.5" cy="34" rx="3.6" ry="2.4" fill="var(--hot)" opacity=".35"/><ellipse cx="45.5" cy="34" rx="3.6" ry="2.4" fill="var(--hot)" opacity=".35"/>
+      ${eye(25)}${eye(39)}${mouth}</svg>`;
+  };
+
+  const hello = document.getElementById("hello"); if (hello) hello.insertAdjacentHTML("afterbegin", D.OK.mascot("smile", 64));
+
   // 章の見出し（QUESTION ○○ の左）に、アイコンをつける
   document.querySelectorAll("section.ch").forEach((s) => {
     const q = s.querySelector(".ch-head .q"); if (!q || !P[s.id]) return;

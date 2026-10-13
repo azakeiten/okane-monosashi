@@ -39,7 +39,7 @@
       const hd = document.querySelector("header");
       if (tall && hd) scrollBy({ top: -(hd.getBoundingClientRect().bottom + 16), behavior: "instant" });
     }
-    tip.innerHTML = `<div class="tt-k">使い方 ${i + 1} / ${STEPS.length}</div><b id="tourTitle">${s.t}</b><p>${s.d}</p>
+    tip.innerHTML = `<div class="tt-k">${D.OK.mascot(i === STEPS.length - 1 ? "wow" : "smile", 34)}使い方 ${i + 1} / ${STEPS.length}</div><b id="tourTitle">${s.t}</b><p>${s.d}</p>
       <div class="tt-b"><button type="button" class="btn ghost" data-a="skip">とじる</button><button type="button" class="btn" data-a="next">${i === STEPS.length - 1 ? "はじめる" : "次へ"}</button></div>`;
     veil.hidden = ring.hidden = tip.hidden = false;
     requestAnimationFrame(() => { place(); tip.querySelector('[data-a="next"]').focus(); });

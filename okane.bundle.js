@@ -1889,6 +1889,24 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   };
   D.OK.icon = (id, size = 22) => P[id] ? `<svg class="ic" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[id]}</svg>` : "";
 
+  // マスコット「ものさしくん」。mood：smile（にっこり）・wow（びっくり）・think（うーん）
+  D.OK.mascot = (mood = "smile", size = 56) => {
+    const ink = "var(--ruler-ink)";
+    const mouth = mood === "wow" ? `<ellipse cx="32" cy="37.5" rx="3.2" ry="4" fill="${ink}"/>`
+      : mood === "think" ? `<path d="M27 37.5q5-2.5 10 0" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/><path d="M36 19.5l6-1.5" stroke="${ink}" stroke-width="2.4" stroke-linecap="round"/>`
+      : `<path d="M26 34q6 6.5 12 0" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`;
+    const eye = (cx) => mood === "smile" ? `<path d="M${cx - 3.4} 27q3.4-3.6 6.8 0" stroke="${ink}" stroke-width="2.6" fill="none" stroke-linecap="round"/>`
+      : `<circle cx="${cx}" cy="26" r="3.3" fill="${ink}"/><circle cx="${cx + 1.1}" cy="24.9" r="1.1" fill="#fff"/>`;
+    const ticks = [16, 22, 28, 34, 40, 46].map((x, i) => `<path d="M${x} 56v-${i % 2 ? 4 : 7}" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>`).join("");
+    return `<svg class="mascot m-${mood}" width="${size}" height="${size}" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="9" y="8" width="46" height="50" rx="13" fill="var(--ruler)" stroke="${ink}" stroke-width="2.6"/>
+      <path d="M9 47h46" stroke="${ink}" stroke-width="2" opacity=".35"/>${ticks}
+      <ellipse cx="18.5" cy="34" rx="3.6" ry="2.4" fill="var(--hot)" opacity=".35"/><ellipse cx="45.5" cy="34" rx="3.6" ry="2.4" fill="var(--hot)" opacity=".35"/>
+      ${eye(25)}${eye(39)}${mouth}</svg>`;
+  };
+
+  const hello = document.getElementById("hello"); if (hello) hello.insertAdjacentHTML("afterbegin", D.OK.mascot("smile", 64));
+
   // 章の見出し（QUESTION ○○ の左）に、アイコンをつける
   document.querySelectorAll("section.ch").forEach((s) => {
     const q = s.querySelector(".ch-head .q"); if (!q || !P[s.id]) return;
@@ -1947,7 +1965,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const secs = IDS.map((id) => $(id)).filter(Boolean);
   secs.forEach((s) => {
     const head = s.querySelector(".ch-head"); if (!head) return;
-    const t = document.createElement("div"); t.className = "takeaway"; t.innerHTML = `<span class="tk">この章のポイント</span><p data-ans="${s.id}"></p>`;
+    const t = document.createElement("div"); t.className = "takeaway"; t.innerHTML = `<span class="tk-m">${D.OK.mascot("smile", 52)}</span><div class="tk-b"><span class="tk">ものさしくんの、この章のポイント</span><p data-ans="${s.id}"></p></div>`;
     head.appendChild(t);
     const note = document.createElement("p"); note.className = "easy-note"; note.textContent = "かんたん表示中：くわしい説明はたたんであります。上の「かんたん表示」をもう一度押すと全部見られます。";
     s.querySelector(".wrap").appendChild(note);
@@ -2289,7 +2307,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     box.querySelector(".dots").outerHTML = dots();
     const after = $("qAfter");
     const ln = q.link && $(q.link) ? ` <a class="q-link" href="#${q.link}">→ ${esc(($(q.link).querySelector(".ch-head h2") || {}).textContent || "答えの章")}</a>` : "";
-    after.innerHTML = `<p style="margin-bottom:10px"><b>${k === q.ans ? "正解！" : "ざんねん！"}</b> ${esc(q.why)}${ln}</p>`;
+    after.innerHTML = `<div class="q-say">${D.OK.mascot(k === q.ans ? "wow" : "think", 44)}<p><b>${k === q.ans ? "正解！" : "ざんねん！"}</b> ${esc(q.why)}${ln}</p></div>`;
     const nb = document.createElement("button"); nb.type = "button"; nb.className = "btn"; nb.textContent = qi < qs.length - 1 ? "次の問題" : "けっかを見る";
     nb.addEventListener("click", () => { qi++; render(); }); after.appendChild(nb); nb.focus();
   }
@@ -2340,7 +2358,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
       const hd = document.querySelector("header");
       if (tall && hd) scrollBy({ top: -(hd.getBoundingClientRect().bottom + 16), behavior: "instant" });
     }
-    tip.innerHTML = `<div class="tt-k">使い方 ${i + 1} / ${STEPS.length}</div><b id="tourTitle">${s.t}</b><p>${s.d}</p>
+    tip.innerHTML = `<div class="tt-k">${D.OK.mascot(i === STEPS.length - 1 ? "wow" : "smile", 34)}使い方 ${i + 1} / ${STEPS.length}</div><b id="tourTitle">${s.t}</b><p>${s.d}</p>
       <div class="tt-b"><button type="button" class="btn ghost" data-a="skip">とじる</button><button type="button" class="btn" data-a="next">${i === STEPS.length - 1 ? "はじめる" : "次へ"}</button></div>`;
     veil.hidden = ring.hidden = tip.hidden = false;
     requestAnimationFrame(() => { place(); tip.querySelector('[data-a="next"]').focus(); });
@@ -2411,7 +2429,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     });
     const now = JSON.stringify(cart);
     [...presets.children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.p !== "clear" && JSON.stringify(PRESETS[+b.dataset.p].c) === now)));
-    if (!ids.length) { out.innerHTML = `<div class="bk-empty">かごは、からっぽです。<br>棚の品物を押して、かごに入れてみよう。</div>`; return; }
+    if (!ids.length) { out.innerHTML = `<div class="bk-empty">${D.OK.mascot("think", 56)}かごは、からっぽです。<br>棚の品物を押して、かごに入れてみよう。</div>`; return; }
 
     const t15 = ids.reduce((s, id) => s + BY[id].p15 * cart[id], 0), t25 = ids.reduce((s, id) => s + BY[id].p25 * cart[id], 0);
     const h15 = t15 / W15, h25 = t25 / W25, diff = (h25 - h15) * 60, max = Math.max(h15, h25);
