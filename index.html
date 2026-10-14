@@ -996,6 +996,40 @@ body.bigq-open { overflow: hidden; }
 .bq-keys { font-size: 12px; opacity: .55; }
 @media (hover: none) { .bq-keys { display: none; } }
 
+/* キャッシュレスの広がり */
+.cashless { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--cool); background: color-mix(in srgb, var(--cool) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.cashless .bk-badge { background: var(--cool); color: var(--card); }
+.cl-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .cl-grid { grid-template-columns: minmax(0, 1fr); } }
+.cl-card, .cl-ten, .cl-mix { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 8px; min-width: 0; }
+.cl-side { display: grid; gap: 12px; }
+.cl-card svg { width: 100%; height: auto; display: block; }
+.cl-gl { stroke: var(--line); stroke-dasharray: 3 4; }
+.cl-ax { font-size: 12px; fill: var(--muted); font-family: var(--font-num); }
+.cl-ax.goal { fill: var(--good); font-weight: 700; }
+.cl-goal { stroke: var(--good); stroke-dasharray: 6 5; stroke-width: 1.5; }
+.cl-l { fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.cl-l.dom { stroke: var(--cool); } .cl-l.intl { stroke: var(--muted); stroke-width: 2.5; stroke-dasharray: 5 4; }
+.cl-cur { stroke: var(--ink); opacity: .25; }
+.cl-dot { fill: var(--ruler); stroke: var(--ink); stroke-width: 2.5; }
+.cl-val { font-family: var(--font-num); font-weight: 700; font-size: 15px; fill: var(--ink); }
+.cl-sl { display: grid; gap: 4px; font-weight: 700; font-size: 14px; }
+.cl-sl b { font-family: var(--font-num); color: var(--accent); }
+.cl-sl input { width: 100%; accent-color: var(--cool); }
+.cl-k { font-size: 12px; font-weight: 900; color: var(--muted); }
+.cl-icons { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; }
+.cl-i { display: grid; place-items: center; aspect-ratio: 1; border-radius: 8px; background: var(--paper); transition: background .2s; }
+.cl-i.on { background: color-mix(in srgb, var(--cool) 16%, var(--card)); }
+.cl-i svg { width: 80%; height: auto; }
+.cl-ten p { font-size: 14px; line-height: 1.8; }
+.cl-ten p b { font-family: var(--font-num); color: var(--cool); }
+.cl-bar { display: flex; height: 18px; border-radius: 999px; overflow: hidden; }
+.cl-bar i { background: var(--c); }
+.cl-mix ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; font-size: 13px; }
+.cl-mix li { display: grid; grid-template-columns: 12px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.cl-mix .sw { width: 12px; height: 12px; border-radius: 3px; background: var(--c); }
+.cl-mix b { font-family: var(--font-num); }
+
 /* おつりチャレンジ */
 .chg { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--ruler); background: color-mix(in srgb, var(--ruler) 8%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .cg-box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 12px; }
@@ -1584,6 +1618,15 @@ body.bigq-open { overflow: hidden; }
           <p>お札で買い物をしたときの、おつりを作ります。下のお金を押してトレイに入れよう。<b>いちばん少ない枚数</b>で作れたら★3つ！ 品物の値段は、東京23区の2025年平均です。</p>
         </div>
         <div class="cg-box" id="chgBox" aria-live="polite"></div>
+      </div>
+      <div class="cashless">
+        <div class="bk-head">
+          <span class="bk-badge">うごかしてみよう</span>
+          <h3 data-tag="キャッシュレスの広がり">キャッシュレスは、どれくらい広がった？</h3>
+          <p>カードやスマホで払うキャッシュレスは、15年でどれくらいふえたのかな。つまみで年を動かしてみよう。</p>
+        </div>
+        <div id="clBox"></div>
+        <p class="bk-note">経済産業省「2025年のキャッシュレス決済比率を算出しました」（2026年3月31日）より。キャッシュレス＝クレジットカード・デビットカード・電子マネー・コード決済の金額の合計。2025年から、分母から「持ち家の帰属家賃」（実際には払わない家賃）をのぞいた<b>国内指標</b>が使われています。これまでの物差し（<b>国際比較指標</b>）では、2025年は46.3%です。銀行振込や口座振替は入っていません。</p>
       </div>
       <div class="hist">
         <div class="bk-head">
@@ -2542,6 +2585,7 @@ body.bigq-open { overflow: hidden; }
         <div class="src"><span class="what">家族（2人以上の世帯）の支出</span><span class="when">2000〜2025年</span><span class="from">総務省統計局「家計調査 長期時系列表 品目分類（年）」（e-Stat）、エンゲル係数は総務省の2025年平均の発表（28.6%） <a href="https://www.stat.go.jp/data/kakei/" target="_blank" rel="noopener">stat.go.jp/data/kakei</a></span></div>
         <div class="src"><span class="what">初任給・年れいごとの給料</span><span class="when">2025年</span><span class="from">厚生労働省「令和7年賃金構造基本統計調査」 <a href="https://www.mhlw.go.jp/toukei/list/chinginkouzou.html" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
         <div class="src"><span class="what">保険料率</span><span class="when">2026年度</span><span class="from">全国健康保険協会 <a href="https://www.kyoukaikenpo.or.jp/" target="_blank" rel="noopener">kyoukaikenpo.or.jp</a>、こども家庭庁（子ども・子育て支援金）、厚生労働省（雇用保険料率）、日本年金機構 <a href="https://www.nenkin.go.jp/" target="_blank" rel="noopener">nenkin.go.jp</a></span></div>
+        <div class="src"><span class="what">キャッシュレス決済比率</span><span class="when">2010〜2025年</span><span class="from">経済産業省「2025年のキャッシュレス決済比率を算出しました」（2026年3月31日） <a href="https://www.meti.go.jp/press/2025/03/20260331006/20260331006.html" target="_blank" rel="noopener">meti.go.jp</a></span></div>
       </div>
       <div class="rules">
         <div><b>年に1回、更新します</b><p>前の年の物価指数と品目の値段が出る毎年春と、最低賃金が決まる秋に見直します。</p></div>
@@ -2562,6 +2606,6 @@ body.bigq-open { overflow: hidden; }
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月15日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261015002512"></script>
+<script src="okane.bundle.js?v=20261015080504"></script>
 </body>
 </html>

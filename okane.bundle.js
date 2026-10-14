@@ -184,6 +184,16 @@ window.BIG = [
 window.TAXREV = { total: 83.735e12, consumption: 26.688e12, income: 25.325e12, corporate: 20.696e12, note: "令和8年度予算（財務省）" };
 // 消費税率（%）：標準10%（国7.8・地方2.2）、軽減8%（国6.24・地方1.76）
 window.TAXRATE = { std: 10, reduced: 8, stdNational: 7.8, reducedNational: 6.24 };
+// キャッシュレス決済比率（％）と決済額（兆円）。経済産業省「2025年のキャッシュレス決済比率を算出しました」（2026年3月31日）より、2010〜2025年
+// dom：国内指標（分母＝家計最終消費支出−持ち家の帰属家賃、2025年から使う新しい指標）／intl：国際比較指標（分母＝民間最終消費支出、これまでの指標）
+window.CASHLESS = {
+  from: 2010,
+  dom: [16.6, 17.8, 18.9, 19.1, 20.9, 22.5, 24.9, 26.5, 29.8, 33.4, 37.3, 40.0, 44.0, 48.4, 52.8, 58.0],
+  intl: [13.2, 14.1, 15.1, 15.3, 16.9, 18.2, 20.0, 21.3, 24.1, 26.8, 29.7, 32.5, 36.0, 39.3, 42.8, 46.3],
+  amount: [38.3, 40.4, 43.7, 45.4, 50.7, 54.9, 60.0, 64.7, 73.7, 81.9, 85.8, 95.0, 111.0, 126.7, 141.0, 162.7],
+  mix2025: [{ t: "クレジットカード", v: 134.6, p: 82.7 }, { t: "コード決済（QRコードなど）", v: 16.6, p: 10.2 }, { t: "電子マネー", v: 6.0, p: 3.7 }, { t: "デビットカード", v: 5.5, p: 3.4 }],
+  goal: { year: 2030, dom: 65 },
+};
 // 国の一般会計予算の内わけ（令和8年度・単位：億円）。財務省「令和8年度一般会計予算 歳出・歳入の構成」より
 window.BUDGET = {
   label: "令和8年度予算", total: 1223092,
@@ -235,6 +245,7 @@ window.DATA_FRESH = [
   { what: "家族の支出（家計調査）", has: "2025年平均", next: "2026年平均：2027年2月ごろ", freq: "年" },
   { what: "保険料率（手取りの計算）", has: "2026年度", next: "2027年度：2027年2〜3月ごろ", freq: "年" },
   { what: "国の予算・税収・国債残高", has: "令和8年度予算", next: "令和9年度予算案：2026年12月ごろ", freq: "年" },
+  { what: "キャッシュレス決済比率", has: "2025年", next: "2026年の値：2027年3月ごろ", freq: "年" },
   { what: "GDP（名目）", has: "2025年・速報値", next: "2026年：2027年2月ごろ", freq: "年" },
   { what: "人口", has: "2026年8月1日", next: "毎月", freq: "月" },
   { what: "ドル円", has: "2025年平均・2026年9月", next: "毎月", freq: "月" }
@@ -2931,6 +2942,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-15", ic: "money", t: "キャッシュレスの広がり", p: "カードやスマホで払う割合は、15年で約3.5倍に。経済産業省の最新データです。", go: "money" },
     { d: "2026-10-15", ic: "stamps", t: "体験コーナーをホームに", p: "ゲームや動かせる図を、ホームの1か所にあつめました。しゅるいでしぼれます。", go: "home" },
     { d: "2026-10-15", ic: "money", t: "おつりチャレンジ", p: "お札で払ったときのおつりを、硬貨をえらんで作ろう。少ない枚数で★3つ！", go: "money" },
     { d: "2026-10-14", ic: "sources", t: "数字にだまされない", p: "グラフの目もりと「平均のわな」。統計の読み方を、動かしてたしかめよう。", go: "sources" },
@@ -2956,7 +2968,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);
@@ -3307,6 +3319,45 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     const t = e.target.closest(".cg-t"); if (t && !done) { tray.splice(+t.dataset.i, 1); render(); }
   });
   start();
+})();
+
+;
+
+/* ===== okane-cashless.js ===== */
+// おかねの物差し：キャッシュレスは、どれくらい広がった？（2010〜2025年の決済比率・10回の買い物・内わけ）
+(() => {
+  const D = window, { $ } = D.OK;
+  const box = $("clBox"); const C = D.CASHLESS; if (!box || !C) return;
+  const N = C.dom.length, Y1 = C.from + N - 1;
+  let y = Y1;
+  const W = 520, H = 230, L = 34, R = 20, T = 14, B = 28;
+  const x = (i) => L + (i / (N - 1)) * (W - L - R), yy = (v) => T + (1 - v / 70) * (H - T - B);
+  const line = (a) => a.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${yy(v).toFixed(1)}`).join("");
+  const card = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2.5" fill="var(--cool)"/><rect x="2" y="8" width="20" height="2.5" fill="var(--ink)" opacity=".5"/><rect x="5" y="14" width="6" height="2" rx="1" fill="#fff"/></svg>`;
+  const cash = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#d9b44a" stroke="#a8862c" stroke-width="1.5"/><text x="12" y="16" text-anchor="middle" font-size="9" font-weight="900" fill="#5a4410">円</text></svg>`;
+
+  box.innerHTML = `<div class="cl-grid">
+    <div class="cl-card"><svg viewBox="0 0 ${W} ${H}" id="clSvg" role="img" aria-label="キャッシュレス決済比率の推移"></svg>
+      <div class="legend"><span style="--c:var(--cool)">国内指標（新しい物差し）</span><span style="--c:var(--muted)">国際比較指標（これまでの物差し）</span></div>
+      <label class="cl-sl"><span>年：<b id="clY"></b></span><input type="range" id="clIn" min="${C.from}" max="${Y1}" value="${Y1}"></label></div>
+    <div class="cl-side"><div class="cl-ten"><span class="cl-k">1万円の買い物のうち（1こ＝1,000円）</span><div class="cl-icons" id="clIcons"></div><p id="clTxt"></p></div>
+      <div class="cl-mix"><span class="cl-k">${Y1}年のキャッシュレス ${C.amount[N - 1]}兆円の内わけ</span><div class="cl-bar">${C.mix2025.map((m, i) => `<i style="width:${m.p}%;--c:var(--seg${[1, 3, 6, 5][i]})" title="${m.t} ${m.p}%"></i>`).join("")}</div>
+        <ul>${C.mix2025.map((m, i) => `<li style="--c:var(--seg${[1, 3, 6, 5][i]})"><span class="sw"></span>${m.t}<b>${m.p}%</b></li>`).join("")}</ul></div></div></div>`;
+
+  function render() {
+    const i = y - C.from, d = C.dom[i], k = d / 10;
+    let s = [0, 20, 40, 60].map((v) => `<line x1="${L}" x2="${W - R}" y1="${yy(v)}" y2="${yy(v)}" class="cl-gl"/><text x="${L - 6}" y="${yy(v) + 4}" text-anchor="end" class="cl-ax">${v}%</text>`).join("");
+    s += `<line x1="${L}" x2="${W - R}" y1="${yy(C.goal.dom)}" y2="${yy(C.goal.dom)}" class="cl-goal"/><text x="${L + 6}" y="${yy(C.goal.dom) - 5}" class="cl-ax goal">${C.goal.year}年の目標 ${C.goal.dom}%</text>`;
+    [C.from, 2015, 2020, Y1].forEach((yr) => { s += `<text x="${x(yr - C.from)}" y="${H - 8}" text-anchor="${yr === Y1 ? "end" : yr === C.from ? "start" : "middle"}" class="cl-ax">${yr}</text>`; });
+    s += `<path d="${line(C.intl)}" class="cl-l intl"/><path d="${line(C.dom)}" class="cl-l dom"/>`;
+    s += `<line x1="${x(i)}" x2="${x(i)}" y1="${T}" y2="${H - B}" class="cl-cur"/><circle cx="${x(i)}" cy="${yy(d)}" r="6" class="cl-dot"/><text x="${x(i) > W - 80 ? x(i) - 10 : x(i) + 10}" y="${yy(d) - 10}" text-anchor="${x(i) > W - 80 ? "end" : "start"}" class="cl-val">${d.toFixed(1)}%</text>`;
+    $("clSvg").innerHTML = s; $("clY").textContent = y + "年";
+    const full = Math.floor(k), part = k - full;
+    $("clIcons").innerHTML = Array.from({ length: 10 }, (_, j) => `<span class="cl-i${j < full ? " on" : j === full && part >= 0.5 ? " on half" : ""}">${j < full || (j === full && part >= 0.5) ? card : cash}</span>`).join("");
+    $("clTxt").innerHTML = `${y}年は、払ったお金（金額）の<b>${d.toFixed(1)}%</b>がキャッシュレスでした。1万円の買い物なら、約${Math.round(d * 100).toLocaleString()}円ぶんです。${y === Y1 ? `${C.from}年（${C.dom[0].toFixed(1)}%）の<b>約${(d / C.dom[0]).toFixed(1)}倍</b>です。` : ""}`;
+  }
+  $("clIn").addEventListener("input", (e) => { y = +e.target.value; render(); });
+  render();
 })();
 
 ;
