@@ -975,6 +975,19 @@ body.bigq-open { overflow: hidden; }
 .bq-keys { font-size: 12px; opacity: .55; }
 @media (hover: none) { .bq-keys { display: none; } }
 
+/* 国のお金メーター */
+.meter { margin-top: 22px; border-radius: var(--r); background: var(--inv); color: var(--inv-ink); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.meter .bk-badge { background: var(--ruler); color: var(--ruler-ink); }
+.meter .bk-head p, .meter .bk-note { color: color-mix(in srgb, var(--inv-ink) 75%, transparent); }
+.mt-time { display: flex; align-items: baseline; gap: 8px; font-size: 14px; }
+.mt-time b { font-family: var(--font-display); font-weight: 400; font-size: 40px; color: var(--ruler); font-variant-numeric: tabular-nums; }
+.mt-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .mt-grid { grid-template-columns: minmax(0, 1fr); } }
+.mt-c { border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; background: color-mix(in srgb, var(--inv-ink) 8%, transparent); border-left: 6px solid var(--c); min-width: 0; }
+.mt-t { font-size: 13px; font-weight: 900; }
+.mt-v { font-family: var(--font-num); font-size: clamp(22px, 3.2vw, 34px); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.mt-s { font-size: 12px; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
+
 /* 国の1年のお金を1万円に */
 .budget { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--seg1); background: color-mix(in srgb, var(--seg1) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .budget .bk-badge { background: var(--seg1); color: var(--card); }
@@ -2083,6 +2096,15 @@ body.bigq-open { overflow: hidden; }
         <div class="stack" id="budgetBar" role="img" aria-label="一般会計の内わけ"></div>
         <p id="budgetText" style="color:var(--ink-2)"></p>
       </div>
+      <div class="meter">
+        <div class="bk-head">
+          <span class="bk-badge">国のお金メーター</span>
+          <h3 data-tag="国のお金メーター">あなたがこのページを見ているあいだに、国のお金はどれだけ動く？</h3>
+          <p>1年間の国の予算を、1秒あたりに直して数えています。ページを開いたままにして、数字がふえていくのを見てみよう。</p>
+        </div>
+        <div id="meterBox"></div>
+        <p class="bk-note">財務省「令和8年度一般会計予算」の金額を、365日×24時間×60分×60秒でわった平均です。本当は、お金は毎日同じように動くわけではありません。</p>
+      </div>
       <div class="budget">
         <div class="bk-head">
           <span class="bk-badge">国の家計簿</span>
@@ -2404,4 +2426,5 @@ body.bigq-open { overflow: hidden; }
 <script src="okane-history.js"></script>
 <script src="okane-life.js"></script>
 <script src="okane-budget.js"></script>
+<script src="okane-meter.js"></script>
 <script src="okane-speak.js"></script>

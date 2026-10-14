@@ -78,7 +78,7 @@
   function card(id, no, title, ans, done) {
     const ic = D.OK.icon ? D.OK.icon(id, 24) : "";
     // 章の中にある「やってみよう」（ゲーム・すごろくなど）を、小さなタグで見せる
-    const tags = $(id) ? [...$(id).querySelectorAll(".bk-head h3")].map((h) => h.textContent.split("：")[0].replace(/[？?]$/, "")) : [];
+    const tags = $(id) ? [...$(id).querySelectorAll(".bk-head h3")].map((h) => h.dataset.tag || h.textContent.split("：")[0].replace(/[？?]$/, "")) : [];
     return `<a class="toc-card" href="#${id}"><span class="no">${ic || no}</span><span class="tq">${ic && typeof no === "number" ? `<small class="tn">${String(no).padStart(2, "0")}</small>` : ""}${esc(title)}</span><span class="ta">${ans}</span>${tags.length ? `<span class="tt">${tags.map((t) => `<i>${esc(t)}</i>`).join("")}</span>` : ""}${done ? '<span class="done">読んだ</span>' : ""}</a>`;
   }
   function renderToc() {
