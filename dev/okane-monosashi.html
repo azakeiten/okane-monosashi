@@ -935,6 +935,37 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* 一生のお金すごろく */
+.life { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--good); background: color-mix(in srgb, var(--good) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.life .bk-badge { background: var(--good); color: var(--card); }
+.lf-ctl { display: flex; flex-wrap: wrap; gap: 10px 18px; margin-bottom: 12px; }
+.lf-sel { display: grid; gap: 4px; }
+.lf-sel > span { font-size: 12px; font-weight: 900; color: var(--muted); }
+.lf-board { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px 12px; counter-reset: none; }
+.lf-c { position: relative; background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 12px 12px 10px; display: grid; gap: 2px; align-content: start; min-height: 112px; }
+.lf-c::after { content: "→"; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); font-weight: 900; color: var(--muted); font-size: 13px; }
+.lf-c:last-child::after { content: none; }
+.lf-n { position: absolute; top: -10px; left: 10px; width: 22px; height: 22px; border-radius: 999px; display: grid; place-items: center; background: var(--ink); color: var(--card); font-family: var(--font-num); font-size: 11px; }
+.lf-age { font-family: var(--font-num); font-size: 12px; color: var(--muted); margin-top: 4px; }
+.lf-c b { font-size: 14px; line-height: 1.4; }
+.lf-v { font-family: var(--font-num); font-weight: 700; font-size: 17px; }
+.lf-c small { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.lf-c.cost { border-color: color-mix(in srgb, var(--hot) 55%, var(--line)); background: color-mix(in srgb, var(--hot) 6%, var(--card)); }
+.lf-c.cost .lf-v { color: var(--hot); }
+.lf-c.earn { border-color: color-mix(in srgb, var(--good) 55%, var(--line)); background: color-mix(in srgb, var(--good) 6%, var(--card)); }
+.lf-c.earn .lf-v { color: var(--good); }
+.lf-c.gap { border-style: dashed; background: var(--paper); }
+.lf-c.start, .lf-c.goal { background: var(--ruler); border-color: var(--ruler); color: var(--ruler-ink); }
+.lf-c.start .lf-age, .lf-c.goal .lf-age { color: var(--ruler-ink); opacity: .7; }
+.lf-sum { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+@media (max-width: 640px) { .lf-sum { grid-template-columns: minmax(0, 1fr); } .lf-board { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.lf-tot { border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; background: var(--inv); color: var(--inv-ink); }
+.lf-tot span { font-size: 13px; color: color-mix(in srgb, var(--inv-ink) 75%, transparent); }
+.lf-tot b { font-family: var(--font-display); font-weight: 400; font-size: 30px; }
+.lf-tot.cost b { color: color-mix(in srgb, var(--hot) 70%, var(--inv-ink)); }
+.lf-tot.earn b { color: color-mix(in srgb, var(--good) 65%, var(--inv-ink)); }
+.lf-tot small { font-size: 12px; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
+
 /* お金の歴史 */
 .hist { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--line); background: var(--card); padding: 20px; display: grid; gap: 14px; }
 .hist .bk-badge { background: var(--ink); color: var(--card); }
@@ -1924,6 +1955,15 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <div class="tip" id="awTip" hidden></div>
         <p id="awText" style="color:var(--ink-2)"></p>
       </div>
+      <div class="life">
+        <div class="bk-head">
+          <span class="bk-badge">人生すごろく</span>
+          <h3>一生のお金すごろく：学校にかかるお金と、はたらいてもらう給料</h3>
+          <p>生まれてから65歳まで、年れいの順にお金を見てみよう。学校が公立か私立か、何歳ではたらき始めるかで、どう変わる？</p>
+        </div>
+        <div id="lifeBox"></div>
+        <p class="bk-note">学校のお金：文部科学省「令和5年度 子供の学習費調査」の1年あたりの平均（塾・習いごとをふくむ）×通う年数。給料：厚生労働省「令和7年 賃金構造基本統計調査」の年れいごとの毎月の給料（ボーナスと残業代はのぞく、額面）を、ずっとフルタイムではたらいたとして合計した<b>目安</b>です。大学などのお金や、税金・保険料が引かれることは入っていません。</p>
+      </div>
       <div class="deeps">
         <details class="deep">
           <summary>どうして、年れいとともに給料が上がるの？</summary>
@@ -2292,4 +2332,5 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-shop.js"></script>
 <script src="okane-news.js"></script>
 <script src="okane-history.js"></script>
+<script src="okane-life.js"></script>
 <script src="okane-speak.js"></script>
