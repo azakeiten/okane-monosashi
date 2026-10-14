@@ -956,6 +956,23 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* あたらしくなったこと */
+.news { padding-block: 26px 4px; }
+.nw-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.nw-head h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(22px, 3vw, 28px); }
+.nw-cnt { font-size: 13px; font-weight: 700; color: var(--hot); }
+.nw-row { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(220px, 1fr); gap: 12px; overflow-x: auto; padding: 4px 2px 12px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+@media (max-width: 760px) { .nw-row { grid-auto-columns: 74%; } }
+.nw-card { scroll-snap-align: start; text-decoration: none; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 6px; align-content: start; transition: transform .15s, border-color .15s; }
+.nw-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.nw-card.new { border-color: var(--hot); box-shadow: 0 0 0 3px color-mix(in srgb, var(--hot) 15%, transparent); }
+.nw-top { display: flex; align-items: center; gap: 8px; }
+.nw-ic { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; background: var(--accent-soft, var(--paper)); color: var(--accent); }
+.nw-d { font-family: var(--font-num); font-size: 12px; color: var(--muted); }
+.nw-new { margin-left: auto; font-size: 11px; font-weight: 900; letter-spacing: .06em; background: var(--hot); color: var(--card); border-radius: 999px; padding: 1px 8px; }
+.nw-card b { font-size: 16px; }
+.nw-p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
 /* お店やさんゲーム */
 .shop { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--hot); background: color-mix(in srgb, var(--hot) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .shop .bk-badge { background: var(--hot); color: var(--card); }
@@ -1232,6 +1249,13 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
       <div><b>アプリとしてホーム画面に追加できます</b><p id="installText">ホーム画面から開くと全画面で使えて、電波がないところでも動きます。</p></div>
       <button type="button" class="btn" id="installBtn" hidden>ホーム画面に追加</button>
     </div>
+
+    <section class="news" aria-labelledby="nwTitle">
+      <div class="wrap">
+        <div class="nw-head"><h2 id="nwTitle">あたらしくなったこと</h2><span class="nw-cnt" id="newsCount"></span></div>
+        <div class="nw-row" id="newsRow"></div>
+      </div>
+    </section>
 
     <section class="courses" id="courses" aria-labelledby="crTitle">
       <div class="toc-head">
@@ -2215,8 +2239,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月12日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月14日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261014105118"></script>
+<script src="okane.bundle.js?v=20261014105532"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 
 👉 **サイトを開く：https://azakeiten.github.io/okane-monosashi/**
 
-👩‍🏫 **先生・おうちの人へ（授業プラン3つ）：https://azakeiten.github.io/okane-monosashi/guide.html**
+👩‍🏫 **先生・おうちの人へ（授業プラン4つ）：https://azakeiten.github.io/okane-monosashi/guide.html**
 
 ## できること
 
@@ -63,7 +63,7 @@
 
 - `index.html` … 公開されるページ（`dev/build.sh` で自動で作る）
 - `okane.bundle.js` … 公開用に、下のプログラムを1つにまとめたもの（`dev/build.sh` で自動で作る。直接は直さない）
-- `guide.html` … 先生・おうちの人への案内（45分の授業プラン3つ・よくある質問）。章の番号を変えたら、ここの番号も直す
+- `guide.html` … 先生・おうちの人への案内（45分の授業プラン4つ・よくある質問）。章の番号を変えたら、ここの番号も直す
 - `dev/okane-monosashi.html` … ページ本体のもと（見た目と文章はここを直す）
 - `dev/build.sh` … `bash dev/build.sh` で index.html を作り直す
 - `okane-data.js` … 統計データ（年1回ここを更新）
@@ -93,5 +93,6 @@
 - `okane-market.js` … 値段の決まり方（需要と供給の模型）
 - `okane-faq.js` … ものさしくんの なぜなに相談室（よくある疑問に会話で答える）
 - `okane-shop.js` … お店やさんゲーム（天気を見て、ジュースの値段と作る数を決める5日間）
+- `okane-news.js` … ホームの「あたらしくなったこと」（前に来たときより新しいものに NEW）。機能を足したら、ここにも1行足す
 
 外部のサービスとの通信はしません（フォントの読み込みを除く）。設定やスタンプは、使う人のブラウザの中にだけ保存されます。
