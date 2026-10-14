@@ -996,6 +996,37 @@ body.bigq-open { overflow: hidden; }
 .bq-keys { font-size: 12px; opacity: .55; }
 @media (hover: none) { .bq-keys { display: none; } }
 
+/* 数字にだまされない */
+.lit { margin: 0 0 22px; border-radius: var(--r); border: 2px solid var(--hot); background: color-mix(in srgb, var(--hot) 4%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.lit .bk-badge { background: var(--hot); color: var(--card); }
+.lt-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 860px) { .lt-grid2 { grid-template-columns: minmax(0, 1fr); } }
+.lt-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.lt-card h4 { font-family: var(--font-display); font-weight: 400; font-size: 19px; }
+.lt-lead { font-size: 14px; color: var(--ink-2); }
+.lt-card svg { width: 100%; height: auto; display: block; }
+.lt-grid { stroke: var(--line); stroke-dasharray: 3 4; }
+.lt-ax { font-size: 12px; fill: var(--muted); font-family: var(--font-num); }
+.lt-bar { fill: color-mix(in srgb, var(--cool) 45%, var(--card)); transition: y .4s, height .4s; }
+.lt-bar.last { fill: var(--cool); }
+.lt-cut { fill: none; stroke: var(--hot); stroke-width: 2.5; }
+.lt-msg { background: var(--paper); border-radius: 12px; padding: 10px 12px; line-height: 1.8; font-size: 14px; min-height: 4.8em; }
+.lt-msg b { color: var(--hot); }
+.lt-tip { font-size: 13px; color: var(--ink-2); border-left: 4px solid var(--ruler); padding-left: 10px; }
+.lt-sl { display: grid; gap: 4px; font-weight: 700; font-size: 14px; }
+.lt-sl b { font-family: var(--font-num); color: var(--accent); margin-left: 6px; }
+.lt-sl input { width: 100%; accent-color: var(--hot); }
+.av-line { position: relative; height: 112px; margin: 6px 4px 0; }
+.av-axis { position: absolute; left: 0; right: 0; top: 40px; height: 4px; border-radius: 4px; background: var(--line); }
+.av-kid { position: absolute; top: 28px; transform: translateX(-50%); transition: left .3s ease; }
+.av-kid .mascot { width: 26px; height: 26px; }
+.av-mk { position: absolute; transform: translateX(-50%); font-family: var(--font-num); font-size: 11px; white-space: nowrap; display: grid; justify-items: center; transition: left .3s ease; }
+.av-mk b { font-family: inherit; font-size: 11px; }
+.av-mk.mean { top: 0; color: var(--hot); }
+.av-mk.mean::after { content: ""; width: 2px; height: 10px; background: var(--hot); }
+.av-mk.med { top: 64px; color: var(--cool); }
+.av-mk.med::before { content: ""; width: 2px; height: 10px; background: var(--cool); }
+
 /* 2つの県をくらべっこ */
 .vs { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--line); background: var(--card); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .vs .bk-badge { background: var(--accent); color: var(--card); }
@@ -2420,6 +2451,14 @@ body.bigq-open { overflow: hidden; }
         <h2>このサイトの数字の出どころ</h2>
         <p>使っている数字は、すべて国や公的機関が公表している統計です。自分でも確かめられるように、元のページを書いておきます。</p>
       </div>
+      <div class="lit">
+        <div class="bk-head">
+          <span class="bk-badge">統計の読み方</span>
+          <h3 data-tag="数字にだまされない">数字にだまされない！ 統計の読み方</h3>
+          <p>本物の統計を使っていても、見せ方しだいで、ちがう印象になることがあります。2つのしかけを、自分で動かしてたしかめよう。</p>
+        </div>
+        <div id="litBox"></div>
+      </div>
       <div class="chart-card">
         <div class="chart-top"><h3>データの新しさ</h3><span class="hint">サイトの最終更新：<span id="freshUpdated"></span></span></div>
         <p class="hint">それぞれの数字が「いつの数字か」と、国が次に新しい数字を出すおおよその時期です。新しい数字が出たら、このサイトも更新します。</p>
@@ -2455,6 +2494,6 @@ body.bigq-open { overflow: hidden; }
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月14日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261014224125"></script>
+<script src="okane.bundle.js?v=20261014225702"></script>
 </body>
 </html>
