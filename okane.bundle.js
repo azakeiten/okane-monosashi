@@ -2359,6 +2359,48 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     nb.addEventListener("click", () => { qi++; render(); }); after.appendChild(nb); nb.focus();
   }
   start(MODES[mode] ? mode : "rise");
+
+  // ===== みんなでクイズ（教室の大きな画面用）=====
+  // 1問ずつ大きく出して、みんなで考えてから答えを見せる。キーボード：1〜3で選ぶ／Enterで答え／→で次へ／Escでとじる
+  const bigEl = document.createElement("div"); bigEl.className = "bigq"; bigEl.hidden = true; bigEl.setAttribute("role", "dialog"); bigEl.setAttribute("aria-modal", "true"); bigEl.setAttribute("aria-label", "みんなでクイズ");
+  document.body.appendChild(bigEl);
+  let bm = "mix", bq = null, bn = 0, shown = false, picked = -1, bUsed = new Set();
+  const L = ["A", "B", "C", "D"];
+  function bNext() {
+    const keys = Object.keys(MODES), m = bm === "mix" ? keys[rnd(keys.length)] : bm;
+    bq = MODES[m].make(bUsed) || (bUsed = new Set(), MODES[m].make(bUsed)); bq.mt = MODES[m].t;
+    bn++; shown = false; picked = -1; bRender();
+  }
+  function bRender() {
+    const q = bq;
+    bigEl.innerHTML = `<div class="bq-top"><div class="bq-modes">${[["mix", "ぜんぶまぜる"], ...Object.entries(MODES).map(([k, x]) => [k, x.t])].map(([k, t]) => `<button type="button" data-bm="${k}" aria-pressed="${k === bm}">${t}</button>`).join("")}</div>
+        <div class="bq-tools"><button type="button" data-a="fs">全画面</button><button type="button" data-a="close" aria-label="とじる">✕ とじる</button></div></div>
+      <div class="bq-body"><div class="bq-k">第${bn}問・${esc(q.mt)}</div><div class="bq-q">${esc(q.q)}</div>
+        <div class="bq-opts n${q.opts.length}">${q.opts.map((o, i) => `<button type="button" class="bq-o${shown ? (i === q.ans ? " win" : " lose") : ""}${picked === i ? " pk" : ""}" data-i="${i}"><span class="bq-l">${L[i]}</span><span class="bq-t">${esc(o.t)}${o.s ? `<small>${esc(o.s)}</small>` : ""}</span>${shown && o.r ? `<span class="bq-r">${esc(o.r)}</span>` : ""}</button>`).join("")}</div>
+        <div class="bq-foot">${shown ? `<div class="bq-why">${D.OK.mascot ? D.OK.mascot("wow", 56) : ""}<p><b>答え：${L[q.ans]}</b>　${esc(q.why)}</p></div><button type="button" class="btn" data-a="next">次の問題 →</button>` : `<span class="bq-hint">みんなで考えてから…</span><button type="button" class="btn" data-a="show">答えを見る</button>`}</div>
+        <p class="bq-keys">キーボード：1〜${q.opts.length}で選ぶ ／ Enterで答え ／ →で次へ ／ Escでとじる</p></div>`;
+  }
+  function bOpen() { bn = 0; bUsed = new Set(); bigEl.hidden = false; document.body.classList.add("bigq-open"); bNext(); }
+  function bClose() { bigEl.hidden = true; document.body.classList.remove("bigq-open"); if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
+  bigEl.addEventListener("click", (e) => {
+    const b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.bm) { bm = b.dataset.bm; bn = 0; bNext(); return; }
+    if (b.dataset.i != null && !shown) { picked = +b.dataset.i; bRender(); return; }
+    const a = b.dataset.a;
+    if (a === "show") { shown = true; bRender(); }
+    else if (a === "next") bNext();
+    else if (a === "close") bClose();
+    else if (a === "fs") { if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); else if (bigEl.requestFullscreen) bigEl.requestFullscreen().catch(() => {}); }
+  });
+  addEventListener("keydown", (e) => {
+    if (bigEl.hidden) return;
+    if (e.key === "Escape" && !document.fullscreenElement) { bClose(); return; }
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= bq.opts.length && !shown) { picked = n - 1; bRender(); }
+    else if (e.key === "Enter" && !shown) { e.preventDefault(); shown = true; bRender(); }
+    else if ((e.key === "ArrowRight" || e.key === " ") && shown) { e.preventDefault(); bNext(); }
+  });
+  const openBtn = $("bigQuizBtn"); if (openBtn) openBtn.addEventListener("click", bOpen);
 })();
 
 ;
@@ -2889,6 +2931,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-14", ic: "quiz", t: "みんなでクイズ", p: "教室の大きな画面に、1問ずつ大きく出せます。キーボードでも進められます。", go: "quiz" },
     { d: "2026-10-14", ic: "sheet", t: "ワークシートが8問に", p: "国の家計簿と、一生のお金すごろくの問題がふえました。印刷できます。", go: "sheet" },
     { d: "2026-10-14", ic: "quiz", t: "しくみクイズが20問に", p: "お金の歴史や国の予算の問題がふえました。", go: "quiz" },
     { d: "2026-10-14", ic: "big", t: "国の1年のお金を1万円に", p: "使い道と、入ってくるお金を100マスで。約4分の1は借金です。", go: "big" },
@@ -2908,7 +2951,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);

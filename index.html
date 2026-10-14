@@ -960,6 +960,42 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* みんなでクイズ（大きな画面） */
+.bigq-cta { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; background: var(--inv); color: var(--inv-ink); border-radius: 18px; padding: 14px 18px; margin-bottom: 14px; }
+.bigq-cta b { display: block; font-size: 16px; }
+.bigq-cta span { font-size: 13px; color: color-mix(in srgb, var(--inv-ink) 75%, transparent); }
+.bigq-cta .btn { background: var(--ruler); color: var(--ruler-ink); border-color: var(--ruler); }
+body.bigq-open { overflow: hidden; }
+.bigq { position: fixed; inset: 0; z-index: 90; background: var(--inv); color: var(--inv-ink); display: grid; grid-template-rows: auto 1fr; overflow: auto; }
+.bigq[hidden] { display: none; }
+.bq-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; padding: 14px 20px; border-bottom: 1px solid color-mix(in srgb, var(--inv-ink) 15%, transparent); }
+.bq-modes, .bq-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+.bq-top button { font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; border-radius: 999px; padding: 6px 12px; border: 1.5px solid color-mix(in srgb, var(--inv-ink) 30%, transparent); background: transparent; color: var(--inv-ink); }
+.bq-top button[aria-pressed="true"] { background: var(--ruler); color: var(--ruler-ink); border-color: var(--ruler); }
+.bq-body { width: min(1200px, 100%); margin: 0 auto; padding: clamp(18px, 4vh, 48px) 24px 28px; display: grid; gap: clamp(16px, 3vh, 32px); align-content: center; }
+.bq-k { font-size: clamp(14px, 1.6vw, 20px); font-weight: 900; color: var(--ruler); letter-spacing: .06em; }
+.bq-q { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 4.2vw, 58px); line-height: 1.35; }
+.bq-opts { display: grid; gap: clamp(10px, 1.6vw, 20px); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.bq-opts.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 760px) { .bq-opts, .bq-opts.n3 { grid-template-columns: minmax(0, 1fr); } }
+.bq-o { font: inherit; text-align: left; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "l t" "l r"; gap: 4px 16px; align-items: center; border-radius: 20px; padding: clamp(14px, 2vw, 26px); background: color-mix(in srgb, var(--inv-ink) 8%, transparent); color: var(--inv-ink); border: 3px solid color-mix(in srgb, var(--inv-ink) 20%, transparent); transition: transform .15s, border-color .15s, background .2s; }
+.bq-o:hover { border-color: var(--ruler); }
+.bq-o.pk { border-color: var(--ruler); transform: translateY(-3px); }
+.bq-l { grid-area: l; width: clamp(40px, 4vw, 60px); height: clamp(40px, 4vw, 60px); border-radius: 14px; display: grid; place-items: center; background: var(--ruler); color: var(--ruler-ink); font-family: var(--font-display); font-size: clamp(22px, 2.6vw, 34px); }
+.bq-t { grid-area: t; font-size: clamp(20px, 2.6vw, 36px); font-weight: 700; line-height: 1.3; }
+.bq-t small { display: block; font-size: .5em; font-weight: 400; opacity: .7; }
+.bq-r { grid-area: r; font-family: var(--font-num); font-size: clamp(14px, 1.5vw, 20px); opacity: .85; }
+.bq-o.win { background: color-mix(in srgb, var(--good) 35%, transparent); border-color: var(--good); }
+.bq-o.lose { opacity: .45; }
+.bq-foot { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; min-height: 72px; }
+.bq-foot .btn { font-size: clamp(16px, 1.8vw, 22px); padding: 12px 28px; background: var(--ruler); color: var(--ruler-ink); border-color: var(--ruler); }
+.bq-hint { font-size: clamp(16px, 1.8vw, 22px); opacity: .7; }
+.bq-why { display: flex; gap: 14px; align-items: center; flex: 1 1 420px; }
+.bq-why p { font-size: clamp(16px, 1.9vw, 24px); line-height: 1.6; }
+.bq-why b { color: var(--ruler); }
+.bq-keys { font-size: 12px; opacity: .55; }
+@media (hover: none) { .bq-keys { display: none; } }
+
 /* 国の1年のお金を1万円に */
 .budget { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--seg1); background: color-mix(in srgb, var(--seg1) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .budget .bk-badge { background: var(--seg1); color: var(--card); }
@@ -2229,6 +2265,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <h2>お金クイズ：5つのモードで力だめし</h2>
         <p>「値上がりはどっち？」「何時間はたらく？」「日本地図クイズ」「昔の値段クイズ」「しくみクイズ」の5つ。どれも5問で、出てくる数字はすべて本物の統計です。答えのあとに、くわしく学べる章へのリンクが出ます。モードごとに、いちばんよかった点数が記録されます。</p>
       </div>
+      <div class="bigq-cta"><div><b>教室で、みんなでやろう</b><span>電子黒板やプロジェクターに、1問ずつ大きく出せます。みんなで考えてから「答えを見る」。</span></div><button type="button" class="btn" id="bigQuizBtn">みんなでクイズ（大きな画面）</button></div>
       <div class="quiz" id="quizBox"></div>
     </div>
   </section>
@@ -2359,6 +2396,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月14日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261014160650"></script>
+<script src="okane.bundle.js?v=20261014162755"></script>
 </body>
 </html>
