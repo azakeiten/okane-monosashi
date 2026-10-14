@@ -77,13 +77,29 @@
     });
     D.ITEMS.forEach((it) => out.push({ type: "品物", label: it.name, sub: `${it.unit}・${yen(it.p25)}円（東京23区・2025年）→ はたらく時間で見る`, href: "#hours", act: () => D.OK.selectItem(it.id), key: norm(it.name + it.unit) }));
     D.PREFS.forEach((p, i) => out.push({ type: "都道府県", label: D.OK.prefName(i), sub: `最低賃金 ${yen(D.PREF_WAGE[i])}円・${p.city} → 日本地図で見る`, href: "#map", act: () => D.OK.selectPrefOnMap && D.OK.selectPrefOnMap(i), key: norm(D.OK.prefName(i) + p.city) }));
+    // 章の中の「やってみよう」（買い物かご・ゲーム・すごろくなど）、相談室の質問、歴史の年表
+    const goTo = (el, open) => () => setTimeout(() => { if (open) open(); el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 2400); el.scrollIntoView({ block: "start", behavior: "instant" }); scrollBy({ top: -90, behavior: "instant" }); }, 80);
+    document.querySelectorAll("section.ch .bk-head").forEach((h) => {
+      const blk = h.parentElement, s = blk.closest("section.ch"), t = h.querySelector("h3"), b = h.querySelector(".bk-badge"), p = h.querySelector("p");
+      if (!t || !s) return;
+      out.push({ type: b ? b.textContent : "やってみよう", label: plain(t), sub: plain(p).slice(0, 50) + "…", href: "#" + s.id, act: goTo(blk), key: norm(plain(t) + (b ? b.textContent : "") + plain(p)) });
+    });
+    document.querySelectorAll(".faq").forEach((f) => { const q = f.querySelector(".fq-q"); if (!q) return;
+      out.push({ type: "なぜなに", label: q.textContent, sub: plain(f.querySelector(".fq-bub p")).slice(0, 48) + "…", href: "#words", act: goTo(f, () => { f.open = true; }), key: norm(q.textContent + plain(f.querySelector(".fq-bub"))) }); });
+    document.querySelectorAll(".hl-card").forEach((c) => { const t = c.querySelector(".hl-top b"), e = c.querySelector(".hl-era");
+      out.push({ type: "歴史", label: t.textContent, sub: e.textContent, href: "#money", act: goTo(c), key: norm(t.textContent + e.textContent + plain(c.querySelector("p"))) }); });
     document.querySelectorAll(".word").forEach((w) => { const t = w.querySelector(".w").textContent, r = w.querySelector(".r"); out.push({ type: "ことば", label: t, sub: w.querySelector("p").textContent.slice(0, 48) + "…", href: "#words", act: () => { w.classList.add("flash"); setTimeout(() => w.classList.remove("flash"), 2400); setTimeout(() => w.scrollIntoView({ block: "center", behavior: "instant" }), 50); }, key: norm(t + (r ? r.textContent : "")) }); });
     return out;
   }
   function search() {
     if (!index) index = build();
     const q = norm(inp.value);
-    if (!q) { res.innerHTML = `<li class="find-hint">言葉を入れると、章・品物・都道府県・ことばから見つけます。</li>`; return; }
+    if (!q) {
+      const SUG = ["ゲーム", "お米", "円安", "税金", "すごろく", "歴史", "東京", "インフレ"];
+      res.innerHTML = `<li class="find-hint">言葉を入れると、章・品物・都道府県・ことば・ゲームや体験・なぜなに・歴史から見つけます。<div class="find-sug">${SUG.map((s) => `<button type="button" class="chip" data-s="${s}">${s}</button>`).join("")}</div></li>`;
+      res.querySelectorAll("[data-s]").forEach((b) => b.addEventListener("click", () => { inp.value = b.dataset.s; search(); inp.focus(); }));
+      return;
+    }
     const hit = index.filter((x) => x.key.includes(q)).sort((a, b) => (norm(a.label).startsWith(q) ? 0 : 1) - (norm(b.label).startsWith(q) ? 0 : 1)).slice(0, 14);
     res.innerHTML = hit.length ? hit.map((x, k) => `<li><a href="${x.href}" data-k="${index.indexOf(x)}"><span class="ft">${x.type}</span><span class="fl">${esc(x.label)}</span><span class="fs">${esc(x.sub)}</span></a></li>`).join("") : `<li class="find-hint">「${esc(inp.value)}」は見つかりませんでした。ちがう言葉でためしてみよう。</li>`;
     res.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => { const x = index[+a.dataset.k]; if (x.act) x.act(); dlg.close(); }));

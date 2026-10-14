@@ -4,6 +4,7 @@
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-14", ic: "sources", t: "さがす・もくじがパワーアップ", p: "ゲームや相談室、歴史も「さがす」で見つかります。もくじに体験のタグも。", go: "toc" },
     { d: "2026-10-14", ic: "agewage", t: "一生のお金すごろく", p: "学校にかかるお金と、65歳まではたらいてもらう給料をならべよう。", go: "agewage" },
     { d: "2026-10-14", ic: "money", t: "お金の歴史", p: "貝がら・小判・お札・スマホ。お金はどう変わってきた？", go: "money" },
     { d: "2026-10-14", ic: "words", t: "よみあげボタン", p: "章のポイントや相談室の答えを、声で読み上げます。", go: "quiz" },
@@ -19,7 +20,7 @@
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);

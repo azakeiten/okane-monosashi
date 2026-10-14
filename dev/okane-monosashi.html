@@ -520,7 +520,8 @@ dialog.find::backdrop { background: color-mix(in srgb, var(--ink) 45%, transpare
 .find-res .fs { font-size: 13px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .find-hint { color: var(--muted); font-size: 14px; padding: 8px 4px; }
 #findBtn svg { flex: none; }
-.word.flash { box-shadow: 0 0 0 3px var(--ruler); transition: box-shadow .3s; }
+.word.flash, .flash { box-shadow: 0 0 0 3px var(--ruler); transition: box-shadow .3s; }
+.find-sug { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 
 /* ===== v12：おこづかい帳・アプリとして追加 ===== */
 .diary-form { display: grid; gap: 14px; }
@@ -717,6 +718,9 @@ svg.ic { flex: none; vertical-align: -0.18em; }
 .toc-card .tq { font-weight: 700; line-height: 1.5; font-size: 16px; }
 .toc-card .ta { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
 .toc-card .ta b { font-family: var(--font-num); font-weight: 500; color: var(--accent); }
+.toc-card .tt { grid-column: 2; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.toc-card .tt i { font-style: normal; font-size: 11px; font-weight: 700; color: var(--good); background: color-mix(in srgb, var(--good) 10%, var(--card)); border: 1px solid color-mix(in srgb, var(--good) 35%, var(--line)); border-radius: 999px; padding: 1px 8px; }
+.toc-card .tt i::before { content: "▶ "; font-size: 9px; }
 .toc-card .done { position: absolute; right: 10px; top: 8px; font-size: 11px; font-weight: 900; color: var(--hot); border: 1.5px solid var(--hot); border-radius: 999px; padding: 0 7px; transform: rotate(6deg); }
 
 /* この章のポイント */
