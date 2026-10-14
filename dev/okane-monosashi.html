@@ -935,6 +935,43 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* お金の歴史 */
+.hist { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--line); background: var(--card); padding: 20px; display: grid; gap: 14px; }
+.hist .bk-badge { background: var(--ink); color: var(--card); }
+.hl { list-style: none; margin: 8px 0 0; padding: 0; position: relative; display: grid; gap: 14px; }
+.hl::before { content: ""; position: absolute; top: 6px; bottom: 6px; left: 50%; width: 10px; transform: translateX(-50%); border-radius: 999px;
+  background: repeating-linear-gradient(to bottom, var(--ruler-ink) 0 2px, transparent 2px 14px) right / 5px 100% no-repeat, var(--ruler); }
+.hl { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 56px; row-gap: 14px; }
+.hl-it { position: relative; }
+.hl-it.r { margin-top: 80px; margin-bottom: -80px; }
+
+
+.hl-dot { position: absolute; right: -37px; top: 22px; width: 18px; height: 18px; border-radius: 999px; background: var(--card); border: 4px solid var(--hot); z-index: 1; }
+.hl-it.r .hl-dot { right: auto; left: -37px; }
+.hl-it:last-child { margin-bottom: 0; }
+.hl-card { background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 6px; }
+.hl-top { display: flex; gap: 10px; align-items: center; }
+.hl-art { flex: none; }
+.hl-top > div { display: grid; line-height: 1.35; }
+.hl-era { font-size: 12px; font-weight: 900; color: var(--hot); letter-spacing: .04em; }
+.hl-top b { font-size: 16px; }
+.hl-ago { font-family: var(--font-num); font-size: 12px; color: var(--accent); }
+.hl-card p { font-size: 14px; line-height: 1.8; color: var(--ink-2); }
+@media (max-width: 760px) {
+  .hl::before { left: 9px; transform: none; }
+  .hl { grid-template-columns: minmax(0, 1fr); }
+  .hl-it, .hl-it.r { margin: 0 0 0 30px; }
+
+  .hl-dot, .hl-it.r .hl-dot { left: -25px; right: auto; }
+}
+
+/* 読み上げ */
+.say-btn { justify-self: start; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: 1.5px solid var(--line); background: var(--card); color: var(--accent); border-radius: 999px; padding: 4px 12px 4px 10px; font: inherit; font-size: 12px; font-weight: 700; }
+.say-btn:hover { border-color: var(--accent); }
+.say-btn[aria-pressed="true"] { background: var(--accent); color: var(--card); border-color: var(--accent); }
+.say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
+@media print { .say-btn { display: none; } }
+
 /* あたらしくなったこと */
 .news { padding-block: 26px 4px; }
 .nw-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -1293,6 +1330,14 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
             <div class="big-grid" id="cnGrid"></div>
           </div>
         </div>
+      </div>
+      <div class="hist">
+        <div class="bk-head">
+          <span class="bk-badge">お金の歴史</span>
+          <h3>お金は、どう変わってきた？</h3>
+          <p>貝がらから、金の小判、お札、そしてスマホへ。お金の形は変わっても、3つの役割はずっと同じです。「今から何年前？」も、ものさしではかってみよう。</p>
+        </div>
+        <ol class="hl" id="histLine"></ol>
       </div>
       <div class="deeps">
         <details class="deep">
@@ -2246,3 +2291,5 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-faq.js"></script>
 <script src="okane-shop.js"></script>
 <script src="okane-news.js"></script>
+<script src="okane-history.js"></script>
+<script src="okane-speak.js"></script>

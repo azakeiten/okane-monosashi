@@ -2836,12 +2836,14 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
 ;
 
 /* ===== okane-news.js ===== */
-// おかねの物差し：ホームの「あたらしくなったこと」。前に来たときより新しいものに NEW をつける
+// おかねの物差し：ホームの「あたらしくなったこと」。前に来たときにはなかったものに NEW をつける
 (() => {
   const D = window, { $, store, esc, icon } = D.OK;
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-14", ic: "money", t: "お金の歴史", p: "貝がら・小判・お札・スマホ。お金はどう変わってきた？", go: "money" },
+    { d: "2026-10-14", ic: "words", t: "よみあげボタン", p: "章のポイントや相談室の答えを、声で読み上げます。", go: "quiz" },
     { d: "2026-10-14", ic: "pay", t: "お店やさんゲーム", p: "ジュース屋さんを5日間。天気を見て、値段と作る数を決めよう。", go: "time" },
     { d: "2026-10-14", ic: "words", t: "なぜなに相談室", p: "「お金を刷ればお金持ち？」など、8つの疑問にものさしくんが答えます。", go: "words" },
     { d: "2026-10-14", ic: "mascot", t: "ものさしくん登場", p: "サイトの案内役。章のポイントやクイズで話しかけてきます。", go: "quiz" },
@@ -2851,14 +2853,94 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     { d: "2026-10-12", ic: "tax", t: "お金のめぐり図", p: "払った1,100円が、会社・国・家計をめぐる旅。", go: "tax" },
     { d: "2026-10-12", ic: "race", t: "買い物かご", p: "同じかごを買うのに、10年前と今で何分はたらく？", go: "race" },
   ];
-  const latest = NEWS[0].d, prev = store.get("newsSeen", null);
+  // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
+  const old = store.get("newsSeen", null);
+  let seen = store.get("newsSeenIds", null);
+  const V33 = ["お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
+  const visited = !!seen; seen = new Set(seen || []);
+  const fresh = (n) => visited && !seen.has(n.t);
   const fmt = (d) => { const [, m, dd] = d.split("-").map(Number); return `${m}月${dd}日`; };
-  box.innerHTML = NEWS.map((n) => { const isNew = prev && n.d > prev;
+  box.innerHTML = NEWS.map((n) => { const isNew = fresh(n);
     return `<a class="nw-card${isNew ? " new" : ""}" href="#${n.go}"><span class="nw-top"><span class="nw-ic">${n.ic === "mascot" ? D.OK.mascot("smile", 30) : icon(n.ic, 20)}</span><span class="nw-d">${fmt(n.d)}</span>${isNew ? '<span class="nw-new">NEW</span>' : ""}</span>
       <b>${esc(n.t)}</b><span class="nw-p">${esc(n.p)}</span></a>`; }).join("");
-  const cnt = prev ? NEWS.filter((n) => n.d > prev).length : 0;
+  const cnt = NEWS.filter(fresh).length;
   $("newsCount").textContent = cnt ? `前に来たときから ${cnt}こ ふえました` : "";
-  store.set("newsSeen", latest);
+  store.set("newsSeenIds", NEWS.map((n) => n.t));
+})();
+
+;
+
+/* ===== okane-history.js ===== */
+// おかねの物差し：お金の歴史年表（物々交換からキャッシュレスまで）
+(() => {
+  const D = window, { $, esc } = D.OK;
+  const box = $("histLine"); if (!box) return;
+  const NOW = new Date().getFullYear();
+  // 小さな絵（すべてこのサイトで描いたもの）
+  const ART = {
+    shell: `<path d="M24 36L7 17Q24 -2 41 17Z" fill="color-mix(in srgb, var(--hot) 25%, var(--card))" stroke="var(--ink)" stroke-width="2" stroke-linejoin="round"/><path d="M24 36V5M24 36L14 9M24 36L34 9M24 36L9 14M24 36L39 14" stroke="var(--ink)" stroke-width="1.3" opacity=".7"/><path d="M19 36h10l-2 3h-6z" fill="var(--ink)"/>`,
+    hole: `<circle cx="24" cy="20" r="15" fill="color-mix(in srgb, var(--hot) 55%, var(--card))" stroke="var(--ink)" stroke-width="2"/><rect x="19.5" y="15.5" width="9" height="9" fill="var(--card)" stroke="var(--ink)" stroke-width="1.6"/>`,
+    koban: `<ellipse cx="24" cy="20" rx="11" ry="16" fill="var(--ruler)" stroke="var(--ink)" stroke-width="2"/><path d="M17 12h14M17 17h14M17 23h14M17 28h14" stroke="var(--ruler-ink)" stroke-width="1.2" opacity=".5"/>`,
+    en: `<circle cx="24" cy="20" r="15" fill="color-mix(in srgb, var(--muted) 35%, var(--card))" stroke="var(--ink)" stroke-width="2"/><text x="24" y="26" text-anchor="middle" font-size="16" font-weight="900" fill="var(--ink)">円</text>`,
+    bill: `<rect x="4" y="8" width="40" height="24" rx="3" fill="color-mix(in srgb, var(--good) 22%, var(--card))" stroke="var(--ink)" stroke-width="2"/><circle cx="31" cy="20" r="6" fill="none" stroke="var(--ink)" stroke-width="1.6"/><path d="M9 14h12M9 19h9M9 24h12" stroke="var(--ink)" stroke-width="1.4"/>`,
+    holo: `<rect x="4" y="8" width="40" height="24" rx="3" fill="color-mix(in srgb, var(--cool) 22%, var(--card))" stroke="var(--ink)" stroke-width="2"/><circle cx="14" cy="20" r="6" fill="url(#hgr)" stroke="var(--ink)" stroke-width="1.4"/><path d="M25 14h14M25 19h10M25 24h14" stroke="var(--ink)" stroke-width="1.4"/>`,
+    phone: `<rect x="14" y="3" width="20" height="34" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="2"/><rect x="18" y="10" width="12" height="12" fill="none" stroke="var(--ink)" stroke-width="1.4"/><path d="M20 12h3v3h-3zM25 17h3v3h-3z" fill="var(--ink)"/><path d="M21 31h6" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round"/>`,
+  };
+  const H = [
+    { y: null, era: "大昔", art: "shell", t: "物々交換と、貝のお金", d: "最初は、物と物を直接とりかえていました。やがて、貝がら・布・お米などが「お金」の代わりに使われるようになります。「貨」「財」「買」など、お金に関係する漢字に「貝」が入っているのは、そのなごりです。" },
+    { y: 708, era: "飛鳥・奈良時代", art: "hole", t: "日本でも銅のお金が作られる", d: "7世紀の後半には富本銭（ふほんせん）が、708年には和同開珎（わどうかいちん）が作られました。まん中に四角い穴があいているのは、中国のお金をお手本にしたからです。" },
+    { y: null, when: "12〜16世紀ごろ", era: "平安〜室町時代", art: "hole", t: "中国から来たお金を使う", d: "日本でお金を作らなくなった時代には、中国から船で運ばれてきた銭（宋銭・明銭）が、日本じゅうで使われていました。" },
+    { y: 1601, era: "江戸時代", art: "koban", t: "金の小判・銀・銭の「三貨」", d: "徳川家康のころに、金でできた小判（慶長小判）が作られました。江戸時代は、金貨・銀貨・銅の銭（寛永通宝など）の3種類のお金を使い分けていました。" },
+    { y: 1871, era: "明治時代", art: "en", t: "「円」が生まれる", d: "新貨条例という法律で、お金の単位が「円・銭・厘」に決まりました。1円＝100銭＝1,000厘です。今も使っている「円」は、ここから始まりました。" },
+    { y: 1885, era: "明治時代", art: "bill", t: "日本銀行のお札が出る", d: "1882年に日本銀行ができ、1885年に最初の日本銀行券（お札）が発行されました。今のお札も、すべて日本銀行が発行しています。" },
+    { y: 2024, era: "令和", art: "holo", t: "新しいお札（2024年7月）", d: "1万円札は渋沢栄一、5千円札は津田梅子、千円札は北里柴三郎になりました。かたむけると肖像が回って見える「3Dホログラム」など、にせ札を作りにくくする工夫が入っています。" },
+    { y: null, era: "今", art: "phone", t: "キャッシュレスの時代", d: "カードやスマホで払うキャッシュレスがふえています。形は変わっても、とりかえる・はかる・ためるという、お金の3つの役割は同じです。" },
+  ];
+  const ago = (h) => h.y == null ? "" : `<span class="hl-ago">今から${(NOW - h.y).toLocaleString()}年前</span>`;
+  box.innerHTML = `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><linearGradient id="hgr" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#9ee6ff"/><stop offset=".5" stop-color="#ffd36e"/><stop offset="1" stop-color="#d6a1ff"/></linearGradient></defs></svg>` +
+    H.map((h, i) => `<li class="hl-it${i % 2 ? " r" : ""}"><span class="hl-dot" aria-hidden="true"></span><div class="hl-card">
+      <div class="hl-top"><svg class="hl-art" viewBox="0 0 48 40" width="56" height="46" aria-hidden="true">${ART[h.art]}</svg><div><span class="hl-era">${esc(h.era)}${h.y ? `・${h.y}年` : h.when ? `・${h.when}` : ""}</span><b>${esc(h.t)}</b>${ago(h)}</div></div>
+      <p>${esc(h.d)}</p></div></li>`).join("");
+})();
+
+;
+
+/* ===== okane-speak.js ===== */
+// おかねの物差し：読み上げ。「この章のポイント」と「なぜなに相談室」の答えを、声で読む
+(() => {
+  const D = window;
+  if (!("speechSynthesis" in D) || !("SpeechSynthesisUtterance" in D)) return;
+  const syn = D.speechSynthesis;
+  const ICON = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>`;
+  let voice = null;
+  const pickVoice = () => { const v = syn.getVoices().filter((x) => /^ja/i.test(x.lang)); voice = v.find((x) => /Kyoko|Nanami|Haruka|Google/i.test(x.name)) || v[0] || null; };
+  pickVoice(); if ("onvoiceschanged" in syn) syn.addEventListener("voiceschanged", pickVoice);
+
+  // ふりがな（rt）とリンクは読まない
+  const plain = (el) => { const c = el.cloneNode(true); c.querySelectorAll("rt, .say-btn, a, svg").forEach((x) => x.remove()); return c.textContent.replace(/\s+/g, " ").trim(); };
+  let cur = null;
+  const reset = () => { if (cur) { cur.setAttribute("aria-pressed", "false"); cur.querySelector("span").textContent = "よみあげ"; } cur = null; };
+  function speak(btn, el) {
+    const same = cur === btn; syn.cancel(); reset(); if (same) return;
+    const u = new SpeechSynthesisUtterance(plain(el)); u.lang = "ja-JP"; u.rate = 0.95; if (voice) u.voice = voice;
+    u.onend = u.onerror = () => { if (cur === btn) reset(); };
+    cur = btn; btn.setAttribute("aria-pressed", "true"); btn.querySelector("span").textContent = "とめる";
+    syn.speak(u);
+  }
+  const add = (host, target) => {
+    if (host.querySelector(".say-btn")) return;
+    const b = document.createElement("button"); b.type = "button"; b.className = "say-btn"; b.setAttribute("aria-pressed", "false");
+    b.innerHTML = `${ICON}<span>よみあげ</span>`; b.setAttribute("aria-label", "声で読み上げる");
+    b.addEventListener("click", (e) => { e.preventDefault(); e.stopPropagation(); speak(b, target()); });
+    host.appendChild(b);
+  };
+  document.querySelectorAll(".takeaway .tk-b").forEach((h) => add(h, () => h.querySelector("p")));
+  document.querySelectorAll(".fq-bub").forEach((h) => add(h, () => h));
+  document.querySelectorAll(".hl-card").forEach((h) => add(h, () => h));
+  // ほかの画面に移ったら止める
+  addEventListener("hashchange", () => { syn.cancel(); reset(); });
+  addEventListener("pagehide", () => syn.cancel());
 })();
 
 ;
