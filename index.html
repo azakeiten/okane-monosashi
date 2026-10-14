@@ -956,6 +956,26 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* なぜなに相談室 */
+.faqs { margin-top: 26px; border-radius: var(--r); border: 2px solid var(--ruler); background: color-mix(in srgb, var(--ruler) 6%, var(--card)); padding: 20px; display: grid; gap: 14px; }
+.faq-list { display: grid; gap: 10px; }
+.faq { background: var(--card); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.faq summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 14px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary:hover .fq-q { color: var(--accent); }
+.fq-kid .kid { display: block; }
+.fq-q { font-weight: 700; font-size: 16px; line-height: 1.5; }
+.fq-pl { width: 22px; height: 22px; border-radius: 999px; background: var(--paper); position: relative; flex: none; }
+.fq-pl::before, .fq-pl::after { content: ""; position: absolute; left: 6px; right: 6px; top: 10px; height: 2px; background: var(--accent); border-radius: 2px; transition: transform .2s; }
+.fq-pl::after { transform: rotate(90deg); }
+.faq[open] .fq-pl::after { transform: rotate(0); }
+.fq-a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 0 14px 14px; align-items: end; }
+.fq-m { order: 2; }
+.fq-bub { position: relative; background: color-mix(in srgb, var(--ruler) 16%, var(--card)); border-radius: 16px 16px 4px 16px; padding: 12px 14px; display: grid; gap: 8px; }
+.fq-bub p { color: var(--ink); line-height: 1.85; font-size: 15px; }
+.fq-go { justify-self: start; font-weight: 700; font-size: 14px; color: var(--accent); }
+@media (max-width: 520px) { .faqs { padding: 14px; } .faq summary { padding: 10px; gap: 8px; } .fq-a { padding: 0 10px 12px; gap: 6px; } .fq-m .mascot { width: 32px; height: 32px; } .fq-q { font-size: 15px; } .fq-kid .kid { width: 30px; height: 30px; } }
+
 /* ものさしくん */
 .mascot { display: block; flex: none; overflow: visible; }
 .mascot rect { transition: transform .3s; }
@@ -2028,6 +2048,14 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <p>ニュースで聞くお金のことばを、このサイトの数字を使って説明します。</p>
       </div>
       <div class="words" id="wordGrid"></div>
+      <div class="faqs">
+        <div class="bk-head">
+          <span class="bk-badge">なぜなに相談室</span>
+          <h3>ものさしくんに聞いてみよう</h3>
+          <p>お金のことで「どうして？」と思ったことに、ものさしくんが答えます。質問を押すと、答えが開きます。</p>
+        </div>
+        <div class="faq-list" id="faqList"></div>
+      </div>
     </div>
   </section>
 
@@ -2137,6 +2165,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月12日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261013233850"></script>
+<script src="okane.bundle.js?v=20261014104723"></script>
 </body>
 </html>
