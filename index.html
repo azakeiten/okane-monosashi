@@ -996,6 +996,38 @@ body.bigq-open { overflow: hidden; }
 .bq-keys { font-size: 12px; opacity: .55; }
 @media (hover: none) { .bq-keys { display: none; } }
 
+/* おつりチャレンジ */
+.chg { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--ruler); background: color-mix(in srgb, var(--ruler) 8%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.cg-box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 12px; }
+.cg-top { display: flex; justify-content: space-between; font-weight: 900; }
+.cg-s { color: var(--hot); font-family: var(--font-num); font-size: 18px; }
+.cg-q { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 560px) { .cg-q { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } .cg-ask { grid-column: 1 / -1; } }
+.cg-q > div { background: var(--paper); border-radius: 14px; padding: 10px 12px; display: grid; gap: 2px; align-content: start; justify-items: start; }
+.cg-k { font-size: 11px; font-weight: 900; color: var(--muted); }
+.cg-item b { font-size: 17px; }
+.cg-u { font-size: 11px; color: var(--muted); }
+.cg-p { font-family: var(--font-num); font-weight: 700; font-size: 18px; }
+.cg-ask { background: var(--inv) !important; color: var(--inv-ink); }
+.cg-ask .cg-k { color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
+.cg-ask b { font-family: var(--font-display); font-weight: 400; font-size: 30px; color: var(--ruler); }
+.cg-tray { min-height: 66px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px; border-radius: 14px; border: 2px dashed var(--line); background: color-mix(in srgb, var(--ruler) 6%, var(--card)); }
+.cg-empty { color: var(--muted); font-size: 13px; }
+.cg-t, .cg-m { border: 0; background: transparent; padding: 0; cursor: pointer; line-height: 0; border-radius: 999px; transition: transform .12s; }
+.cg-t:hover, .cg-m:hover { transform: translateY(-2px) scale(1.05); }
+.cg-t:disabled { cursor: default; transform: none; }
+.cg-m .cg-bill, .cg-t .cg-bill { border-radius: 4px; }
+.cg-sum { font-size: 14px; }
+.cg-sum b { font-family: var(--font-num); font-size: 18px; }
+.cg-sum small { color: var(--muted); margin-left: 6px; }
+.cg-sum.ng small { color: var(--hot); font-weight: 900; }
+.cg-bank { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; padding: 12px; border-radius: 14px; background: var(--paper); }
+.cg-btns { display: flex; gap: 10px; justify-content: flex-end; }
+@media (max-width: 560px) { .cg-m .cg-coin { width: 38px; height: 38px; } .cg-m .cg-bill { width: 60px; height: 32px; } .cg-bank { gap: 6px; padding: 10px 6px; } }
+.cg-end { display: flex; gap: 16px; align-items: center; }
+.cg-big { font-size: 18px; font-weight: 700; }
+.cg-big b { font-family: var(--font-num); font-size: 28px; color: var(--hot); }
+
 /* 数字にだまされない */
 .lit { margin: 0 0 22px; border-radius: var(--r); border: 2px solid var(--hot); background: color-mix(in srgb, var(--hot) 4%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .lit .bk-badge { background: var(--hot); color: var(--card); }
@@ -1516,6 +1548,14 @@ body.bigq-open { overflow: hidden; }
             <div class="big-grid" id="cnGrid"></div>
           </div>
         </div>
+      </div>
+      <div class="chg">
+        <div class="bk-head">
+          <span class="bk-badge">ゲーム</span>
+          <h3 data-tag="おつりチャレンジ">おつりチャレンジ：ぴったりのおつりを作ろう</h3>
+          <p>お札で買い物をしたときの、おつりを作ります。下のお金を押してトレイに入れよう。<b>いちばん少ない枚数</b>で作れたら★3つ！ 品物の値段は、東京23区の2025年平均です。</p>
+        </div>
+        <div class="cg-box" id="chgBox" aria-live="polite"></div>
       </div>
       <div class="hist">
         <div class="bk-head">
@@ -2492,8 +2532,8 @@ body.bigq-open { overflow: hidden; }
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月14日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月15日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261014225702"></script>
+<script src="okane.bundle.js?v=20261015000547"></script>
 </body>
 </html>
