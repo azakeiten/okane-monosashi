@@ -1167,6 +1167,26 @@ body.bigq-open { overflow: hidden; }
 .say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
 @media print { .say-btn { display: none; } }
 
+/* あそんで学ぶ 体験コーナー */
+.hub { padding-block: 30px 6px; }
+.hub-head { display: grid; gap: 4px; margin-bottom: 12px; }
+.hub-head h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(24px, 3.4vw, 32px); }
+.hub-n { font-size: .65em; color: var(--muted); margin-left: 6px; }
+.hub-n b { font-family: var(--font-num); font-size: 1.4em; color: var(--hot); margin-right: 2px; }
+.hub-head p { color: var(--ink-2); }
+.hub-tabs { margin-bottom: 14px; }
+.hub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
+.hub-c { --c: var(--accent); position: relative; text-decoration: none; color: var(--ink); background: var(--card); border: 1.5px solid var(--line); border-radius: 18px; padding: 14px 14px 12px; display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "ic bd" "t t" "d d" "no no"; gap: 6px 10px; align-items: center; transition: transform .15s, border-color .15s, box-shadow .15s; overflow: hidden; }
+.hub-c::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--c); }
+.hub-c.game { --c: var(--hot); } .hub-c.move { --c: var(--cool); } .hub-c.read { --c: var(--good); }
+.hub-c:hover { transform: translateY(-3px); border-color: var(--c); box-shadow: 0 10px 22px color-mix(in srgb, var(--c) 18%, transparent); }
+.hub-ic { grid-area: ic; width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: color-mix(in srgb, var(--c) 14%, var(--card)); color: var(--c); }
+.hub-b { grid-area: bd; justify-self: start; font-size: 11px; font-weight: 900; letter-spacing: .04em; color: var(--c); border: 1.5px solid color-mix(in srgb, var(--c) 45%, var(--line)); border-radius: 999px; padding: 1px 8px; }
+.hub-c b { grid-area: t; font-size: 16px; line-height: 1.4; }
+.hub-d { grid-area: d; font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+.hub-no { grid-area: no; justify-self: end; font-family: var(--font-num); font-size: 12px; font-weight: 700; color: var(--c); }
+@media (max-width: 560px) { .hub-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; } .hub-c { grid-template-areas: "ic ic" "bd bd" "t t" "d d" "no no"; padding: 12px; } .hub-d { display: none; } .hub-c b { font-size: 14px; } }
+
 /* あたらしくなったこと */
 .news { padding-block: 26px 4px; }
 .nw-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -1458,6 +1478,14 @@ body.bigq-open { overflow: hidden; }
       <div><b>アプリとしてホーム画面に追加できます</b><p id="installText">ホーム画面から開くと全画面で使えて、電波がないところでも動きます。</p></div>
       <button type="button" class="btn" id="installBtn" hidden>ホーム画面に追加</button>
     </div>
+
+    <section class="hub" aria-labelledby="hubTitle">
+      <div class="wrap">
+        <div class="hub-head"><h2 id="hubTitle">あそんで学ぶ <span class="hub-n"><b id="hubCount"></b>の体験コーナー</span></h2><p>ゲームや、動かせるグラフや図。章の中にあるものを、ここにあつめました。</p></div>
+        <div class="chips hub-tabs" id="hubTabs" aria-label="しゅるいでしぼる"></div>
+        <div class="hub-grid" id="hubGrid"></div>
+      </div>
+    </section>
 
     <section class="news" aria-labelledby="nwTitle">
       <div class="wrap">
@@ -2546,4 +2574,5 @@ body.bigq-open { overflow: hidden; }
 <script src="okane-vs.js"></script>
 <script src="okane-lit.js"></script>
 <script src="okane-change.js"></script>
+<script src="okane-hub.js"></script>
 <script src="okane-speak.js"></script>
