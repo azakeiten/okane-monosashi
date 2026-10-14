@@ -17,7 +17,7 @@ body_part=$(awk 'f{print} /^<\/style>$/{f=1}' "$SRC")
   echo '<meta property="og:description" content="その値段、あなたの何時間ぶん？ 公的統計で、お金を自分の生活の単位ではかるサイト。">'
   echo '<meta property="og:type" content="website">'
   echo '<meta property="og:url" content="https://azakeiten.github.io/okane-monosashi/">'
-  echo '<meta property="og:image" content="https://azakeiten.github.io/okane-monosashi/icons/og.png">'
+  echo '<meta property="og:image" content="https://azakeiten.github.io/okane-monosashi/icons/og.png?v=2">'
   echo '<meta property="og:image:width" content="1200">'
   echo '<meta property="og:image:height" content="630">'
   echo '<meta name="twitter:card" content="summary_large_image">'
