@@ -939,6 +939,26 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* 国の1年のお金を1万円に */
+.budget { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--seg1); background: color-mix(in srgb, var(--seg1) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.budget .bk-badge { background: var(--seg1); color: var(--card); }
+.bu-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .bu-grid { grid-template-columns: minmax(0, 1fr); } }
+.bu-p { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.bu-p h4 { font-family: var(--font-display); font-weight: 400; font-size: 19px; }
+.bu-waffle { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; max-width: 320px; }
+.bu-waffle i { aspect-ratio: 1; border-radius: 3px; background: var(--c); opacity: .35; transition: opacity .2s, transform .2s; cursor: pointer; }
+.bu-waffle i.on { opacity: 1; transform: scale(1.06); }
+.bu-leg { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.bu-leg button { width: 100%; display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 8px; align-items: center; text-align: left; font: inherit; font-size: 14px; color: var(--ink); background: transparent; border: 1.5px solid transparent; border-radius: 10px; padding: 5px 8px; cursor: pointer; }
+.bu-leg button:hover { background: var(--paper); }
+.bu-leg button[aria-pressed="true"] { border-color: var(--c); background: color-mix(in srgb, var(--c) 10%, var(--card)); }
+.bu-leg .sw { width: 14px; height: 14px; border-radius: 4px; background: var(--c); }
+.bu-leg b { font-family: var(--font-num); }
+.bu-d { background: var(--paper); border-radius: 12px; padding: 10px 12px; font-size: 14px; min-height: 5.6em; }
+.bu-d b { font-family: var(--font-num); }
+.bu-d p { color: var(--ink-2); line-height: 1.7; margin-top: 4px; font-size: 13px; }
+
 /* 一生のお金すごろく */
 .life { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--good); background: color-mix(in srgb, var(--good) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .life .bk-badge { background: var(--good); color: var(--card); }
@@ -2027,6 +2047,15 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         <div class="stack" id="budgetBar" role="img" aria-label="一般会計の内わけ"></div>
         <p id="budgetText" style="color:var(--ink-2)"></p>
       </div>
+      <div class="budget">
+        <div class="bk-head">
+          <span class="bk-badge">国の家計簿</span>
+          <h3>国の1年のお金を、1万円にちぢめると？</h3>
+          <p>国の予算は122.3兆円。大きすぎてわからないので、<b>1万円</b>にちぢめて、100マス（1マス＝100円）で見てみよう。色や名前を押すと、説明が出ます。</p>
+        </div>
+        <div id="budgetBox"></div>
+        <p class="bk-note">財務省「令和8年度一般会計予算 歳出・歳入の構成」より。国の「一般会計」の予算で、年金などの特別会計はふくみません。1万円にしたときの金額は四捨五入しています。</p>
+      </div>
       <div class="deeps">
         <details class="deep">
           <summary>「1兆」ってどれくらい？</summary>
@@ -2337,4 +2366,5 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-news.js"></script>
 <script src="okane-history.js"></script>
 <script src="okane-life.js"></script>
+<script src="okane-budget.js"></script>
 <script src="okane-speak.js"></script>

@@ -184,6 +184,27 @@ window.BIG = [
 window.TAXREV = { total: 83.735e12, consumption: 26.688e12, income: 25.325e12, corporate: 20.696e12, note: "令和8年度予算（財務省）" };
 // 消費税率（%）：標準10%（国7.8・地方2.2）、軽減8%（国6.24・地方1.76）
 window.TAXRATE = { std: 10, reduced: 8, stdNational: 7.8, reducedNational: 6.24 };
+// 国の一般会計予算の内わけ（令和8年度・単位：億円）。財務省「令和8年度一般会計予算 歳出・歳入の構成」より
+window.BUDGET = {
+  label: "令和8年度予算", total: 1223092,
+  out: [
+    { id: "social", t: "社会保障", v: 390559, d: "年金・医療・介護・子育てなど。お年寄りがふえて、毎年ふえています。" },
+    { id: "debt", t: "国債費（借金の返済と利息）", v: 312758, d: "これまでの借金を返すお金（18.2兆円）と、その利息（13.1兆円）です。" },
+    { id: "local", t: "地方交付税交付金など", v: 208778, d: "国から都道府県や市町村に配るお金。どこに住んでいても、同じくらいの行政サービスが受けられるようにします。" },
+    { id: "defense", t: "防衛", v: 89843, d: "自衛隊など、国を守るためのお金です。" },
+    { id: "works", t: "公共事業", v: 61078, d: "道路・橋・堤防・港など、みんなが使うものを作ったり、直したりするお金です。" },
+    { id: "edu", t: "文教及び科学振興", v: 60406, d: "学校・教科書・奨学金・科学の研究などのお金です。" },
+    { id: "other", t: "その他", v: 99670, d: "食料を安定させる、エネルギー、外国への協力、中小企業の応援、もしものときの予備費など。" },
+  ],
+  in: [
+    { id: "tax-c", t: "消費税", v: 266880, d: "買い物のときに払う税金。国の税金でいちばん多くなっています。" },
+    { id: "tax-i", t: "所得税", v: 253250, d: "給料などのもうけにかかる税金です。" },
+    { id: "tax-k", t: "法人税", v: 206960, d: "会社のもうけにかかる税金です。" },
+    { id: "tax-o", t: "そのほかの税金", v: 110260, d: "相続税・酒税・たばこ税・ガソリンの税金・関税・印紙収入など。" },
+    { id: "misc", t: "その他の収入", v: 89902, d: "国の持ち物や事業から入るお金など。" },
+    { id: "bond", t: "公債金（借金）", v: 295840, d: "税金で足りない分は、国債を出してお金を借りています。入ってくるお金の約4分の1が借金です。" },
+  ],
+};
 
 // ドル円の年平均（円／ドル）。日本銀行「東京市場 ドル・円 スポット 17時時点 月中平均」を年ごとに平均（1990〜2025年）
 window.FX_FIRST_YEAR = 1990;
@@ -2860,6 +2881,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-14", ic: "big", t: "国の1年のお金を1万円に", p: "使い道と、入ってくるお金を100マスで。約4分の1は借金です。", go: "big" },
     { d: "2026-10-14", ic: "sources", t: "さがす・もくじがパワーアップ", p: "ゲームや相談室、歴史も「さがす」で見つかります。もくじに体験のタグも。", go: "toc" },
     { d: "2026-10-14", ic: "agewage", t: "一生のお金すごろく", p: "学校にかかるお金と、65歳まではたらいてもらう給料をならべよう。", go: "agewage" },
     { d: "2026-10-14", ic: "money", t: "お金の歴史", p: "貝がら・小判・お札・スマホ。お金はどう変わってきた？", go: "money" },
@@ -2876,7 +2898,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);
@@ -2972,6 +2994,49 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     if (g.id === "lfStart") { start = +b.dataset.v; store.set("lifeStart", start); }
     else { pick = { ...pick, [g.dataset.k]: b.dataset.v }; store.set("lifePick", pick); }
     render();
+  });
+  render();
+})();
+
+;
+
+/* ===== okane-budget.js ===== */
+// おかねの物差し：国の1年のお金を1万円にちぢめる（使い道と、入ってくるお金の100マス）
+(() => {
+  const D = window, { $, yen, esc } = D.OK;
+  const box = $("budgetBox"); const B = D.BUDGET; if (!box || !B) return;
+  const COL = { social: "var(--seg1)", debt: "var(--hot)", local: "var(--seg2)", defense: "var(--seg6)", works: "var(--seg4)", edu: "var(--good)", other: "var(--muted)",
+    "tax-c": "var(--seg1)", "tax-i": "var(--seg2)", "tax-k": "var(--seg6)", "tax-o": "var(--seg5)", misc: "var(--muted)", bond: "var(--hot)" };
+  // 1万円にしたときの金額と、100マス（1マス＝100円）。合計がぴったりになるよう、端数の大きい順に1マスずつ足す
+  const shrink = (list) => {
+    const yenOf = list.map((x) => ({ ...x, y: Math.round((x.v / B.total) * 10000) }));
+    const raw = list.map((x) => (x.v / B.total) * 100), cells = raw.map(Math.floor);
+    let rest = 100 - cells.reduce((a, b) => a + b, 0);
+    raw.map((r, i) => [r - Math.floor(r), i]).sort((a, b) => b[0] - a[0]).forEach(([, i]) => { if (rest > 0) { cells[i]++; rest--; } });
+    return yenOf.map((x, i) => ({ ...x, n: cells[i] }));
+  };
+  const OUT = shrink(B.out), IN = shrink(B.in);
+  const cho = (v) => (v / 10000).toFixed(1) + "兆円";
+  let sel = { out: "social", in: "bond" };
+
+  const panel = (key, title, list) => `<div class="bu-p" data-key="${key}">
+      <h4>${title}</h4>
+      <div class="bu-waffle" role="img" aria-label="${title}の100マス">${list.map((x) => `<i data-id="${x.id}" style="--c:${COL[x.id]}"></i>`.repeat(x.n)).join("")}</div>
+      <ul class="bu-leg">${list.map((x) => `<li><button type="button" data-id="${x.id}" style="--c:${COL[x.id]}"><span class="sw"></span><span class="nm">${esc(x.t)}</span><b>${yen(x.y)}円</b></button></li>`).join("")}</ul>
+      <div class="bu-d" aria-live="polite"></div></div>`;
+  box.innerHTML = `<div class="bu-grid">${panel("out", "使い道（歳出）", OUT)}${panel("in", "入ってくるお金（歳入）", IN)}</div>`;
+
+  function render() {
+    [["out", OUT], ["in", IN]].forEach(([k, list]) => {
+      const p = box.querySelector(`.bu-p[data-key="${k}"]`), x = list.find((z) => z.id === sel[k]);
+      p.querySelectorAll(".bu-waffle i").forEach((c) => c.classList.toggle("on", c.dataset.id === sel[k]));
+      p.querySelectorAll(".bu-leg button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.id === sel[k])));
+      p.querySelector(".bu-d").innerHTML = `<b style="color:${COL[x.id]}">${esc(x.t)}</b>　1万円のうち <b>${yen(x.y)}円</b>（本当は${cho(x.v)}）<p>${esc(x.d)}</p>`;
+    });
+  }
+  box.addEventListener("click", (e) => {
+    const t = e.target.closest("[data-id]"); if (!t) return;
+    const k = t.closest(".bu-p").dataset.key; sel = { ...sel, [k]: t.dataset.id }; render();
   });
   render();
 })();
