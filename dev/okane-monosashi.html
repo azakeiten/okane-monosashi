@@ -935,6 +935,49 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .mk-why a { font-weight: 700; color: var(--accent); }
 @media (max-width: 600px) { .mk-ax { font-size: 19px; } .mk-lb { font-size: 22px; } }
 
+/* お店やさんゲーム */
+.shop { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--hot); background: color-mix(in srgb, var(--hot) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.shop .bk-badge { background: var(--hot); color: var(--card); }
+.sp-box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 14px; }
+.sp-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.sp-day { font-family: var(--font-display); font-size: 24px; }
+.sp-day small { font-size: 14px; color: var(--muted); font-family: var(--font-body, inherit); }
+.sp-total { display: grid; text-align: right; }
+.sp-total span { font-size: 11px; font-weight: 900; color: var(--muted); }
+.sp-total b { font-family: var(--font-num); font-size: 22px; }
+.neg { color: var(--hot); }
+.pos { color: var(--good); }
+.sp-plan { display: grid; gap: 14px; max-width: 560px; }
+.sp-wx { display: flex; align-items: center; gap: 14px; border-radius: 14px; padding: 12px 14px; background: color-mix(in srgb, var(--c) 14%, var(--card)); border: 1.5px solid color-mix(in srgb, var(--c) 45%, var(--line)); }
+.sp-ic { font-size: 40px; line-height: 1; color: var(--c); }
+.sp-wx div { display: grid; }
+.sp-wx small { font-size: 12px; color: var(--muted); font-weight: 700; }
+.sp-wx b { font-family: var(--font-display); font-weight: 400; font-size: 22px; }
+.sp-wx span { font-size: 13px; color: var(--ink-2); }
+.sp-sl { display: grid; gap: 6px; font-weight: 700; }
+.sp-sl b { font-family: var(--font-num); color: var(--accent); margin-left: 6px; }
+.sp-sl em { font-style: normal; font-weight: 400; font-size: 13px; color: var(--muted); margin-left: 10px; }
+.sp-sl input { width: 100%; accent-color: var(--hot); }
+.sp-note { font-size: 12px; color: var(--muted); }
+.sp-res, .sp-end > div { display: grid; gap: 12px; }
+.sp-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 560px) { .sp-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.sp-row > div { background: var(--paper); border-radius: 12px; padding: 10px 12px; display: grid; }
+.sp-row small { font-size: 11px; font-weight: 900; color: var(--muted); }
+.sp-row b { font-family: var(--font-num); font-size: 22px; }
+.sp-cups { display: flex; flex-wrap: wrap; gap: 3px; }
+.sp-cups i { width: 12px; height: 16px; border-radius: 2px 2px 5px 5px; border: 2px solid var(--hot); }
+.sp-cups i.s { background: var(--hot); }
+.sp-cups i.l { background: transparent; opacity: .55; }
+.sp-calc { font-family: var(--font-num); font-size: 13px; color: var(--ink-2); }
+.sp-end { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: start; }
+.sp-big { font-size: 18px; font-weight: 700; }
+.sp-big b { font-family: var(--font-num); font-size: 28px; color: var(--accent); }
+.sp-log { margin: 0; padding-left: 0; list-style: none; display: grid; gap: 4px; font-size: 13px; color: var(--ink-2); }
+.sp-log b { margin-right: 8px; color: var(--ink); }
+.sp-log span { font-family: var(--font-num); margin-left: 6px; }
+.btn.sp-go, #spGo, #spNext, #spAgain { justify-self: start; }
+
 /* なぜなに相談室 */
 .faqs { margin-top: 26px; border-radius: var(--r); border: 2px solid var(--ruler); background: color-mix(in srgb, var(--ruler) 6%, var(--card)); padding: 20px; display: grid; gap: 14px; }
 .faq-list { display: grid; gap: 10px; }
@@ -994,8 +1037,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 
 /* チャレンジバッジ */
 .badges { margin-top: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 18px; }
-.badge-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-@media (max-width: 640px) { .badge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.badge-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .badge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .badge { text-decoration: none; color: var(--ink); display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "m t" "m d"; gap: 2px 12px; align-items: center; padding: 12px; border-radius: 16px; border: 1.5px dashed var(--line); background: var(--paper); }
 .badge:hover { border-color: var(--accent); }
 .bd-medal { grid-area: m; width: 56px; height: 56px; display: grid; place-items: center; clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); background: var(--line); color: var(--muted); }
@@ -1006,7 +1049,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .badge.on .bd-t { color: var(--good); }
 .badge.pop .bd-medal { animation: badgePop .5s cubic-bezier(.2, 1.6, .4, 1) both; }
 @keyframes badgePop { from { transform: scale(1.8); opacity: 0; } to { transform: none; opacity: 1; } }
-@media (max-width: 640px) { .badge { grid-template-columns: minmax(0, 1fr); grid-template-areas: "m" "t" "d"; justify-items: center; text-align: center; } .bd-t, .bd-d { align-self: auto; } }
+.badge { grid-template-columns: minmax(0, 1fr); grid-template-areas: "m" "t" "d"; justify-items: center; text-align: center; gap: 6px; } .bd-t, .bd-d { align-self: auto; }
 .badge-toast { position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); z-index: 70; transform: translateX(-50%); display: flex; gap: 12px; align-items: center; background: var(--inv); color: var(--inv-ink); padding: 10px 18px 10px 10px; border-radius: 999px; box-shadow: 0 12px 30px rgba(0,0,0,.3); border: 2px solid var(--ruler); }
 .badge-toast .bt-ic { width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; background: var(--ruler); color: var(--ruler-ink); }
 .badge-toast small { display: block; font-size: 11px; color: color-mix(in srgb, var(--inv-ink) 70%, transparent); }
@@ -1437,6 +1480,15 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
         </div>
         <div id="mkBox"></div>
         <p class="bk-note">このグラフは、しくみを見るための<b>模型</b>です（本物のデータではありません）。ほんとうの値段は、税金や、お店どうしの競争など、ほかの理由でも動きます。値段の例は、総務省統計局「小売物価統計調査」東京都区部の年平均です。</p>
+      </div>
+      <div class="shop">
+        <div class="bk-head">
+          <span class="bk-badge">ゲーム</span>
+          <h3>お店やさんゲーム：ジュース屋さんをやってみよう</h3>
+          <p>5日間、ジュース屋さんの店長になります。毎朝、天気予報を見て、<b>1杯の値段</b>と<b>作る数</b>を決めよう。高すぎるとお客さんが来ない、作りすぎると売れ残る。いちばんもうかるのは？</p>
+        </div>
+        <div class="sp-box" id="shopBox" aria-live="polite"></div>
+        <p class="bk-note">このゲームのお客さんの数は、しくみを体験するための作りもので、本物のデータではありません。</p>
       </div>
     </div>
   </section>
@@ -2092,7 +2144,7 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
             <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(22px,3.2vw,30px);line-height:1.35">チャレンジバッジ</h2>
             <p style="color:var(--ink-2)">読むだけでなく、「やってみた」ことでもらえるバッジです。何をするともらえるかは、下に書いてあります。押すと、その場所にとべます。</p>
           </div>
-          <div class="stamp-count" id="badgeCount">0 / 9</div>
+          <div class="stamp-count" id="badgeCount">0 / 10</div>
         </div>
         <div class="badge-grid" id="badgeGrid"></div>
       </div>
@@ -2168,3 +2220,4 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <script src="okane-resume.js"></script>
 <script src="okane-market.js"></script>
 <script src="okane-faq.js"></script>
+<script src="okane-shop.js"></script>

@@ -11,6 +11,7 @@
     { id: "allmodes", ic: "words", t: "全モード制覇", d: "クイズを、5つのモードぜんぶで遊んだ", go: "quiz" },
     { id: "card", ic: "save", t: "わたしの物差し", d: "物差しカードを、画像か文章で保存した", go: "mycard" },
     { id: "course", ic: "sheet", t: "コース完走", d: "おすすめコースを、1つ最後まで進んだ", go: "courses" },
+    { id: "shop", ic: "pay", t: "ジュース屋の店長", d: "お店やさんゲームで、5日間のもうけが1万円をこえた", go: "time" },
     { id: "hakase", ic: "stamps", t: "物差しはかせ", d: "スタンプを、ぜんぶあつめた", go: "stamps" },
   ];
   let got = new Set(store.get("badges", []));
@@ -27,7 +28,7 @@
     toast.hidden = false; toast.classList.remove("show"); void toast.offsetWidth; toast.classList.add("show");
     clearTimeout(tt); tt = setTimeout(() => { toast.hidden = true; }, 3600);
   }
-  D.OK.badge = give;
+  D.OK.badge = give; D.OK.badgeTotal = B.length;
 
   function render(popId) {
     box.innerHTML = B.map((b) => { const on = got.has(b.id);
