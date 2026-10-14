@@ -1387,6 +1387,8 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
       { q: "あなたが生まれた年に、今の1,000円の買い物はいくらだった？", u: "円", a: y ? `${yen(1000 * cpiAt("総合", y) / 100)}（${y}年）` : "（生まれた年を入れると表示）", h: "time", hn: "04 物価タイムマシン" },
       { q: "国の予算（一般会計）は、日本に住む1人あたりいくら？", u: "円", a: `約${yen(D.BIG[0].value / D.POPULATION.value)}`, h: "big", hn: "09 1人あたりいくら？" },
       { q: "大学卒の初任給（額面）262,300円のとき、手取り（1年目）はおよそいくら？", u: "円", a: `約${yen(r.net)}`, h: "pay", hn: "08 手取りのひみつ" },
+      { q: "国の1年のお金を1万円にちぢめると、社会保障に使われるのはいくら？", u: "円", a: D.BUDGET ? yen((D.BUDGET.out.find((x) => x.id === "social").v / D.BUDGET.total) * 10000) : "", h: "big", hn: "12 国の家計簿" },
+      { q: "幼稚園から高校まで、ぜんぶ公立に通うと、学校にかかるお金（学習費）は合計いくら？", u: "万円", a: `約${yen(D.SCHOOL.filter((s) => /-pub$/.test(s.id)).reduce((t, s) => t + s.total * s.y, 0) / 1e4)}`, h: "agewage", hn: "11 一生のお金すごろく" },
     ];
     $("sheetQs").innerHTML = QS.map((x) => `<li><span class="qt">${x.q}</span><span class="blank"><i>${showAns ? esc(x.a) : ""}</i>${x.u}</span><span class="qh hint">ヒント：<a href="#${x.h}">${chLabel(x.h)}</a></span></li>`).join("");
   }
@@ -1996,7 +1998,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     diary: () => `使ったお金を記録すると、<b>使い道の割合</b>・<b>払った消費税</b>・<b>はたらく時間</b>が自動でわかる、自分だけの家計簿です。`,
     quiz: () => `<b>5つのモード</b>（値上がり・何時間・日本地図・昔の値段・しくみ）で力だめし。出てくる数字はぜんぶ本物の統計です。`,
     words: () => `ニュースでよく聞く<b>${document.querySelectorAll(".word").length}</b>のことばを、このサイトの数字で説明します。`,
-    sheet: () => `サイトで答えをさがす<b>6問</b>と、近くのお店の値段しらべ。自由研究や授業に使えます。`,
+    sheet: () => `サイトで答えをさがす<b>8問</b>と、近くのお店の値段しらべ。自由研究や授業に使えます。`,
   };
   const IDS = Object.keys(ANSWERS);
   const secs = IDS.map((id) => $(id)).filter(Boolean);
@@ -2887,6 +2889,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-14", ic: "sheet", t: "ワークシートが8問に", p: "国の家計簿と、一生のお金すごろくの問題がふえました。印刷できます。", go: "sheet" },
     { d: "2026-10-14", ic: "quiz", t: "しくみクイズが20問に", p: "お金の歴史や国の予算の問題がふえました。", go: "quiz" },
     { d: "2026-10-14", ic: "big", t: "国の1年のお金を1万円に", p: "使い道と、入ってくるお金を100マスで。約4分の1は借金です。", go: "big" },
     { d: "2026-10-14", ic: "sources", t: "さがす・もくじがパワーアップ", p: "ゲームや相談室、歴史も「さがす」で見つかります。もくじに体験のタグも。", go: "toc" },
@@ -2905,7 +2908,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);

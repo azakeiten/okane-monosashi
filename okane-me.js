@@ -129,6 +129,8 @@
       { q: "あなたが生まれた年に、今の1,000円の買い物はいくらだった？", u: "円", a: y ? `${yen(1000 * cpiAt("総合", y) / 100)}（${y}年）` : "（生まれた年を入れると表示）", h: "time", hn: "04 物価タイムマシン" },
       { q: "国の予算（一般会計）は、日本に住む1人あたりいくら？", u: "円", a: `約${yen(D.BIG[0].value / D.POPULATION.value)}`, h: "big", hn: "09 1人あたりいくら？" },
       { q: "大学卒の初任給（額面）262,300円のとき、手取り（1年目）はおよそいくら？", u: "円", a: `約${yen(r.net)}`, h: "pay", hn: "08 手取りのひみつ" },
+      { q: "国の1年のお金を1万円にちぢめると、社会保障に使われるのはいくら？", u: "円", a: D.BUDGET ? yen((D.BUDGET.out.find((x) => x.id === "social").v / D.BUDGET.total) * 10000) : "", h: "big", hn: "12 国の家計簿" },
+      { q: "幼稚園から高校まで、ぜんぶ公立に通うと、学校にかかるお金（学習費）は合計いくら？", u: "万円", a: `約${yen(D.SCHOOL.filter((s) => /-pub$/.test(s.id)).reduce((t, s) => t + s.total * s.y, 0) / 1e4)}`, h: "agewage", hn: "11 一生のお金すごろく" },
     ];
     $("sheetQs").innerHTML = QS.map((x) => `<li><span class="qt">${x.q}</span><span class="blank"><i>${showAns ? esc(x.a) : ""}</i>${x.u}</span><span class="qh hint">ヒント：<a href="#${x.h}">${chLabel(x.h)}</a></span></li>`).join("");
   }

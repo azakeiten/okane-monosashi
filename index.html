@@ -968,8 +968,8 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 .bu-p { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 12px; align-content: start; min-width: 0; }
 .bu-p h4 { font-family: var(--font-display); font-weight: 400; font-size: 19px; }
 .bu-waffle { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 3px; max-width: 320px; }
-.bu-waffle i { aspect-ratio: 1; border-radius: 3px; background: var(--c); opacity: .35; transition: opacity .2s, transform .2s; cursor: pointer; }
-.bu-waffle i.on { opacity: 1; transform: scale(1.06); }
+.bu-waffle i { aspect-ratio: 1; border-radius: 3px; background: color-mix(in srgb, var(--c) 42%, var(--card)); transition: background .2s, transform .2s; cursor: pointer; }
+.bu-waffle i.on { background: var(--c); transform: scale(1.06); box-shadow: 0 0 0 1.5px var(--card); }
 .bu-leg { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 .bu-leg button { width: 100%; display: grid; grid-template-columns: 14px minmax(0, 1fr) auto; gap: 8px; align-items: center; text-align: left; font: inherit; font-size: 14px; color: var(--ink); background: transparent; border: 1.5px solid transparent; border-radius: 10px; padding: 5px 8px; cursor: pointer; }
 .bu-leg button:hover { background: var(--paper); }
@@ -2359,6 +2359,6 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月14日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261014135128"></script>
+<script src="okane.bundle.js?v=20261014160650"></script>
 </body>
 </html>
