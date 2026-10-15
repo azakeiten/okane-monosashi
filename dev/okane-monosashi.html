@@ -986,6 +986,34 @@ body.bigq-open { overflow: hidden; }
 .bq-keys { font-size: 12px; opacity: .55; }
 @media (hover: none) { .bq-keys { display: none; } }
 
+/* わたしのおこづかい物価 */
+.myinfl { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--seg5); background: color-mix(in srgb, var(--seg5) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.myinfl .bk-badge { background: var(--seg5); color: var(--card); }
+.mi-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; align-items: start; margin-top: 10px; }
+@media (max-width: 860px) { .mi-grid { grid-template-columns: minmax(0, 1fr); } }
+.mi-rows { display: grid; gap: 6px; }
+.mi-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 8px 10px; }
+.mi-t { display: grid; font-weight: 700; font-size: 14px; line-height: 1.35; }
+.mi-t em { font-style: normal; font-family: var(--font-num); font-size: 12px; font-weight: 700; }
+.mi-t em.up, .mi-big b.up { color: var(--hot); } .mi-t em.dn, .mi-big b.dn { color: var(--good); }
+.mi-q { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+.mi-q b { font-family: var(--font-num); min-width: 5.4em; text-align: center; }
+.mi-q button { width: 32px; height: 32px; border-radius: 999px; border: 1.5px solid var(--line); background: var(--paper); color: var(--ink); cursor: pointer; font-size: 16px; }
+.mi-q button:hover { border-color: var(--accent); }
+.mi-out { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; position: sticky; top: 90px; }
+@media (max-width: 860px) { .mi-out { position: static; } }
+.mi-k { font-size: 12px; font-weight: 900; color: var(--muted); }
+.mi-bars { display: grid; gap: 6px; }
+.mi-bars > div { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.mi-bars small { font-size: 12px; color: var(--muted); }
+.mi-bars i { display: block; height: 14px; border-radius: 999px; background: color-mix(in srgb, var(--muted) 45%, var(--card)); transition: width .3s; }
+.mi-bars .now i { background: var(--seg5); }
+.mi-bars b { font-family: var(--font-num); font-size: 15px; }
+.mi-big { font-weight: 700; }
+.mi-big b { font-family: var(--font-display); font-weight: 400; font-size: 30px; margin: 0 4px; }
+.mi-big small { color: var(--muted); font-size: 12px; }
+.mi-empty { color: var(--muted); }
+
 /* キャッシュレスの広がり */
 .cashless { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--cool); background: color-mix(in srgb, var(--cool) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .cashless .bk-badge { background: var(--cool); color: var(--card); }
@@ -2437,6 +2465,15 @@ body.bigq-open { overflow: hidden; }
           </div>
         </div>
       </div>
+      <div class="myinfl">
+        <div class="bk-head">
+          <span class="bk-badge">やってみよう</span>
+          <h3 data-tag="わたしのおこづかい物価">わたしのおこづかい物価：自分の買い物は、10年でどれだけ値上がりした？</h3>
+          <p>物価の上がり方は、何にお金を使うかで人によってちがいます。おこづかいの使い道を入れると、<b>あなたにとっての値上がり率</b>がわかります。</p>
+        </div>
+        <div id="miBox"></div>
+        <p class="bk-note">総務省統計局「消費者物価指数」（全国・年平均）の2015年と2025年をくらべて計算しています。使い道ごとの値上がり率は、それぞれ近い品目のグループ（菓子類・外食・食料・教養娯楽・被服及び履物・通信・教育）の数字です。</p>
+      </div>
       <div class="deeps">
         <details class="deep">
           <summary>おこづかい帳をつけると、何がいいの？</summary>
@@ -2633,5 +2670,6 @@ body.bigq-open { overflow: hidden; }
 <script src="okane-lit.js"></script>
 <script src="okane-change.js"></script>
 <script src="okane-cashless.js"></script>
+<script src="okane-myinfl.js"></script>
 <script src="okane-hub.js"></script>
 <script src="okane-speak.js"></script>
