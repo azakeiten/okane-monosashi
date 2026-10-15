@@ -12,6 +12,11 @@
     { id: "card", ic: "save", t: "わたしの物差し", d: "物差しカードを、画像か文章で保存した", go: "mycard" },
     { id: "course", ic: "sheet", t: "コース完走", d: "おすすめコースを、1つ最後まで進んだ", go: "courses" },
     { id: "shop", ic: "pay", t: "ジュース屋の店長", d: "お店やさんゲームで、5日間のもうけが1万円をこえた", go: "time" },
+    { id: "change", ic: "money", t: "おつり名人", d: "おつりチャレンジで、★13こ以上をとった", go: "money" },
+    { id: "cashless", ic: "fx", t: "キャッシュレス探検", d: "キャッシュレスのグラフを、2010年までさかのぼった", go: "money" },
+    { id: "myinfl", ic: "diary", t: "わたしの物価はかせ", d: "おこづかい物価で、自分の使い道を入れてみた", go: "diary" },
+    { id: "lit", ic: "sources", t: "グラフ名探偵", d: "グラフの目もりを「0から」にして、本当の大きさを見た", go: "sources" },
+    { id: "vs", ic: "rank", t: "県くらべっこ", d: "2つの県を入れかえたり、えらびなおしたりしてくらべた", go: "map" },
     { id: "hakase", ic: "stamps", t: "物差しはかせ", d: "スタンプを、ぜんぶあつめた", go: "stamps" },
   ];
   let got = new Set(store.get("badges", []));
@@ -23,7 +28,7 @@
   function give(id) {
     if (got.has(id)) return;
     const b = B.find((x) => x.id === id); if (!b) return;
-    got.add(id); store.set("badges", [...got]); render(id);
+    got.add(id); store.set("badges", [...got]); render(id); document.dispatchEvent(new CustomEvent("okane:badge", { detail: id }));
     toast.innerHTML = `<span class="bt-ic">${icon(b.ic, 22)}</span><span><small>バッジをゲット！</small><b>${b.t}</b></span>`;
     toast.hidden = false; toast.classList.remove("show"); void toast.offsetWidth; toast.classList.add("show");
     clearTimeout(tt); tt = setTimeout(() => { toast.hidden = true; }, 3600);
@@ -54,7 +59,14 @@
     });
     if (t.closest("#mcSave, #mcCopy, #mcShare")) give("card");
     const nx = t.closest(".nx"); if (nx && nx.textContent.trim() === "おわり") give("course");
+    if (t.closest("#chgBox")) later(() => { const b = document.querySelector("#chgBox .cg-big b"); if (b && +b.textContent.replace(/[^0-9]/g, "") >= 13) give("change"); });
+    if (t.closest("#miBox [data-d]")) give("myinfl");
+    if (t.closest('#ltSeg [data-z="0"]')) give("lit");
+    if (t.closest("#vsSwap")) give("vs");
   }, true);
+  // つまみやセレクトで動かしたとき
+  document.addEventListener("input", (e) => { if (e.target.id === "clIn" && +e.target.value === D.CASHLESS.from) give("cashless"); });
+  document.addEventListener("change", (e) => { if (e.target.id === "vsA" || e.target.id === "vsB") give("vs"); });
   const stampsDone = () => { const all = document.querySelectorAll("#stampGrid .stamp").length; if (all && document.querySelectorAll("#stampGrid .stamp.got").length === all) give("hakase"); };
   document.addEventListener("okane:stamp", stampsDone); stampsDone();
   if (Object.keys(store.get("quizBest", {})).length >= 5) give("allmodes");

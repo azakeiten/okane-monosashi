@@ -1380,7 +1380,7 @@ body.bigq-open { overflow: hidden; }
 /* チャレンジバッジ */
 .badges { margin-top: 18px; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; display: grid; gap: 18px; }
 .badge-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
-@media (max-width: 900px) { .badge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 900px) { .badge-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .badge:last-child:nth-child(odd) { grid-column: 1 / -1; } }
 .badge { text-decoration: none; color: var(--ink); display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-areas: "m t" "m d"; gap: 2px 12px; align-items: center; padding: 12px; border-radius: 16px; border: 1.5px dashed var(--line); background: var(--paper); }
 .badge:hover { border-color: var(--accent); }
 .bd-medal { grid-area: m; width: 56px; height: 56px; display: grid; place-items: center; clip-path: polygon(50% 0, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%); background: var(--line); color: var(--muted); }
@@ -2575,7 +2575,7 @@ body.bigq-open { overflow: hidden; }
             <h2 style="font-family:var(--font-display);font-weight:400;font-size:clamp(22px,3.2vw,30px);line-height:1.35">チャレンジバッジ</h2>
             <p style="color:var(--ink-2)">読むだけでなく、「やってみた」ことでもらえるバッジです。何をするともらえるかは、下に書いてあります。押すと、その場所にとべます。</p>
           </div>
-          <div class="stamp-count" id="badgeCount">0 / 10</div>
+          <div class="stamp-count" id="badgeCount">0 / 15</div>
         </div>
         <div class="badge-grid" id="badgeGrid"></div>
       </div>

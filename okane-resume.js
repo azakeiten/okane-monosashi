@@ -32,12 +32,12 @@
     const card = (id, k, btn, cls) => `<a class="rs-card ${cls}" href="#${id}"><span class="rs-k">${k}</span>
       <span class="rs-t"><span class="rs-n">${esc(num(id))}</span>${esc(title(id))}</span><span class="rs-go">${btn} →</span></a>`;
     box.innerHTML = `<div class="rs-prog"><div class="rs-ringwrap">${ring(got, ids.length)}<span class="rs-pct"><b>${got}</b>/${ids.length}</span></div>
-        <div><span class="rs-hi">おかえりなさい</span><span class="rs-sub">スタンプ ${got}/${ids.length}・バッジ ${badges}/${D.OK.badgeTotal || 10}</span></div></div>
+        <div><span class="rs-hi">おかえりなさい</span><span class="rs-sub">スタンプ ${got}/${ids.length}・バッジ ${badges}/${D.OK.badgeTotal || 15}</span></div></div>
       ${last && $(last) ? card(last, "つづきから", "つづきを読む", "last") : ""}
       ${next ? card(next, "まだ読んでいない章", "読んでみる", "next") : `<a class="rs-card next" href="#stamps"><span class="rs-k">ぜんぶ読みました！</span><span class="rs-t">チャレンジバッジをあつめよう</span><span class="rs-go">バッジを見る →</span></a>`}`;
   }
   render();
-  document.addEventListener("okane:stamp", render);
+  document.addEventListener("okane:stamp", render); document.addEventListener("okane:badge", render);
   // ホームにもどったときに、新しい内容にする
   addEventListener("hashchange", () => { const h = location.hash.slice(1); if (!h || h === "home") render(); });
   addEventListener("popstate", render);
