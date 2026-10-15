@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>おかねの物差し 教室ポスター</title>
+<meta name="description" content="「おかねの物差し」の教室ポスター。A4・A3に印刷して、教室にはれます。数字はサイトと同じ国の統計から。">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* 教室ポスター：画面ではA4の見本を出し、印刷するとA4（A3に拡大してもOK）1枚になる */
+:root { --navy: #191f45; --yel: #f4b400; --paper: #f2f3f7; --ink: #191f45; --muted: #5c6182; --hot: #c4580a; --cool: #3d4fc4; --good: #1b7a49;
+  --font-display: "Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif; --font-body: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif; --font-num: "DM Mono", ui-monospace, monospace; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #d9dbe6; color: var(--ink); font-family: var(--font-body); }
+.bar { display: flex; gap: 10px; align-items: center; justify-content: center; flex-wrap: wrap; padding: 14px 16px; font-size: 14px; }
+.bar button, .bar a { font: inherit; font-weight: 700; border-radius: 999px; padding: 8px 18px; border: 2px solid var(--navy); background: var(--navy); color: #fff; cursor: pointer; text-decoration: none; }
+.bar a { background: transparent; color: var(--navy); }
+.sheet { width: min(210mm, 100% - 32px); aspect-ratio: 210 / 297; margin: 0 auto 32px; background: var(--navy); color: #fff; position: relative; overflow: hidden; display: grid; grid-template-rows: auto auto 1fr auto; padding: 6% 6% 0; box-shadow: 0 16px 40px rgba(0,0,0,.25); container-type: inline-size; }
+.logo { display: flex; align-items: center; gap: 2.4cqi; font-family: var(--font-display); font-size: 3.4cqi; }
+.logo b { background: var(--yel); color: var(--navy); width: 7cqi; height: 7cqi; display: grid; place-items: center; border-radius: 1.4cqi; font-weight: 400; }
+.head { margin-top: 4cqi; }
+h1 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 8.4cqi; line-height: 1.25; }
+h1 span { color: var(--yel); }
+.lead { margin: 2.4cqi 0 0; font-size: 3cqi; color: #cdd1ea; line-height: 1.6; }
+.mascot { position: absolute; right: 6%; top: 4cqi; width: 17cqi; height: auto; display: block; }
+.say { position: absolute; right: 25cqi; top: 7cqi; background: #fff; color: var(--navy); font-weight: 900; font-size: 2.8cqi; padding: 1.4cqi 2.6cqi; border-radius: 99px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2cqi; margin-top: 3cqi; align-content: start; }
+.tile { background: rgba(255,255,255,.08); border-radius: 3cqi; padding: 2.6cqi 3.2cqi; display: grid; gap: .8cqi; border-left: 1.4cqi solid var(--c, var(--yel)); }
+.tile .k { font-size: 2.6cqi; color: #cdd1ea; font-weight: 700; }
+.tile .v { font-family: var(--font-display); font-size: 6.4cqi; line-height: 1.1; color: var(--yel); }
+.tile .v small { font-size: .45em; color: #fff; margin-left: .4em; }
+.tile .s { font-size: 2.2cqi; color: #b4b9d8; line-height: 1.5; }
+.foot { margin: 0 -6.4%; margin-top: 4cqi; background: var(--yel); color: var(--navy); padding: 0 6% 3.4cqi; position: relative; }
+.ticks { height: 6cqi; background: repeating-linear-gradient(to right, var(--navy) 0 .4cqi, transparent .4cqi 2cqi); -webkit-mask: linear-gradient(#000 60%, transparent 60%); mask: linear-gradient(#000 60%, transparent 60%); }
+.url { font-family: var(--font-num); font-weight: 500; font-size: 4cqi; margin-top: 1.4cqi; }
+.src { font-size: 2cqi; margin-top: .6cqi; }
+@page { size: A4 portrait; margin: 0; }
+@media print {
+  body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .bar { display: none; }
+  .sheet { width: 210mm; height: 297mm; aspect-ratio: auto; margin: 0; box-shadow: none; }
+}
+</style>
+</head>
+<body>
+<div class="bar"><button type="button" id="printBtn">印刷する（A4・A3に拡大もOK）</button><a href="./guide.html">先生向けガイドへ</a><a href="./">サイトを開く</a></div>
+<div class="sheet" id="sheet">
+  <div class="logo"><b>円</b>おかねの物差し</div>
+  <div class="say">はかってみよう！</div>
+  <div class="head">
+    <div><h1>その値段、<br><span>あなたの何時間ぶん？</span></h1>
+      <p class="lead">ニュースのお金の数字を、はたらく時間・おこづかい・昔の値段に直して見るサイトです。</p></div>
+    <svg class="mascot" viewBox="0 0 64 64" aria-hidden="true"><rect x="9" y="8" width="46" height="50" rx="13" fill="#f4b400" stroke="#0e1230" stroke-width="2.6"/><path d="M9 47h46" stroke="#0e1230" stroke-width="2" opacity=".35"/><path d="M16 56v-7M22 56v-4M28 56v-7M34 56v-4M40 56v-7M46 56v-4" stroke="#0e1230" stroke-width="2" stroke-linecap="round"/><ellipse cx="18.5" cy="34" rx="3.6" ry="2.4" fill="#c4580a" opacity=".4"/><ellipse cx="45.5" cy="34" rx="3.6" ry="2.4" fill="#c4580a" opacity=".4"/><path d="M21.6 27q3.4-3.6 6.8 0M35.6 27q3.4-3.6 6.8 0M26 34q6 6.5 12 0" stroke="#0e1230" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>
+  </div>
+  <div class="grid" id="tiles"></div>
+  <div class="foot"><div class="ticks"></div><div class="url">azakeiten.github.io/okane-monosashi</div><div class="src" id="src"></div></div>
+</div>
+<script src="okane-data.js"></script>
+<script>
+  // サイトと同じデータから、ポスターの数字を作る
+  (() => {
+    const D = window, yen = (n) => Math.round(n).toLocaleString("ja-JP");
+    const it = (id) => D.ITEMS.find((i) => i.id === id), w = D.MINWAGE_2026.avg;
+    const hm = (h) => { const t = Math.round(h * 60), H = Math.floor(t / 60), M = t % 60; return H ? `${H}時間${M ? M + "分" : ""}` : `${M}分`; };
+    const cpi = (y) => D.CPI["総合"][y - D.CPI_FIRST_YEAR];
+    const B = D.BUDGET, soc = B.out.find((x) => x.id === "social"), C = D.CASHLESS;
+    const T = [
+      { k: "おにぎり1個（176円）は", v: `約${hm(it("onigiri").p25 / w)}`, s: `最低賃金（全国平均の時給${yen(w)}円）ではたらく時間`, c: "#f4b400" },
+      { k: `お米5kg（${yen(it("rice").p25)}円）は`, v: hm(it("rice").p25 / w), s: "10年前（2015年）の2倍以上の値段になりました", c: "#f39a52" },
+      { k: "物価は10年で（2015→2025年）", v: `+${((cpi(2025) / cpi(2015) - 1) * 100).toFixed(1)}<small>%</small>`, s: "おやつは+43.5%、スマホ代は−31.7%。品物でちがう", c: "#8e9cff" },
+      { k: "国の1年のお金を1万円にすると", v: `${yen((soc.v / B.total) * 10000)}<small>円</small>`, s: "が社会保障（年金・医療・子育てなど）に", c: "#5fd39a" },
+      { k: `キャッシュレスで払う割合（${C.from + C.dom.length - 1}年）`, v: `${C.dom[C.dom.length - 1].toFixed(1)}<small>%</small>`, s: `${C.from}年（${C.dom[0]}%）の約${(C.dom[C.dom.length - 1] / C.dom[0]).toFixed(1)}倍に`, c: "#b79be0" },
+      { k: "最低賃金（2026年度）は、県によって", v: `${yen(D.MINWAGE_2026.min)}〜${yen(D.MINWAGE_2026.max)}<small>円</small>`, s: "同じ1時間でも、もらえるお金がちがう", c: "#5fc6c3" },
+    ];
+    document.getElementById("tiles").innerHTML = T.map((t) => `<div class="tile" style="--c:${t.c}"><span class="k">${t.k}</span><span class="v">${t.v}</span><span class="s">${t.s}</span></div>`).join("");
+    document.getElementById("src").textContent = "数字は国の統計から（総務省統計局・厚生労働省・財務省・経済産業省）。くわしい出どころはサイトの「データの出どころ」へ。";
+    document.getElementById("printBtn").addEventListener("click", () => window.print());
+  })();
+</script>
+</body>
+</html>

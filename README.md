@@ -64,6 +64,7 @@
 - `index.html` … 公開されるページ（`dev/build.sh` で自動で作る）
 - `okane.bundle.js` … 公開用に、下のプログラムを1つにまとめたもの（`dev/build.sh` で自動で作る。直接は直さない）
 - `guide.html` … 先生・おうちの人への案内（45分の授業プラン5つ・よくある質問）。章の番号を変えたら、ここの番号も直す
+- `poster.html` … 教室ポスター（A4・A3印刷用。数字は okane-data.js から自動で入る）
 - `dev/okane-monosashi.html` … ページ本体のもと（見た目と文章はここを直す）
 - `dev/build.sh` … `bash dev/build.sh` で index.html を作り直す
 - `okane-data.js` … 統計データ（年1回ここを更新）
