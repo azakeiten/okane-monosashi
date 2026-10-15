@@ -35,13 +35,24 @@
     }
     return r;
   }
+  // カードの色（4色）。画像にするときも同じ色を使う
+  const THEMES = [["navy", "紺", "#191f45"], ["green", "みどり", "#0f4a3a"], ["purple", "むらさき", "#35225e"], ["brown", "あかちゃ", "#5a2a18"]];
+  let theme = store.get("cardTheme", "navy");
+  const themeColor = () => (THEMES.find((t) => t[0] === theme) || THEMES[0])[2];
+  $("mcTheme").innerHTML = THEMES.map(([k, t, c]) => `<button type="button" data-t="${k}" style="--c:${c}"><i></i>${t}</button>`).join("");
+  $("mcTheme").addEventListener("click", (e) => { const b = e.target.closest("[data-t]"); if (!b) return; theme = b.dataset.t; store.set("cardTheme", theme); renderCard(); });
+  // スタンプとバッジの数（このブラウザに残っている記録から）
+  const prog = () => ({ st: store.get("stamps", []).length, stAll: document.querySelectorAll("#stampGrid .stamp").length || 17, bd: store.get("badges", []).length, bdAll: D.OK.badgeTotal || 10 });
   function renderCard() {
     const f = facts(), p = D.OK.pref(), y = birth(), name = mcName.value.trim();
+    [...$("mcTheme").children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === theme)));
+    $("mcCard").style.setProperty("--mc-bg", themeColor()); $("mcCard").dataset.themeC = theme;
     mcPref.value = p >= 0 ? String(p) : "";
     let rows = [f.wage, f.oni, f.rice, f.birth, f.mw, f.budget].filter(Boolean);
     if (rows.length % 2) rows = rows.slice(0, -1); // 2列できれいにならぶよう、偶数にする
-    $("mcCard").innerHTML = `<div class="mc-top"><span class="mc-name">${esc(name || "あなた")}の物差しカード</span><span class="mc-sub">${p >= 0 ? esc(D.OK.prefName(p)) : "全国"}${y ? `・${y}年生まれ` : ""}</span></div>
+    const pg = prog(); $("mcCard").innerHTML = `<span class="mc-mascot">${D.OK.mascot ? D.OK.mascot("smile", 54) : ""}</span><div class="mc-top"><span class="mc-name">${esc(name || "あなた")}の物差しカード</span><span class="mc-sub">${p >= 0 ? esc(D.OK.prefName(p)) : "全国"}${y ? `・${y}年生まれ` : ""}</span></div>
       <div class="mc-rows">${rows.map((r) => `<div class="mc-row"><span class="k">${r.k}</span><span class="v">${r.v}</span><span class="s">${r.s}</span></div>`).join("")}</div>
+      <div class="mc-prog"><span>スタンプ<b>${pg.st}/${pg.stAll}</b></span><span>バッジ<b>${pg.bd}/${pg.bdAll}</b></span></div>
       ${y ? "" : '<p class="mc-empty">生まれた年を入れると、「生まれた年の1,000円は今いくら？」も出ます。</p>'}`;
     $("mcCopied").textContent = "";
   }
@@ -58,10 +69,11 @@
     try { await document.fonts.ready; } catch (e) {}
     const W = 1080, H = 1350, c = document.createElement("canvas"); c.width = W; c.height = H;
     const g = c.getContext("2d"), NAVY = "#191f45", PAPER = "#f2f3f7", YEL = "#f4b400", DISP = '"Dela Gothic One", "Hiragino Sans", "Yu Gothic", sans-serif', BODY = '"Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif', NUM = '"DM Mono", monospace';
-    g.fillStyle = NAVY; g.fillRect(0, 0, W, H);
+    const BG = themeColor(); g.fillStyle = BG; g.fillRect(0, 0, W, H);
     // 上：ロゴと名前
     g.fillStyle = YEL; g.fillRect(72, 72, 64, 64);
-    g.fillStyle = NAVY; g.font = `40px ${DISP}`; g.textBaseline = "middle"; g.textAlign = "center"; g.fillText("円", 104, 106);
+    g.fillStyle = BG; g.font = `40px ${DISP}`; g.textBaseline = "middle"; g.textAlign = "center"; g.fillText("円", 104, 106);
+    drawMascot(g, W - 72 - 130, 36, 130, BG);
     g.textAlign = "left"; g.fillStyle = PAPER; g.font = `34px ${DISP}`; g.fillText("おかねの物差し", 160, 106);
     const p = D.OK.pref(), y = birth(), name = mcName.value.trim() || "あなた";
     g.font = `66px ${DISP}`; g.fillStyle = PAPER; g.textBaseline = "alphabetic";
@@ -79,13 +91,25 @@
       if (v[1]) { const wv = g.measureText(strip(v[0])).width; g.fillStyle = PAPER; g.font = `32px ${DISP}`; g.fillText(strip(v[1]), x + 34 + wv, yy + 140); }
       g.fillStyle = "rgba(242,243,247,.7)"; g.font = `22px ${BODY}`; wrap(g, strip(r.s), x + 28, yy + 186, colW - 56, 30, 2);
     });
+    // スタンプとバッジ
+    const pg = prog(); g.font = `28px ${BODY}`; g.fillStyle = "rgba(242,243,247,.85)"; g.textAlign = "left";
+    g.fillText(`スタンプ ${pg.st}/${pg.stAll}　・　バッジ ${pg.bd}/${pg.bdAll}`, 72, H - 190);
     // 下：物差しの帯とURL
     g.fillStyle = YEL; g.fillRect(0, H - 150, W, 150);
-    g.strokeStyle = NAVY; g.lineWidth = 3;
+    g.strokeStyle = BG; g.lineWidth = 3;
     for (let i = 0; i <= 54; i++) { const x = 30 + i * 19; const h = i % 10 === 0 ? 50 : i % 5 === 0 ? 34 : 20; g.beginPath(); g.moveTo(x, H - 150); g.lineTo(x, H - 150 + h); g.stroke(); }
-    g.fillStyle = NAVY; g.font = `30px ${NUM}`; g.fillText("azakeiten.github.io/okane-monosashi", 72, H - 44);
+    g.fillStyle = BG; g.font = `30px ${NUM}`; g.fillText("azakeiten.github.io/okane-monosashi", 72, H - 44);
     g.font = `24px ${BODY}`; g.textAlign = "right"; g.fillText("数字は国の統計から", W - 72, H - 44);
     return new Promise((ok) => c.toBlob((b) => ok(b), "image/png"));
+  }
+  // ものさしくん（画像用）
+  function drawMascot(g, x, y, s, ink) {
+    const k = s / 64; g.save(); g.translate(x, y); g.scale(k, k);
+    g.fillStyle = "#f4b400"; roundRect(g, 9, 8, 46, 50, 13); g.fill(); g.strokeStyle = ink; g.lineWidth = 2.6; g.stroke();
+    g.lineWidth = 2; g.lineCap = "round"; [16, 22, 28, 34, 40, 46].forEach((tx, i) => { g.beginPath(); g.moveTo(tx, 56); g.lineTo(tx, 56 - (i % 2 ? 4 : 7)); g.stroke(); });
+    g.fillStyle = "rgba(196,88,10,.35)"; [18.5, 45.5].forEach((cx) => { g.beginPath(); g.ellipse(cx, 34, 3.6, 2.4, 0, 0, Math.PI * 2); g.fill(); });
+    g.lineWidth = 2.6; [25, 39].forEach((cx) => { g.beginPath(); g.moveTo(cx - 3.4, 27); g.quadraticCurveTo(cx, 23.4, cx + 3.4, 27); g.stroke(); });
+    g.beginPath(); g.moveTo(26, 34); g.quadraticCurveTo(32, 40.5, 38, 34); g.stroke(); g.restore();
   }
   function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
   function wrap(g, text, x, y, maxW, lh, maxLines) { let line = "", n = 0; for (const ch of text) { if (g.measureText(line + ch).width > maxW) { g.fillText(line, x, y + n * lh); line = ch; if (++n >= maxLines) return; } else line += ch; } if (line) g.fillText(line, x, y + n * lh); }
