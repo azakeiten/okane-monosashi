@@ -1240,6 +1240,43 @@ body.bigq-open { overflow: hidden; }
 .say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
 @media print { .say-btn { display: none; } }
 
+/* お金すごろく */
+.sugo { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--hot); background: color-mix(in srgb, var(--hot) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.sugo .bk-badge { background: var(--hot); color: var(--card); }
+.sg-box { display: grid; gap: 12px; }
+.sg-top { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; align-items: center; }
+.sg-pl { display: flex; gap: 8px; }
+.sg-p { display: grid; background: var(--card); border: 2px solid var(--line); border-radius: 14px; padding: 6px 12px; min-width: 120px; }
+.sg-p.now { border-color: var(--ruler); box-shadow: 0 0 0 3px color-mix(in srgb, var(--ruler) 30%, transparent); }
+.sg-p span { font-size: 12px; font-weight: 900; }
+.sg-p.p0 span { color: var(--seg1); } .sg-p.p1 span { color: var(--seg3); }
+.sg-p b { font-family: var(--font-num); font-size: 18px; }
+.sg-p small { font-size: 11px; color: var(--muted); }
+.sg-board { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+@media (max-width: 640px) { .sg-board { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.sg-c { position: relative; background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 6px 8px 22px; min-height: 84px; display: grid; align-content: start; gap: 2px; }
+.sg-c.plus { background: color-mix(in srgb, var(--good) 8%, var(--card)); }
+.sg-c.minus { background: color-mix(in srgb, var(--hot) 6%, var(--card)); }
+.sg-c.end { background: var(--ruler); border-color: var(--ruler); color: var(--ruler-ink); }
+.sg-n { font-family: var(--font-num); font-size: 10px; color: var(--muted); }
+.sg-c.end .sg-n { color: var(--ruler-ink); }
+.sg-c b { font-size: 12px; line-height: 1.35; }
+.sg-v { font-family: var(--font-num); font-size: 11px; font-weight: 700; }
+.sg-c.plus .sg-v { color: var(--good); } .sg-c.minus .sg-v { color: var(--hot); }
+.sg-pk { position: absolute; left: 6px; bottom: 4px; display: flex; gap: 3px; }
+.sg-pk i { font-style: normal; width: 22px; height: 22px; border-radius: 999px; display: grid; place-items: center; font-size: 11px; font-weight: 900; color: #fff; }
+.sg-pk i.p0 { background: var(--seg1); } .sg-pk i.p1 { background: var(--seg3); }
+.sg-pk i .mascot { width: 22px; height: 22px; }
+.sg-pk i:has(.mascot) { background: transparent; }
+.sg-msg { background: var(--inv); color: var(--inv-ink); border-radius: 14px; padding: 12px 14px; line-height: 1.8; min-height: 3.6em; }
+.sg-msg b { color: var(--ruler); }
+.sg-msg span { font-size: 13px; color: color-mix(in srgb, var(--inv-ink) 80%, transparent); }
+.sg-msg a { color: var(--ruler); font-weight: 700; }
+.sg-btns { display: flex; justify-content: center; }
+.sg-btns .btn { font-size: 16px; padding: 10px 22px; display: inline-flex; align-items: center; gap: 8px; }
+.sg-btns .btn:disabled { opacity: .5; cursor: wait; }
+.sg-dice { font-size: 26px; line-height: 1; }
+
 /* ホームの中身ナビ */
 .hnav { display: grid; gap: 6px; }
 #daily, #hub, #news { scroll-margin-top: 104px; }
@@ -2535,6 +2572,14 @@ body.bigq-open { overflow: hidden; }
       </div>
       <div class="bigq-cta"><div><b>教室で、みんなでやろう</b><span>電子黒板やプロジェクターに、1問ずつ大きく出せます。みんなで考えてから「答えを見る」。</span></div><button type="button" class="btn" id="bigQuizBtn">みんなでクイズ（大きな画面）</button></div>
       <div class="quiz" id="quizBox"></div>
+      <div class="sugo">
+        <div class="bk-head">
+          <span class="bk-badge">ゲーム</span>
+          <h3 data-tag="お金すごろく">お金すごろく：ゴールで、お金が多いのはだれ？</h3>
+          <p>サイコロをふって、20マスのすごろくを進もう。マスに出てくる値段や時給は、本物の統計です。ものさしくんと対戦するか、2人で交代であそべます。</p>
+        </div>
+        <div class="sg-box" id="sgBox"></div>
+      </div>
     </div>
   </section>
 
@@ -2671,7 +2716,7 @@ body.bigq-open { overflow: hidden; }
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月15日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a></span><span>最終更新：2026年10月16日</span></div></footer>
 
 <script src="okane-data.js"></script>
 <script src="okane-app.js"></script>
@@ -2710,6 +2755,7 @@ body.bigq-open { overflow: hidden; }
 <script src="okane-change.js"></script>
 <script src="okane-cashless.js"></script>
 <script src="okane-myinfl.js"></script>
+<script src="okane-sugoroku.js"></script>
 <script src="okane-daily.js"></script>
 <script src="okane-hub.js"></script>
 <script src="okane-speak.js"></script>
