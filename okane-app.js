@@ -29,6 +29,19 @@
   // 共有する道具
   D.OK = { $, yen, pos, esc, store, hmText, hmHTML, pct, sgn, cpiAt, AVG10 };
 
+  // ===== 画面の明るさ（自動 → 明るい → 暗い） =====
+  const THEME = { auto: ["自動", '<path d="M12 3a9 9 0 1 0 0 18z" fill="currentColor"/><circle cx="12" cy="12" r="9"/>'], light: ["明るい", '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'], dark: ["暗い", '<path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/>'] };
+  const themeBtn = $("themeBtn");
+  function setTheme(t) {
+    if (t === "auto") delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+    themeBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">${THEME[t][1]}</svg><span>${THEME[t][0]}</span>`;
+    themeBtn.setAttribute("aria-label", `画面の明るさ：${THEME[t][0]}（押すと切りかえ）`);
+  }
+  if (themeBtn) {
+    let th = store.get("theme", "auto"); if (!THEME[th]) th = "auto"; setTheme(th);
+    themeBtn.addEventListener("click", () => { th = th === "auto" ? "light" : th === "light" ? "dark" : "auto"; store.set("theme", th); setTheme(th); });
+  }
+
   // ===== ふりがな =====
   const furi = $("furiToggle");
   if (store.get("furigana", false)) { document.body.classList.add("furigana"); furi.setAttribute("aria-pressed", "true"); }
@@ -251,6 +264,7 @@
     { w: "相関係数", r: "そうかんけいすう", p: "2つの数字が一緒に増えたり減ったりする関係の強さを、−1から1で表したもの。1に近いほど「片方が大きいともう片方も大きい」関係です。", ex: "おにぎりの値段と最低賃金の相関係数は0.18。ほとんど関係がありません。" },
     { w: "72の法則", r: "ななじゅうにのほうそく", p: "72を「1年あたりの上がり方（%）」でわると、2倍になるまでのおおよその年数がわかる計算のコツ。", ex: "物価が毎年3%上がると、72÷3＝24年で値段は約2倍になります。" },
     { w: "需要と供給", r: "じゅよう・きょうきゅう", p: "物を「ほしい」と思う人の多さが需要、「売りたい」と思って出てくる量が供給。需要が多く供給が少ないと値段は上がり、その逆だと下がります。", ex: "第4章の「値段は、どうやって決まる？」で、つまみを動かしてためせます。" },
+    { w: "キャッシュレス", r: "", p: "お札や硬貨（現金）を使わずに払うこと。クレジットカード・デビットカード・電子マネー・スマホのコード決済などがあります。", ex: D.CASHLESS ? `${D.CASHLESS.from + D.CASHLESS.dom.length - 1}年は、払ったお金の${D.CASHLESS.dom[D.CASHLESS.dom.length - 1].toFixed(1)}%がキャッシュレスでした（経済産業省）。` : "" },
     { w: "円高・円安", r: "えんだか・えんやす", p: "外国のお金とくらべた、円の値打ち。1ドルを買うのに必要な円が少なくなるのが円高、多くなるのが円安です。円安になると、外国から買う物が値上がりしやすくなります。", ex: `1ドルは、2011年の平均で${D.FX[2011 - D.FX_FIRST_YEAR].toFixed(0)}円、${D.FX_LATEST.label}は${D.FX_LATEST.value.toFixed(0)}円。今のほうが円安です。` },
     { w: "軽減税率", r: "けいげんぜいりつ", p: "消費税（ふつうは10%）のうち、食べ物や飲み物（お酒と外食をのぞく）と新聞だけを8%にしているしくみ。2019年10月から始まりました。", ex: "同じハンバーガーでも、お店で食べると10%、持ち帰ると8%です。" },
     { w: "経済の循環", r: "けいざいのじゅんかん", p: "家計（家）・会社・国のあいだを、お金が回っていくこと。買い物の代金は会社へ、給料は家計へ、税金は国へ行き、国は学校や道路や年金に使います。", ex: "第13章の「お金のめぐり図」で、1,100円の旅を追いかけられます。" },

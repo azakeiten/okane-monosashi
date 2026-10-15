@@ -66,6 +66,8 @@ body.furigana rt { display: ruby-text; }
 .my-unit { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .pill-btn { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: 1.5px solid var(--line); background: var(--card); color: var(--ink); padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 700; white-space: nowrap; text-decoration: none; }
 .pill-btn .num { font-weight: 500; color: var(--accent); }
+.theme-btn svg { flex: none; }
+@media (max-width: 760px) { .theme-btn span { display: none; } .theme-btn { padding: 6px 9px; } }
 .pill-btn[aria-pressed="true"] { background: var(--ruler); color: var(--ruler-ink); border-color: var(--ruler); }
 @media (max-width: 420px) { .logo b { font-size: 15px; } #unitPill { display: none; } }
 .chapters { display: flex; gap: 2px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
@@ -1382,6 +1384,7 @@ body.bigq-open { overflow: hidden; }
 .fl-dots button { width: 10px; height: 10px; border-radius: 999px; border: 0; padding: 0; background: var(--line); cursor: pointer; }
 .fl-dots button[aria-current] { background: var(--accent); width: 22px; }
 </style>
+<script>try { const t = JSON.parse(localStorage.getItem("okane:theme")); if (t === "light" || t === "dark") document.documentElement.dataset.theme = t; } catch (e) {}</script>
 
 <a class="skip" href="#try">本文へとぶ</a>
 <header class="top">
@@ -1394,6 +1397,7 @@ body.bigq-open { overflow: hidden; }
         <button class="pill-btn" id="findBtn" type="button" aria-haspopup="dialog" title="ことばでさがす"><svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M11 11l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="lg">さがす</span></button>
         <button class="pill-btn" id="easyToggle" type="button" aria-pressed="false" title="くわしい説明をたたんで、大事なところだけ表示します">かんたん<span class="lg">表示</span></button>
         <button class="pill-btn" id="furiToggle" type="button" aria-pressed="false">ふりがな</button>
+        <button class="pill-btn theme-btn" id="themeBtn" type="button" aria-label="画面の明るさ：自動"></button>
       </div>
     </div>
     <nav class="chapters" id="chapters" aria-label="章">
