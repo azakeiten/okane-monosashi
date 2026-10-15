@@ -1240,6 +1240,29 @@ body.bigq-open { overflow: hidden; }
 .say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
 @media print { .say-btn { display: none; } }
 
+/* 今日の1問 */
+.daily-sec { padding-block: 26px 0; }
+.daily { position: relative; overflow: hidden; border-radius: 22px; padding: 18px 20px; display: grid; gap: 12px; background: linear-gradient(135deg, color-mix(in srgb, var(--ruler) 22%, var(--card)), var(--card) 60%); border: 2px solid var(--ruler); }
+.dq-head { display: flex; align-items: center; gap: 12px; }
+.dq-head > div { display: grid; flex: 1; }
+.dq-k { font-family: var(--font-display); font-size: 18px; }
+.dq-d { font-size: 12px; color: var(--muted); font-family: var(--font-num); }
+.dq-st { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 900; background: var(--inv); color: var(--inv-ink); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
+.dq-st svg { color: var(--ruler); }
+.dq-st b { font-family: var(--font-num); font-size: 15px; color: var(--ruler); }
+.dq-q { font-size: clamp(17px, 2.2vw, 21px); font-weight: 700; line-height: 1.5; }
+.dq-opts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 640px) { .dq-opts { grid-template-columns: minmax(0, 1fr); } }
+.dq-o { font: inherit; font-weight: 700; text-align: left; display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px 12px; border-radius: 14px; border: 2px solid var(--line); background: var(--card); color: var(--ink); transition: transform .12s, border-color .12s; }
+.dq-o:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-2px); }
+.dq-o span { width: 28px; height: 28px; flex: none; border-radius: 8px; display: grid; place-items: center; background: var(--ruler); color: var(--ruler-ink); font-family: var(--font-display); }
+.dq-o:disabled { cursor: default; }
+.dq-o.win { border-color: var(--good); background: color-mix(in srgb, var(--good) 12%, var(--card)); }
+.dq-o.lose { border-color: var(--hot); opacity: .7; }
+.dq-why { font-size: 14px; line-height: 1.8; background: var(--paper); border-radius: 12px; padding: 10px 12px; }
+.dq-why a { font-weight: 700; color: var(--accent); }
+.dq-why small { color: var(--muted); }
+
 /* あそんで学ぶ 体験コーナー */
 .hub { padding-block: 30px 6px; }
 .hub-head { display: grid; gap: 4px; margin-bottom: 12px; }
@@ -1554,6 +1577,10 @@ body.bigq-open { overflow: hidden; }
       <div><b>アプリとしてホーム画面に追加できます</b><p id="installText">ホーム画面から開くと全画面で使えて、電波がないところでも動きます。</p></div>
       <button type="button" class="btn" id="installBtn" hidden>ホーム画面に追加</button>
     </div>
+
+    <section class="daily-sec" aria-label="今日の1問">
+      <div class="wrap"><div class="daily" id="dailyBox"></div></div>
+    </section>
 
     <section class="hub" aria-labelledby="hubTitle">
       <div class="wrap">
@@ -2671,5 +2698,6 @@ body.bigq-open { overflow: hidden; }
 <script src="okane-change.js"></script>
 <script src="okane-cashless.js"></script>
 <script src="okane-myinfl.js"></script>
+<script src="okane-daily.js"></script>
 <script src="okane-hub.js"></script>
 <script src="okane-speak.js"></script>
