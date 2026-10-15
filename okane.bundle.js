@@ -2996,6 +2996,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-16", ic: "sheet", t: "先生向けガイドに低学年のプラン", p: "小学1〜3年向け「お金ってなに？ おつりを作ろう」の授業プランを足しました。", go: "guide.html" },
     { d: "2026-10-16", ic: "quiz", t: "お金すごろく", p: "サイコロで20マス。ものさしくんや友だちと、ゴールでお金が多いほうが勝ち！", go: "quiz" },
     { d: "2026-10-15", ic: "quiz", t: "今日の1問", p: "ホームに、毎日かわる1問。つづけて答えた日数も数えます。", go: "home" },
     { d: "2026-10-15", ic: "stamps", t: "バッジが15こに", p: "おつりチャレンジやキャッシュレスなど、新しい体験のバッジが5こふえました。", go: "stamps" },
@@ -3028,13 +3029,13 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);
   const fmt = (d) => { const [, m, dd] = d.split("-").map(Number); return `${m}月${dd}日`; };
   box.innerHTML = NEWS.map((n) => { const isNew = fresh(n);
-    return `<a class="nw-card${isNew ? " new" : ""}" href="#${n.go}"><span class="nw-top"><span class="nw-ic">${n.ic === "mascot" ? D.OK.mascot("smile", 30) : icon(n.ic, 20)}</span><span class="nw-d">${fmt(n.d)}</span>${isNew ? '<span class="nw-new">NEW</span>' : ""}</span>
+    return `<a class="nw-card${isNew ? " new" : ""}" href="${n.go.includes(".") ? n.go : "#" + n.go}"><span class="nw-top"><span class="nw-ic">${n.ic === "mascot" ? D.OK.mascot("smile", 30) : icon(n.ic, 20)}</span><span class="nw-d">${fmt(n.d)}</span>${isNew ? '<span class="nw-new">NEW</span>' : ""}</span>
       <b>${esc(n.t)}</b><span class="nw-p">${esc(n.p)}</span></a>`; }).join("");
   const cnt = NEWS.filter(fresh).length;
   $("newsCount").textContent = cnt ? `前に来たときから ${cnt}こ ふえました` : "";

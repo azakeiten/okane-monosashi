@@ -6,7 +6,7 @@
 <title>おかねの物差し 先生・おうちの人へ</title>
 <meta name="description" content="「おかねの物差し」を授業や家庭で使うための案内。小学校・中学校・高校向けの45分の授業プラン、印刷のしかた、データの扱い。">
 <meta property="og:title" content="おかねの物差し 先生・おうちの人へ">
-<meta property="og:description" content="授業や家庭で使うための案内。45分の授業プラン4つつき。">
+<meta property="og:description" content="授業や家庭で使うための案内。45分の授業プラン5つつき。">
 <meta property="og:image" content="https://azakeiten.github.io/okane-monosashi/icons/og.png?v=2">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#191f45">
@@ -35,6 +35,9 @@ a { color: var(--accent); }
 .top .back { margin-left: auto; color: var(--ruler); font-weight: 700; text-decoration: none; font-size: 15px; }
 .rule { height: 14px; background-color: var(--ruler); background-image: repeating-linear-gradient(90deg, var(--ruler-ink) 0 1.5px, transparent 1.5px 60px), repeating-linear-gradient(90deg, var(--ruler-ink) 0 1px, transparent 1px 12px); background-size: 100% 10px, 100% 5px; background-repeat: no-repeat; }
 .hero { padding-block: 40px 16px; display: grid; gap: 12px; }
+.g-title { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.g-say { position: relative; background: var(--card); border: 1.5px solid var(--line); border-radius: 14px; padding: 8px 12px; font-size: 14px; color: var(--ink-2); max-width: 22em; }
+@media print { .g-mascot, .g-say { display: none; } }
 .eyebrow { font-size: 12px; font-weight: 900; letter-spacing: .14em; color: var(--muted); }
 h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(30px, 5.4vw, 48px); line-height: 1.3; }
 .lead { color: var(--ink-2); max-width: 40em; }
@@ -91,7 +94,9 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var
 <main class="wrap">
   <section class="hero">
     <div class="eyebrow">FOR TEACHERS &amp; FAMILIES</div>
-    <h1>先生・おうちの人へ</h1>
+    <div class="g-title"><h1>先生・おうちの人へ</h1>
+      <svg class="g-mascot" width="72" height="72" viewBox="0 0 64 64" aria-hidden="true"><rect x="9" y="8" width="46" height="50" rx="13" fill="#f4b400" stroke="#191f45" stroke-width="2.6"/><path d="M9 47h46" stroke="#191f45" stroke-width="2" opacity=".35"/><path d="M16 56v-7M22 56v-4M28 56v-7M34 56v-4M40 56v-7M46 56v-4" stroke="#191f45" stroke-width="2" stroke-linecap="round"/><ellipse cx="18.5" cy="34" rx="3.6" ry="2.4" fill="#c4580a" opacity=".35"/><ellipse cx="45.5" cy="34" rx="3.6" ry="2.4" fill="#c4580a" opacity=".35"/><path d="M21.6 27q3.4-3.6 6.8 0M35.6 27q3.4-3.6 6.8 0M26 34q6 6.5 12 0" stroke="#191f45" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg>
+      <p class="g-say">サイトの案内役「ものさしくん」です。授業でも、おうちでも、よろしくね！</p></div>
     <p class="lead">「おかねの物差し」は、ニュースに出てくるお金の数字を、子どもが自分の生活の単位（はたらく時間・おこづかい・昔の値段など）に直して考えられるようにするサイトです。数字はすべて国や公的機関の統計で、出典をサイトにのせています。登録もお金もいりません。</p>
     <div class="cta"><a class="btn" href="./">サイトを開く</a><a class="btn ghost" href="#plans">授業プランを見る</a><button type="button" class="btn ghost no-print" id="printBtn">授業プランを印刷する</button></div>
     <p class="print-hint no-print">印刷すると、授業プランが1つずつ1ページに出ます。</p>
@@ -103,13 +108,27 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var
       <div class="fact"><b>自分の単位に直す</b><p>値段を「時給で何時間」「おこづかい何か月」「おにぎり何個」に換算。都道府県と生まれた年を入れると、その子だけの「物差しカード」が作れます。</p></div>
       <div class="fact"><b>くらべる・さかのぼる</b><p>47都道府県の最低賃金と物価、36品目の10年間の値上がり、1970年からの物価、ドル円、年れいごとの給料などを、グラフで見られます。</p></div>
       <div class="fact"><b>しくみを知る・まとめる</b><p>家計・学習費・手取り・国の予算・消費税のしくみ。おこづかい帳、5つのモードのクイズ、印刷できる自由研究ワークシートもあります。</p></div>
-      <div class="fact"><b>動かして、ためす</b><p>「買い物かご」で10年前と今の、はたらく時間をくらべる。需要と供給のグラフを動かす。ジュース屋さんの「お店やさんゲーム」で値段と作る数を決める。「お金のめぐり図」で税金の流れを追う。やってみたことで「チャレンジバッジ」がもらえます。</p></div>
+      <div class="fact"><b>動かして、ためす</b><p>「買い物かご」で10年前と今の、はたらく時間をくらべる。需要と供給のグラフを動かす。ジュース屋さんの「お店やさんゲーム」で値段と作る数を決める。「お金のめぐり図」で税金の流れを追う。小さい子向けの「おつりチャレンジ」「お金すごろく」、毎日かわる「今日の1問」もあります。やってみたことで15この「チャレンジバッジ」がもらえます。</p></div>
     </div>
   </section>
 
   <section id="plans" aria-labelledby="h-plans">
     <h2 id="h-plans">45分の授業プラン</h2>
     <div class="plans">
+      <article class="plan">
+        <div class="plan-h"><span class="who">小学校<br>1〜3年</span><h3>お金ってなに？ おつりを作ろう</h3><span class="sub">算数（大きな数・ひき算）・生活科</span></div>
+        <p class="aim"><b>ねらい</b>　お金の3つの役割（とりかえる・はかる・ためる）を知り、硬貨とお札を使っておつりを考える。身近な物の値段に関心をもつ。</p>
+        <table class="flow"><thead><tr><th>時間</th><th>場面</th><th>活動と、使う章</th></tr></thead><tbody>
+          <tr><td>0〜8分</td><td>導入</td><td>「お金がなかったら、どうやって物を手に入れる？」と問いかける。物々交換とお金の3つの役割を見る。<br><a class="ch" href="./#money">00 お金ってなに？</a></td></tr>
+          <tr><td>8〜15分</td><td>展開1</td><td>お金の歴史年表で、貝がら・小判・お札・スマホとお金の形が変わってきたことを知る。<br><a class="ch" href="./#money">00 お金の歴史</a></td></tr>
+          <tr><td>15〜32分</td><td>展開2</td><td>「おつりチャレンジ」をペアで。1,000円札で買い物をしたときのおつりを、硬貨を押して作る。いちばん少ない枚数を考える。<br><a class="ch" href="./#money">00 おつりチャレンジ</a></td></tr>
+          <tr><td>32〜42分</td><td>展開3</td><td>電子黒板に「お金すごろく」を出し、2チームで対戦。止まったマスの値段を声に出して読み、お金の増減を全員で計算する。<br><a class="ch" href="./#quiz">15 お金すごろく</a></td></tr>
+          <tr><td>42〜45分</td><td>まとめ</td><td>「お金があると、何が便利？」を1つ書く。</td></tr>
+        </tbody></table>
+        <ul class="ask"><b>発問の例</b><li>おつりが少ない枚数になるのは、どんな考え方をしたとき？（大きいお金から考える）</li><li>お店によって、同じ物の値段がちがうことはあるかな？</li></ul>
+        <p class="eval"><b>見とりのポイント</b>　ひき算でおつりを求め、硬貨の組み合わせを説明できているか。漢字が読みにくい子には、サイト上の「ふりがな」や、章のポイントを声で読む「よみあげ」ボタンが使えます。</p>
+      </article>
+
       <article class="plan">
         <div class="plan-h"><span class="who">小学校<br>5・6年</span><h3>その値段、何時間ぶん？</h3><span class="sub">算数（割合）・社会・総合的な学習の時間</span></div>
         <p class="aim"><b>ねらい</b>　値段を「はたらく時間」に直すことで、お金の大きさを自分の生活とむすびつけて考える。わり算・割合を、身近な数字で使う。</p>
@@ -174,6 +193,7 @@ footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var
     <details><summary>学校のタブレットで使えますか？ 電波がなくても使えますか？</summary><div><p>ブラウザがあれば使えます。一度開くと、つぎからは電波がなくても動きます。スマホやタブレットのホーム画面に追加すると、アプリのように全画面で使えます。</p></div></details>
     <details><summary>数字はどこから取っていますか？ どれくらい新しいですか？</summary><div><p>総務省統計局・厚生労働省・文部科学省・財務省・内閣府・日本銀行などの公的統計です。サイトの「データの出どころ」に、それぞれの出典と「いつの数字か」「次に新しくなる時期」の表があります。年に1回以上、新しい数字に更新します。</p></div></details>
     <details><summary>ワークシートを印刷するには？</summary><div><p>サイトの「17 自由研究ワークシート」で「印刷する」を押すと、ワークシートだけがA4に印刷されます。「答えの例を表示する」を押すと、その子の県や生まれた年に合わせた答えの例が入ります。</p></div></details>
+    <details><summary>「今日の1問」は、クラスのみんなに同じ問題が出ますか？</summary><div><p>出ます。問題は日付で決まるので、同じ日ならどの端末でも同じ問題です。朝の会などで「今日の1問」として使えます。答えられるのは1日1回で、毎日答えると「○日れんぞく」が増えていきます（記録はそれぞれの端末の中だけに残ります）。</p></div></details>
     <details><summary>教室の電子黒板やプロジェクターで、クイズを大きく出せますか？</summary><div><p>出せます。サイトの「15 お金クイズ」にある<b>「みんなでクイズ（大きな画面）」</b>を押すと、1問ずつ大きな文字で出ます。子どもたちに考えさせてから「答えを見る」を押してください。「全画面」ボタンで画面いっぱいになります。キーボードでは、1〜3で選ぶ、Enterで答え、→で次の問題、Escでとじる、が使えます。</p></div></details>
     <details><summary>需要と供給のグラフや、お店やさんゲームの数字は本物ですか？</summary><div><p>いいえ。この2つは、しくみを体験するための<b>模型</b>です。お客さんの数や値段の動き方は、わかりやすくするために作った式で計算しています。「お米5kg」「消せるボールペン」などの例として出てくる値段だけは、総務省統計局「小売物価統計調査」の本物の数字です。</p></div></details>
     <details><summary>計算は正確ですか？</summary><div><p>平均の数字を使った<b>目安</b>です。手取りの計算は、保険料率と税の基本的なしくみで近い値を出しています。一人ひとりの実際の値段や給料とはちがうことを、授業でも伝えてください。</p></div></details>
