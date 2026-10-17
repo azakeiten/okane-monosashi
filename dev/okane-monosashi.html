@@ -1240,6 +1240,13 @@ body.bigq-open { overflow: hidden; }
 .say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
 @media print { .say-btn { display: none; } }
 
+/* おうちの人と話そう */
+.talk { margin-top: 22px; display: flex; gap: 12px; align-items: flex-start; border-radius: 18px; padding: 14px 16px; background: color-mix(in srgb, var(--good) 8%, var(--card)); border: 2px dashed color-mix(in srgb, var(--good) 45%, var(--line)); }
+.talk .tk-ic { flex: none; width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--good); color: var(--card); }
+.talk .tk-k { font-size: 12px; font-weight: 900; color: var(--good); letter-spacing: .06em; }
+.talk p { margin: 2px 0 0; line-height: 1.8; color: var(--ink); }
+@media print { .talk { break-inside: avoid; } }
+
 /* お金すごろく */
 .sugo { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--hot); background: color-mix(in srgb, var(--hot) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .sugo .bk-badge { background: var(--hot); color: var(--card); }
@@ -2716,7 +2723,7 @@ body.bigq-open { overflow: hidden; }
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月16日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月17日</span></div></footer>
 
 <script src="okane-data.js"></script>
 <script src="okane-app.js"></script>
@@ -2756,6 +2763,7 @@ body.bigq-open { overflow: hidden; }
 <script src="okane-cashless.js"></script>
 <script src="okane-myinfl.js"></script>
 <script src="okane-sugoroku.js"></script>
+<script src="okane-talk.js"></script>
 <script src="okane-daily.js"></script>
 <script src="okane-hub.js"></script>
 <script src="okane-speak.js"></script>
