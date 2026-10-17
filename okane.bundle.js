@@ -2996,6 +2996,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-17", ic: "words", t: "ことばカード", p: "ことば辞典の18語を、めくって覚えるカードに。覚えたカードは次から出ません。", go: "words" },
     { d: "2026-10-17", ic: "kakei", t: "おうちの人と話そう", p: "章の終わりに、家族と話すきっかけになる問いかけをのせました。", go: "money" },
     { d: "2026-10-16", ic: "sheet", t: "教室ポスター", p: "A4・A3に印刷して教室にはれるポスター。数字はサイトと同じ統計から自動で入ります。", go: "poster.html" },
     { d: "2026-10-16", ic: "sheet", t: "先生向けガイドに低学年のプラン", p: "小学1〜3年向け「お金ってなに？ おつりを作ろう」の授業プランを足しました。", go: "guide.html" },
@@ -3031,7 +3032,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["ことばカード", "おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);
@@ -3584,6 +3585,51 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     const nx = w.querySelector(":scope > .next-ch");
     w.insertBefore(div, nx || null);
   });
+})();
+
+;
+
+/* ===== okane-flash.js ===== */
+// おかねの物差し：ことばカード。ことば辞典のことばを、めくって覚えるカードにする
+(() => {
+  const D = window, { $, esc, store } = D.OK;
+  const box = $("flashBox"); if (!box) return;
+  // ことば辞典の中身を、そのまま使う（辞典にことばを足すと、カードもふえる）
+  const W = [...document.querySelectorAll("#wordGrid .word")].map((w) => ({ w: w.querySelector(".w").textContent, r: (w.querySelector(".r") || {}).textContent || "", p: w.querySelector("p").textContent, ex: (w.querySelector(".ex") || {}).textContent || "" }));
+  if (!W.length) return;
+  let known = new Set(store.get("flashKnown", []));
+  let deck, i, flipped;
+  const shuffle = (a) => { for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; };
+  function start(onlyNew) {
+    const pool = W.filter((x) => !onlyNew || !known.has(x.w));
+    deck = shuffle(pool.length ? pool : W.slice()); i = 0; flipped = false; render();
+  }
+  function render() {
+    const n = known.size, all = W.length;
+    if (i >= deck.length) {
+      box.innerHTML = `<div class="fc-end">${D.OK.mascot ? D.OK.mascot(n === all ? "wow" : "smile", 56) : ""}<div><p class="fc-big">${n === all ? "ぜんぶ覚えた！ ことば名人です。" : `おぼえたことば：<b>${n}</b> / ${all}`}</p>
+        <div class="fc-btns"><button type="button" class="btn" data-a="new"${n === all ? " disabled" : ""}>まだのことばだけ、もう一度</button><button type="button" class="btn ghost" data-a="all">ぜんぶ、もう一度</button><button type="button" class="btn ghost" data-a="reset">記録を消す</button></div></div></div>`;
+      return;
+    }
+    const c = deck[i];
+    box.innerHTML = `<div class="fc-top"><span>${i + 1} / ${deck.length}まい</span><span class="fc-known">おぼえた ${n} / ${all}</span></div>
+      <button type="button" class="fc-card${flipped ? " flip" : ""}" data-a="flip" aria-label="${flipped ? "ことばの面にもどす" : "めくって意味を見る"}">
+        <span class="fc-face fc-front"><b>${esc(c.w)}</b>${c.r ? `<small>${esc(c.r)}</small>` : ""}<em>押してめくる</em></span>
+        <span class="fc-face fc-back"><b>${esc(c.w)}</b><span>${esc(c.p)}</span>${c.ex ? `<small>${esc(c.ex)}</small>` : ""}</span>
+      </button>
+      <div class="fc-btns">${flipped ? `<button type="button" class="btn ghost" data-a="again">もう一度</button><button type="button" class="btn" data-a="ok">おぼえた！</button>` : `<button type="button" class="btn" data-a="flip">めくる</button>`}</div>`;
+  }
+  box.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-a]"); if (!b) return;
+    const a = b.dataset.a;
+    if (a === "flip") { flipped = !flipped; render(); return; }
+    if (a === "ok" || a === "again") {
+      const c = deck[i]; if (a === "ok") known.add(c.w); else { known.delete(c.w); deck.push(c); }
+      store.set("flashKnown", [...known]); i++; flipped = false; render(); return;
+    }
+    if (a === "new") start(true); else if (a === "all") start(false); else if (a === "reset") { known = new Set(); store.set("flashKnown", []); start(false); }
+  });
+  start(true);
 })();
 
 ;
