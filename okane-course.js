@@ -12,9 +12,10 @@
     { id: "first", t: "はじめての10分コース", who: "小学生・はじめての人", c: "var(--ruler)", why: "値段を「自分がはたらく時間」ではかる、いちばん大事なところだけ。", steps: ["money", "try", "hours", "map", "rank", "quiz"] },
     { id: "news", t: "ニュースがわかるコース", who: "中学生・高校生", c: "var(--seg1)", why: "物価・円安・国の予算・消費税。ニュースによく出る言葉の意味がわかります。", steps: ["time", "race", "fx", "big", "tax", "words"] },
     { id: "future", t: "将来のお金コース", who: "中学生・高校生・大人", c: "var(--seg6)", why: "はたらいたら給料はいくら？ 何が引かれる？ どうやって貯める？", steps: ["agewage", "pay", "kakei", "save", "diary"] },
+    { id: "play", t: "あそんで学ぶコース", who: "小学生〜中学生", c: "var(--hot)", why: "ゲームや動かせるグラフで、遊びながらお金のしくみを知ります。", steps: ["otsuri", "shopgame", "myinfl", "cashless", "sugoroku", "flashcards"] },
     { id: "study", t: "自由研究コース", who: "夏休みの宿題・授業の調べ学習", c: "var(--seg3)", why: "自分の数字を集めて、印刷できるワークシートにまとめます。", steps: ["mycard", "hours", "time", "diary", "sheet"] },
   ];
-  const HOME_LABEL = { try: "ためしてみよう（換算機）", mycard: "あなたの物差しカード" };
+  const HOME_LABEL = { try: "ためしてみよう（換算機）", mycard: "あなたの物差しカード", otsuri: "おつりチャレンジ", shopgame: "お店やさんゲーム", myinfl: "わたしのおこづかい物価", cashless: "キャッシュレスの広がり", sugoroku: "お金すごろく", flashcards: "ことばカード" };
   const plain = (el) => { if (!el) return ""; const c = el.cloneNode(true); c.querySelectorAll("rt").forEach((r) => r.remove()); return c.textContent.trim(); };
   function label(id) {
     if (HOME_LABEL[id]) return HOME_LABEL[id];
@@ -23,7 +24,7 @@
     return `${n ? n.textContent + " " : ""}${plain(s.querySelector(".ch-head h2"))}`;
   }
   // 短い名前は、上の章メニュー（はたらく時間・日本地図…）の名前を使う
-  const SHORT_HOME = { try: "換算機", mycard: "物差しカード" };
+  const SHORT_HOME = { try: "換算機", mycard: "物差しカード", otsuri: "おつり", shopgame: "お店やさん", myinfl: "おこづかい物価", cashless: "キャッシュレス", sugoroku: "すごろく", flashcards: "ことばカード" };
   function shortLabel(id) {
     if (SHORT_HOME[id]) return SHORT_HOME[id];
     const a = document.querySelector(`#chapters a[href="#${id}"]`);
@@ -47,7 +48,7 @@
       return `<div class="course" style="--cc:${c.c}"><div class="ch-k"><span class="ttl">${c.t}</span><span class="who">${c.who}</span></div>
         <p class="why">${c.why}</p>
         <ol>${c.steps.map((st, k) => `<li class="${done.includes(st) ? "done" : ""}">${D.OK.icon ? D.OK.icon(st, 13) : ""}${k + 1}. ${esc(shortLabel(st))}</li>`).join("")}</ol>
-        <div class="go"><span class="hint">${c.steps.length}つの章・約${c.steps.length * 2}分${done.length ? `・${done.length}つ読んだ` : ""}</span><button type="button" class="btn${active ? " ghost" : ""}" data-c="${c.id}">${active ? "つづきから" : done.length === c.steps.length ? "もう一度" : "はじめる"}</button></div></div>`;
+        <div class="go"><span class="hint">${c.steps.length}${c.id === "play" ? "つの体験・約" + c.steps.length * 3 : "つの章・約" + c.steps.length * 2}分${done.length ? `・${done.length}つ読んだ` : ""}</span><button type="button" class="btn${active ? " ghost" : ""}" data-c="${c.id}">${active ? "つづきから" : done.length === c.steps.length ? "もう一度" : "はじめる"}</button></div></div>`;
     }).join("");
     $("courseGrid").querySelectorAll("button[data-c]").forEach((b) => b.addEventListener("click", () => {
       const c = COURSES.find((x) => x.id === b.dataset.c);

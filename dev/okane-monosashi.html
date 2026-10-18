@@ -1311,7 +1311,7 @@ body.bigq-open { overflow: hidden; }
 
 /* ホームの中身ナビ */
 .hnav { display: grid; gap: 6px; }
-#daily, #hub, #news { scroll-margin-top: 104px; }
+#daily, #hub, #news, #otsuri, #shopgame, #myinfl, #cashless, #sugoroku, #flashcards { scroll-margin-top: 104px; }
 .hnav-k { font-size: 12px; font-weight: 900; color: var(--muted); letter-spacing: .06em; }
 .hnav-row { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: thin; }
 .hnav-row a { flex: none; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 14px; background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 6px; transition: border-color .15s, transform .15s; }
@@ -1738,7 +1738,7 @@ body.bigq-open { overflow: hidden; }
           </div>
         </div>
       </div>
-      <div class="chg">
+      <div class="chg" id="otsuri">
         <div class="bk-head">
           <span class="bk-badge">ゲーム</span>
           <h3 data-tag="おつりチャレンジ">おつりチャレンジ：ぴったりのおつりを作ろう</h3>
@@ -1746,7 +1746,7 @@ body.bigq-open { overflow: hidden; }
         </div>
         <div class="cg-box" id="chgBox" aria-live="polite"></div>
       </div>
-      <div class="cashless">
+      <div class="cashless" id="cashless">
         <div class="bk-head">
           <span class="bk-badge">うごかしてみよう</span>
           <h3 data-tag="キャッシュレスの広がり">キャッシュレスは、どれくらい広がった？</h3>
@@ -1983,7 +1983,7 @@ body.bigq-open { overflow: hidden; }
         <div id="mkBox"></div>
         <p class="bk-note">このグラフは、しくみを見るための<b>模型</b>です（本物のデータではありません）。ほんとうの値段は、税金や、お店どうしの競争など、ほかの理由でも動きます。値段の例は、総務省統計局「小売物価統計調査」東京都区部の年平均です。</p>
       </div>
-      <div class="shop">
+      <div class="shop" id="shopgame">
         <div class="bk-head">
           <span class="bk-badge">ゲーム</span>
           <h3>お店やさんゲーム：ジュース屋さんをやってみよう</h3>
@@ -2573,7 +2573,7 @@ body.bigq-open { overflow: hidden; }
           </div>
         </div>
       </div>
-      <div class="myinfl">
+      <div class="myinfl" id="myinfl">
         <div class="bk-head">
           <span class="bk-badge">やってみよう</span>
           <h3 data-tag="わたしのおこづかい物価">わたしのおこづかい物価：自分の買い物は、10年でどれだけ値上がりした？</h3>
@@ -2604,7 +2604,7 @@ body.bigq-open { overflow: hidden; }
       </div>
       <div class="bigq-cta"><div><b>教室で、みんなでやろう</b><span>電子黒板やプロジェクターに、1問ずつ大きく出せます。みんなで考えてから「答えを見る」。</span></div><button type="button" class="btn" id="bigQuizBtn">みんなでクイズ（大きな画面）</button></div>
       <div class="quiz" id="quizBox"></div>
-      <div class="sugo">
+      <div class="sugo" id="sugoroku">
         <div class="bk-head">
           <span class="bk-badge">ゲーム</span>
           <h3 data-tag="お金すごろく">お金すごろく：ゴールで、お金が多いのはだれ？</h3>
@@ -2623,7 +2623,7 @@ body.bigq-open { overflow: hidden; }
         <h2>ことば辞典</h2>
         <p>ニュースで聞くお金のことばを、このサイトの数字を使って説明します。</p>
       </div>
-      <div class="flash">
+      <div class="flash" id="flashcards">
         <div class="bk-head">
           <span class="bk-badge">ことばカード</span>
           <h3 data-tag="ことばカード">めくって覚えよう：ことばカード</h3>
@@ -2756,7 +2756,7 @@ body.bigq-open { overflow: hidden; }
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月17日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月18日</span></div></footer>
 
 <script src="okane-data.js"></script>
 <script src="okane-app.js"></script>

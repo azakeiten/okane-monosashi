@@ -2215,9 +2215,10 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     { id: "first", t: "はじめての10分コース", who: "小学生・はじめての人", c: "var(--ruler)", why: "値段を「自分がはたらく時間」ではかる、いちばん大事なところだけ。", steps: ["money", "try", "hours", "map", "rank", "quiz"] },
     { id: "news", t: "ニュースがわかるコース", who: "中学生・高校生", c: "var(--seg1)", why: "物価・円安・国の予算・消費税。ニュースによく出る言葉の意味がわかります。", steps: ["time", "race", "fx", "big", "tax", "words"] },
     { id: "future", t: "将来のお金コース", who: "中学生・高校生・大人", c: "var(--seg6)", why: "はたらいたら給料はいくら？ 何が引かれる？ どうやって貯める？", steps: ["agewage", "pay", "kakei", "save", "diary"] },
+    { id: "play", t: "あそんで学ぶコース", who: "小学生〜中学生", c: "var(--hot)", why: "ゲームや動かせるグラフで、遊びながらお金のしくみを知ります。", steps: ["otsuri", "shopgame", "myinfl", "cashless", "sugoroku", "flashcards"] },
     { id: "study", t: "自由研究コース", who: "夏休みの宿題・授業の調べ学習", c: "var(--seg3)", why: "自分の数字を集めて、印刷できるワークシートにまとめます。", steps: ["mycard", "hours", "time", "diary", "sheet"] },
   ];
-  const HOME_LABEL = { try: "ためしてみよう（換算機）", mycard: "あなたの物差しカード" };
+  const HOME_LABEL = { try: "ためしてみよう（換算機）", mycard: "あなたの物差しカード", otsuri: "おつりチャレンジ", shopgame: "お店やさんゲーム", myinfl: "わたしのおこづかい物価", cashless: "キャッシュレスの広がり", sugoroku: "お金すごろく", flashcards: "ことばカード" };
   const plain = (el) => { if (!el) return ""; const c = el.cloneNode(true); c.querySelectorAll("rt").forEach((r) => r.remove()); return c.textContent.trim(); };
   function label(id) {
     if (HOME_LABEL[id]) return HOME_LABEL[id];
@@ -2226,7 +2227,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     return `${n ? n.textContent + " " : ""}${plain(s.querySelector(".ch-head h2"))}`;
   }
   // 短い名前は、上の章メニュー（はたらく時間・日本地図…）の名前を使う
-  const SHORT_HOME = { try: "換算機", mycard: "物差しカード" };
+  const SHORT_HOME = { try: "換算機", mycard: "物差しカード", otsuri: "おつり", shopgame: "お店やさん", myinfl: "おこづかい物価", cashless: "キャッシュレス", sugoroku: "すごろく", flashcards: "ことばカード" };
   function shortLabel(id) {
     if (SHORT_HOME[id]) return SHORT_HOME[id];
     const a = document.querySelector(`#chapters a[href="#${id}"]`);
@@ -2250,7 +2251,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
       return `<div class="course" style="--cc:${c.c}"><div class="ch-k"><span class="ttl">${c.t}</span><span class="who">${c.who}</span></div>
         <p class="why">${c.why}</p>
         <ol>${c.steps.map((st, k) => `<li class="${done.includes(st) ? "done" : ""}">${D.OK.icon ? D.OK.icon(st, 13) : ""}${k + 1}. ${esc(shortLabel(st))}</li>`).join("")}</ol>
-        <div class="go"><span class="hint">${c.steps.length}つの章・約${c.steps.length * 2}分${done.length ? `・${done.length}つ読んだ` : ""}</span><button type="button" class="btn${active ? " ghost" : ""}" data-c="${c.id}">${active ? "つづきから" : done.length === c.steps.length ? "もう一度" : "はじめる"}</button></div></div>`;
+        <div class="go"><span class="hint">${c.steps.length}${c.id === "play" ? "つの体験・約" + c.steps.length * 3 : "つの章・約" + c.steps.length * 2}分${done.length ? `・${done.length}つ読んだ` : ""}</span><button type="button" class="btn${active ? " ghost" : ""}" data-c="${c.id}">${active ? "つづきから" : done.length === c.steps.length ? "もう一度" : "はじめる"}</button></div></div>`;
     }).join("");
     $("courseGrid").querySelectorAll("button[data-c]").forEach((b) => b.addEventListener("click", () => {
       const c = COURSES.find((x) => x.id === b.dataset.c);
@@ -2996,6 +2997,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-18", ic: "quiz", t: "あそんで学ぶコース", p: "おつり→お店やさん→おこづかい物価→キャッシュレス→すごろく→ことばカードの順に案内します。", go: "courses" },
     { d: "2026-10-17", ic: "words", t: "ことばカード", p: "ことば辞典の18語を、めくって覚えるカードに。覚えたカードは次から出ません。", go: "words" },
     { d: "2026-10-17", ic: "kakei", t: "おうちの人と話そう", p: "章の終わりに、家族と話すきっかけになる問いかけをのせました。", go: "money" },
     { d: "2026-10-16", ic: "sheet", t: "教室ポスター", p: "A4・A3に印刷して教室にはれるポスター。数字はサイトと同じ統計から自動で入ります。", go: "poster.html" },
@@ -3032,7 +3034,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["ことばカード", "おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["あそんで学ぶコース", "ことばカード", "おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);
