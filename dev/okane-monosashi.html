@@ -107,7 +107,13 @@ body.furigana rt { display: ruby-text; }
 
 section.ch { padding-block: 44px 52px; scroll-margin-top: 104px; }
 .rule-band { height: 32px; border-radius: 6px; background-color: var(--ruler); color: var(--ruler-ink); background-image: repeating-linear-gradient(90deg, var(--ruler-ink) 0 1.5px, transparent 1.5px 60px), repeating-linear-gradient(90deg, var(--ruler-ink) 0 1px, transparent 1px 12px); background-size: 100% 15px, 100% 7px; background-repeat: no-repeat; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 10px 3px; font-size: 12px; font-weight: 900; letter-spacing: .08em; }
-.ch-head { margin-top: 22px; display: grid; gap: 10px; }
+.ch-head { margin-top: 22px; display: grid; gap: 10px; position: relative; }
+.ch-deco { position: absolute; right: -6px; top: -18px; color: var(--accent); opacity: .07; pointer-events: none; transform: rotate(-8deg); }
+.ch-deco svg { width: 150px; height: 150px; stroke-width: 1.6; }
+.ch-head > :not(.ch-deco):not(.ch-done) { position: relative; }
+.ch-done { position: absolute; right: 8px; top: 4px; font-family: var(--font-display); font-size: 15px; color: var(--hot); border: 3px solid var(--hot); border-radius: 999px; padding: 6px 14px; transform: rotate(10deg); opacity: .85; letter-spacing: .1em; }
+@media (max-width: 640px) { .ch-deco svg { width: 96px; height: 96px; } .ch-deco { top: -8px; } .ch-done { font-size: 12px; padding: 4px 10px; top: -4px; } }
+@media print { .ch-deco, .ch-done { display: none !important; } }
 .ch-head .q { font-size: 13px; font-weight: 900; color: var(--accent); letter-spacing: .08em; }
 .ch-head h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(26px, 4.4vw, 42px); line-height: 1.32; }
 .ch-head p { color: var(--ink-2); max-width: 42em; }
@@ -2792,7 +2798,7 @@ body.bigq-open { overflow: hidden; }
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月20日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月21日</span></div></footer>
 
 <script src="okane-data.js"></script>
 <script src="okane-app.js"></script>

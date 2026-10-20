@@ -47,5 +47,12 @@
   document.querySelectorAll("section.ch").forEach((s) => {
     const q = s.querySelector(".ch-head .q"); if (!q || !P[s.id]) return;
     q.insertAdjacentHTML("afterbegin", `<span class="ch-ic">${D.OK.icon(s.id, 18)}</span>`);
+    // 見出しの右上に、大きくうすいアイコン（かざり）と、「読んだ」スタンプ
+    const head = s.querySelector(".ch-head");
+    head.insertAdjacentHTML("afterbegin", `<span class="ch-deco" aria-hidden="true">${D.OK.icon(s.id, 150)}</span><span class="ch-done" aria-hidden="true" hidden>読んだ</span>`);
   });
+  // スタンプをもらった章に「読んだ」をつける（スタンプがふえたら、すぐ反映）
+  const markDone = () => { let got = []; try { got = JSON.parse(localStorage.getItem("okane:stamps")) || []; } catch (e) {}
+    document.querySelectorAll("section.ch").forEach((s) => { const d = s.querySelector(".ch-done"); if (d) d.hidden = !got.includes(s.id); }); };
+  markDone(); document.addEventListener("okane:stamp", markDone);
 })();
