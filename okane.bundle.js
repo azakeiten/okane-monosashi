@@ -171,7 +171,10 @@ window.KAKEI = {
 window.ENGEL_OFFICIAL = { year: 2025, value: 28.6, note: "1981年以来44年ぶりの高さ" };
 
 // ニュースに出てくる大きな数字（単位：円）と人口。出典はそれぞれの note
-window.POPULATION = { value: 122680000, note: "総務省統計局「人口推計」2026年8月1日現在（概算値）" };
+window.POPULATION = { value: 122690000, note: "総務省統計局「人口推計」2026年10月1日現在（概算値）" };
+// 年れい3区分の人口（万人）と、各年10月1日の総人口（人）。総務省統計局「人口推計 2026年10月報」（2026年10月20日公表）より
+window.POP_AGE = { label: "2026年10月1日現在（概算値）", total: 12269, kids: 1312, work: 7332, old: 3625, old75: 2169 };
+window.POP_TREND = { from: 2016, v: [127041812, 126918546, 126748506, 126555078, 126146099, 125502290, 124946789, 124351877, 123801750, 123219024, 122690000], note: "2016〜2025年は確定値、2026年は概算値（各年10月1日現在）" };
 window.BIG = [
   { id: "budget", name: "国の予算（一般会計）", value: 122.3092e12, short: "122.3兆円", note: "令和8年度予算（財務省）。国が1年間に使うお金", kind: "year" },
   { id: "social", name: "そのうち社会保障", value: 39.1e12, short: "39.1兆円", note: "令和8年度予算。年金・医療・介護・子育てなど", kind: "year" },
@@ -247,7 +250,7 @@ window.DATA_FRESH = [
   { what: "国の予算・税収・国債残高", has: "令和8年度予算", next: "令和9年度予算案：2026年12月ごろ", freq: "年" },
   { what: "キャッシュレス決済比率", has: "2025年", next: "2026年の値：2027年3月ごろ", freq: "年" },
   { what: "GDP（名目）", has: "2025年・速報値", next: "2026年：2027年2月ごろ", freq: "年" },
-  { what: "人口", has: "2026年8月1日", next: "毎月", freq: "月" },
+  { what: "人口", has: "2026年10月1日（概算値）", next: "11月1日現在：2026年11月20日", freq: "月" },
   { what: "ドル円", has: "2025年平均・2026年9月", next: "毎月", freq: "月" }
 ];
 
@@ -2997,6 +3000,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-20", ic: "big", t: "日本を100人にすると", p: "今日発表された人口推計で、子ども・はたらく世代・お年よりの人数を100人の図に。", go: "big" },
     { d: "2026-10-18", ic: "quiz", t: "あそんで学ぶコース", p: "おつり→お店やさん→おこづかい物価→キャッシュレス→すごろく→ことばカードの順に案内します。", go: "courses" },
     { d: "2026-10-17", ic: "words", t: "ことばカード", p: "ことば辞典の18語を、めくって覚えるカードに。覚えたカードは次から出ません。", go: "words" },
     { d: "2026-10-17", ic: "kakei", t: "おうちの人と話そう", p: "章の終わりに、家族と話すきっかけになる問いかけをのせました。", go: "money" },
@@ -3034,7 +3038,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["あそんで学ぶコース", "ことばカード", "おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["日本を100人にすると", "あそんで学ぶコース", "ことばカード", "おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);
@@ -3175,6 +3179,40 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     const k = t.closest(".bu-p").dataset.key; sel = { ...sel, [k]: t.dataset.id }; render();
   });
   render();
+})();
+
+;
+
+/* ===== okane-pop.js ===== */
+// おかねの物差し：日本に住む人を100人にすると？（年れい3区分の100マス・10年間の人口の変化）
+(() => {
+  const D = window, { $, yen } = D.OK;
+  const box = $("popBox"); const A = D.POP_AGE, T = D.POP_TREND; if (!box || !A || !T) return;
+  const G = [
+    { k: "kids", t: "子ども（15歳未満）", v: A.kids, c: "var(--ruler)" },
+    { k: "work", t: "はたらく世代（15〜64歳）", v: A.work, c: "var(--cool)" },
+    { k: "old", t: "お年より（65歳以上）", v: A.old, c: "var(--hot)" },
+  ];
+  // 100人にしたときの人数（合計がちょうど100になるよう、端数の大きい順に足す）
+  const raw = G.map((g) => (g.v / A.total) * 100), n = raw.map(Math.floor);
+  let rest = 100 - n.reduce((a, b) => a + b, 0);
+  raw.map((r, i) => [r - Math.floor(r), i]).sort((a, b) => b[0] - a[0]).forEach(([, i]) => { if (rest > 0) { n[i]++; rest--; } });
+  const person = (c) => `<svg viewBox="0 0 20 24" aria-hidden="true"><circle cx="10" cy="6" r="4.5" fill="${c}"/><path d="M2.5 23c0-5 3.4-9 7.5-9s7.5 4 7.5 9z" fill="${c}"/></svg>`;
+  const last = T.v[T.v.length - 1], first = T.v[0], Y1 = T.from + T.v.length - 1, drop = first - last;
+  const per = (A.work / A.old).toFixed(1);
+  // 10年間の人口の棒（少しずつへっていく）
+  const W = 520, H = 160, L = 8, R = 8, top = 24, base = 120, lo = 12100, hi = 12750, bw = (W - L - R) / T.v.length;
+  const yy = (v) => base - ((v / 1e4 - lo) / (hi - lo)) * (base - top);
+  let bars = T.v.map((v, i) => `<rect x="${L + i * bw + 3}" y="${yy(v)}" width="${bw - 6}" height="${base - yy(v)}" rx="3" class="pp-b${i === T.v.length - 1 ? " last" : ""}"><title>${T.from + i}年 ${yen(v / 1e4)}万人</title></rect>`).join("");
+  bars += `<text x="${L + bw / 2}" y="${yy(first) - 6}" text-anchor="middle" class="pp-l">${(first / 1e8).toFixed(2)}億</text><text x="${L + (T.v.length - 0.5) * bw}" y="${yy(last) - 6}" text-anchor="middle" class="pp-l">${(last / 1e8).toFixed(2)}億</text>`;
+  bars += `<text x="${L + bw / 2}" y="${H - 18}" text-anchor="middle" class="pp-a">${T.from}</text><text x="${L + (T.v.length - 0.5) * bw}" y="${H - 18}" text-anchor="middle" class="pp-a">${Y1}</text><text x="${W / 2}" y="${H - 2}" text-anchor="middle" class="pp-a">（目もりは1億2100万人から。とちゅうを省いています）</text>`;
+
+  box.innerHTML = `<div class="pp-grid">
+    <div class="pp-card"><div class="pp-people" role="img" aria-label="100人のうち、子ども${n[0]}人、はたらく世代${n[1]}人、お年より${n[2]}人">${G.map((g, i) => person(g.c).repeat(n[i])).join("")}</div>
+      <ul class="pp-leg">${G.map((g, i) => `<li style="--c:${g.c}"><span class="sw"></span>${g.t}<b>${n[i]}人</b><small>${yen(g.v)}万人</small></li>`).join("")}</ul></div>
+    <div class="pp-side"><div class="pp-fact"><b>${per}人</b><span>はたらく世代${per}人で、お年より1人をささえている計算です。年金や医療のお金（社会保障）が国の予算でいちばん多いのは、このためです。</span></div>
+      <div class="pp-card"><span class="pp-k">日本の人口の10年（各年10月1日）</span><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${T.from}年から${Y1}年の総人口">${bars}</svg>
+        <p class="pp-t">${T.from}年から${Y1}年までに、約<b>${yen(drop / 1e4)}万人</b>へりました。1年に約${yen(drop / (T.v.length - 1) / 1e4)}万人ずつ、へっている計算です。</p></div></div></div>`;
 })();
 
 ;

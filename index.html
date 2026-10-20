@@ -1261,6 +1261,32 @@ body.bigq-open { overflow: hidden; }
 .say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
 @media print { .say-btn { display: none; } }
 
+/* 日本に住む人を100人にすると */
+.pop { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--good); background: color-mix(in srgb, var(--good) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.pop .bk-badge { background: var(--good); color: var(--card); }
+.pp-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .pp-grid { grid-template-columns: minmax(0, 1fr); } }
+.pp-card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; min-width: 0; }
+.pp-people { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 4px; }
+.pp-people svg { width: 100%; height: auto; display: block; }
+.pp-leg { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
+.pp-leg li { display: grid; grid-template-columns: 14px minmax(0, 1fr) auto auto; gap: 8px; align-items: center; }
+.pp-leg .sw { width: 14px; height: 14px; border-radius: 4px; background: var(--c); }
+.pp-leg b { font-family: var(--font-num); font-size: 16px; }
+.pp-leg small { font-family: var(--font-num); color: var(--muted); font-size: 12px; min-width: 6.5em; text-align: right; }
+.pp-side { display: grid; gap: 12px; }
+.pp-fact { background: var(--inv); color: var(--inv-ink); border-radius: 16px; padding: 14px 16px; display: grid; gap: 4px; }
+.pp-fact b { font-family: var(--font-display); font-weight: 400; font-size: 30px; color: var(--ruler); }
+.pp-fact span { font-size: 13px; line-height: 1.7; color: color-mix(in srgb, var(--inv-ink) 85%, transparent); }
+.pp-k { font-size: 12px; font-weight: 900; color: var(--muted); }
+.pp-card svg { width: 100%; height: auto; display: block; }
+.pp-b { fill: color-mix(in srgb, var(--good) 40%, var(--card)); }
+.pp-b.last { fill: var(--good); }
+.pp-l { font-family: var(--font-num); font-size: 13px; font-weight: 700; fill: var(--ink); }
+.pp-a { font-size: 11px; fill: var(--muted); }
+.pp-t { font-size: 14px; line-height: 1.7; }
+.pp-t b { font-family: var(--font-num); color: var(--hot); }
+
 /* ことばカード */
 .flash { margin: 6px 0 22px; border-radius: var(--r); border: 2px solid var(--accent); background: color-mix(in srgb, var(--accent) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .flash .bk-badge { background: var(--accent); color: var(--card); }
@@ -2448,6 +2474,15 @@ body.bigq-open { overflow: hidden; }
         <div class="stack" id="budgetBar" role="img" aria-label="一般会計の内わけ"></div>
         <p id="budgetText" style="color:var(--ink-2)"></p>
       </div>
+      <div class="pop" id="pop100">
+        <div class="bk-head">
+          <span class="bk-badge">図で見よう</span>
+          <h3 data-tag="日本を100人にすると">日本に住む人を100人にすると？</h3>
+          <p>国のお金の使い道は、どんな人がどれだけ住んでいるかで変わります。日本の人口を100人にちぢめて、年れいごとに見てみよう。</p>
+        </div>
+        <div id="popBox"></div>
+        <p class="bk-note">総務省統計局「人口推計」2026年10月報（2026年10月20日公表）より。100人の図と人数は2026年10月1日現在の概算値、10年の棒は2016〜2025年が確定値、2026年が概算値です。</p>
+      </div>
       <div class="meter">
         <div class="bk-head">
           <span class="bk-badge">国のお金メーター</span>
@@ -2761,6 +2796,7 @@ body.bigq-open { overflow: hidden; }
         <div class="src"><span class="what">初任給・年れいごとの給料</span><span class="when">2025年</span><span class="from">厚生労働省「令和7年賃金構造基本統計調査」 <a href="https://www.mhlw.go.jp/toukei/list/chinginkouzou.html" target="_blank" rel="noopener">mhlw.go.jp</a></span></div>
         <div class="src"><span class="what">保険料率</span><span class="when">2026年度</span><span class="from">全国健康保険協会 <a href="https://www.kyoukaikenpo.or.jp/" target="_blank" rel="noopener">kyoukaikenpo.or.jp</a>、こども家庭庁（子ども・子育て支援金）、厚生労働省（雇用保険料率）、日本年金機構 <a href="https://www.nenkin.go.jp/" target="_blank" rel="noopener">nenkin.go.jp</a></span></div>
         <div class="src"><span class="what">キャッシュレス決済比率</span><span class="when">2010〜2025年</span><span class="from">経済産業省「2025年のキャッシュレス決済比率を算出しました」（2026年3月31日） <a href="https://www.meti.go.jp/press/2025/03/20260331006/20260331006.html" target="_blank" rel="noopener">meti.go.jp</a></span></div>
+        <div class="src"><span class="what">人口（総人口・年れい3区分）</span><span class="when">2016〜2026年（10月1日）</span><span class="from">総務省統計局「人口推計」2026年10月報（2026年10月20日） <a href="https://www.stat.go.jp/data/jinsui/index.html" target="_blank" rel="noopener">stat.go.jp</a></span></div>
       </div>
       <div class="rules">
         <div><b>年に1回、更新します</b><p>前の年の物価指数と品目の値段が出る毎年春と、最低賃金が決まる秋に見直します。</p></div>
@@ -2779,8 +2815,8 @@ body.bigq-open { overflow: hidden; }
   </div>
 </dialog>
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
-<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月18日</span></div></footer>
+<footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月20日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261018151225"></script>
+<script src="okane.bundle.js?v=20261020203923"></script>
 </body>
 </html>
