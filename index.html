@@ -1267,6 +1267,30 @@ body.bigq-open { overflow: hidden; }
 .say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
 @media print { .say-btn { display: none; } }
 
+/* 値段あてチャレンジ */
+.guess { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--hot); background: color-mix(in srgb, var(--hot) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
+.guess .bk-badge { background: var(--hot); color: var(--card); }
+.gs-box { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; display: grid; gap: 10px; }
+.gs-top { display: flex; justify-content: space-between; font-weight: 900; font-size: 13px; color: var(--muted); }
+.gs-sc { color: var(--hot); font-family: var(--font-num); font-size: 16px; }
+.gs-q { font-size: 18px; font-weight: 700; }
+.gs-q b { font-family: var(--font-display); font-weight: 400; font-size: 26px; }
+.gs-q small { color: var(--muted); font-size: 13px; }
+.gs-val { font-weight: 700; }
+.gs-val b { font-family: var(--font-display); font-weight: 400; font-size: clamp(34px, 6vw, 48px); color: var(--accent); margin-right: 4px; }
+#gsIn { width: 100%; accent-color: var(--hot); height: 28px; }
+.gs-ends { display: flex; justify-content: space-between; font-family: var(--font-num); font-size: 12px; color: var(--muted); margin-top: -6px; }
+.gs-res { display: grid; gap: 10px; }
+.gs-bar { position: relative; height: 54px; margin: 6px 40px 0; border-bottom: 3px solid var(--line); }
+.gs-bar i { position: absolute; bottom: -9px; width: 14px; height: 14px; border-radius: 999px; transform: translateX(-50%); }
+.gs-bar i span { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-style: normal; font-size: 12px; font-weight: 900; }
+.gs-bar .you { background: var(--accent); } .gs-bar .you span { color: var(--accent); bottom: 34px; }
+.gs-bar .ans { background: var(--hot); } .gs-bar .ans span { color: var(--hot); }
+.gs-end { display: flex; gap: 16px; align-items: center; }
+.gs-big { font-size: 18px; font-weight: 700; }
+.gs-big b { font-family: var(--font-num); font-size: 28px; color: var(--hot); }
+.gs-box .btn { justify-self: start; }
+
 /* わたしが生まれてから */
 .since { margin-top: 8px; display: grid; gap: 10px; }
 .since-h { font-family: var(--font-display); font-weight: 400; font-size: clamp(19px, 2.6vw, 24px); }
@@ -1382,7 +1406,7 @@ body.bigq-open { overflow: hidden; }
 
 /* ホームの中身ナビ */
 .hnav { display: grid; gap: 6px; }
-#daily, #hub, #news, #otsuri, #shopgame, #myinfl, #cashless, #sugoroku, #flashcards { scroll-margin-top: 104px; }
+#daily, #hub, #news, #guessgame, #otsuri, #shopgame, #myinfl, #cashless, #sugoroku, #flashcards { scroll-margin-top: 104px; }
 .hnav-k { font-size: 12px; font-weight: 900; color: var(--muted); letter-spacing: .06em; }
 .hnav-row { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 8px; scrollbar-width: thin; }
 .hnav-row a { flex: none; display: inline-flex; align-items: center; gap: 8px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 14px; background: var(--card); border: 1.5px solid var(--line); border-radius: 999px; padding: 6px 14px 6px 6px; transition: border-color .15s, transform .15s; }
@@ -1895,6 +1919,14 @@ body.bigq-open { overflow: hidden; }
             <p class="hint" id="trendNote"></p>
           </div>
         </div>
+      </div>
+      <div class="guess" id="guessgame">
+        <div class="bk-head">
+          <span class="bk-badge">ゲーム</span>
+          <h3 data-tag="値段あてチャレンジ">値段あてチャレンジ：この品物、いくら？</h3>
+          <p>身近な品物の値段を、つまみで当ててみよう。答えは本物の値段（東京23区の2025年平均）。近いほど点数が高く、1問100点です。</p>
+        </div>
+        <div class="gs-box" id="gsBox" aria-live="polite"></div>
       </div>
       <div class="deeps">
         <details class="deep">
@@ -2845,6 +2877,6 @@ body.bigq-open { overflow: hidden; }
 <a class="to-top" href="#top" id="toTop" aria-label="いちばん上へもどる" hidden>↑<span>上へ</span></a>
 <footer><div class="wrap"><span>おかねの物差し ― 公的統計を、自分の生活の単位に。　<a href="guide.html">先生・おうちの人へ</a>　<a href="poster.html">教室ポスター</a></span><span>最終更新：2026年10月21日</span></div></footer>
 
-<script src="okane.bundle.js?v=20261021114452"></script>
+<script src="okane.bundle.js?v=20261021115339"></script>
 </body>
 </html>
