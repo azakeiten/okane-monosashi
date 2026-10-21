@@ -1246,6 +1246,24 @@ body.bigq-open { overflow: hidden; }
 .say-btn[aria-pressed="true"] svg { animation: bob 1s ease-in-out infinite; }
 @media print { .say-btn { display: none; } }
 
+/* わたしが生まれてから */
+.since { margin-top: 8px; display: grid; gap: 10px; }
+.since-h { font-family: var(--font-display); font-weight: 400; font-size: clamp(19px, 2.6vw, 24px); }
+.sn-empty { display: flex; gap: 12px; align-items: center; background: var(--card); border: 1.5px dashed var(--line); border-radius: 16px; padding: 12px 16px; color: var(--ink-2); }
+.sn-head { font-size: 15px; }
+.sn-head b { font-family: var(--font-num); font-size: 18px; color: var(--accent); }
+.sn-age { display: inline-block; margin: 0 6px; background: var(--ruler); color: var(--ruler-ink); font-weight: 900; border-radius: 999px; padding: 1px 10px; font-size: 13px; }
+.sn-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 10px; }
+.sn-c { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 6px; align-content: start; }
+.sn-t { font-size: 12px; font-weight: 900; color: var(--muted); letter-spacing: .04em; }
+.sn-ab { display: flex; align-items: center; gap: 4px 10px; flex-wrap: wrap; }
+.sn-ab span { display: grid; }
+.sn-ab small { font-size: 11px; color: var(--muted); }
+.sn-ab b { font-family: var(--font-num); font-size: 17px; white-space: nowrap; }
+.sn-ab .now b { color: var(--hot); font-size: 20px; }
+.sn-ab i { font-style: normal; color: var(--muted); font-weight: 900; }
+.sn-c p { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+
 /* 日本に住む人を100人にすると */
 .pop { margin-top: 22px; border-radius: var(--r); border: 2px solid var(--good); background: color-mix(in srgb, var(--good) 5%, var(--card)); padding: 20px; display: grid; gap: 14px; min-width: 0; }
 .pop .bk-badge { background: var(--good); color: var(--card); }
@@ -1682,6 +1700,10 @@ body.bigq-open { overflow: hidden; }
           <div class="share-row"><button type="button" class="btn" id="mcSave" hidden>画像で保存</button><button type="button" class="btn ghost" id="mcShare" hidden>画像を送る</button><button type="button" class="btn ghost" id="mcCopy">文章でコピー</button><span class="hint" id="mcCopied" aria-live="polite"></span></div>
           <p class="hint" id="mcImgNote"></p>
         </div>
+      </div>
+      <div class="wrap since">
+        <h3 class="since-h">わたしが生まれてから、お金はどう変わった？</h3>
+        <div id="sinceBox" aria-live="polite"></div>
       </div>
     </section>
 
@@ -2840,6 +2862,7 @@ body.bigq-open { overflow: hidden; }
 <script src="okane-myinfl.js"></script>
 <script src="okane-sugoroku.js"></script>
 <script src="okane-talk.js"></script>
+<script src="okane-since.js"></script>
 <script src="okane-flash.js"></script>
 <script src="okane-daily.js"></script>
 <script src="okane-hub.js"></script>
