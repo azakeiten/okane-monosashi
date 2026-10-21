@@ -42,7 +42,7 @@
   $("mcTheme").innerHTML = THEMES.map(([k, t, c]) => `<button type="button" data-t="${k}" style="--c:${c}"><i></i>${t}</button>`).join("");
   $("mcTheme").addEventListener("click", (e) => { const b = e.target.closest("[data-t]"); if (!b) return; theme = b.dataset.t; store.set("cardTheme", theme); renderCard(); });
   // スタンプとバッジの数（このブラウザに残っている記録から）
-  const prog = () => ({ st: store.get("stamps", []).length, stAll: document.querySelectorAll("#stampGrid .stamp").length || 17, bd: store.get("badges", []).length, bdAll: D.OK.badgeTotal || 15 });
+  const prog = () => ({ st: store.get("stamps", []).length, stAll: document.querySelectorAll("#stampGrid .stamp").length || 17, bd: store.get("badges", []).length, bdAll: D.OK.badgeTotal || 20 });
   function renderCard() {
     const f = facts(), p = D.OK.pref(), y = birth(), name = mcName.value.trim();
     [...$("mcTheme").children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === theme)));

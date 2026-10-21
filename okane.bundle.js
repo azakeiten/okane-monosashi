@@ -1329,7 +1329,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   $("mcTheme").innerHTML = THEMES.map(([k, t, c]) => `<button type="button" data-t="${k}" style="--c:${c}"><i></i>${t}</button>`).join("");
   $("mcTheme").addEventListener("click", (e) => { const b = e.target.closest("[data-t]"); if (!b) return; theme = b.dataset.t; store.set("cardTheme", theme); renderCard(); });
   // スタンプとバッジの数（このブラウザに残っている記録から）
-  const prog = () => ({ st: store.get("stamps", []).length, stAll: document.querySelectorAll("#stampGrid .stamp").length || 17, bd: store.get("badges", []).length, bdAll: D.OK.badgeTotal || 15 });
+  const prog = () => ({ st: store.get("stamps", []).length, stAll: document.querySelectorAll("#stampGrid .stamp").length || 17, bd: store.get("badges", []).length, bdAll: D.OK.badgeTotal || 20 });
   function renderCard() {
     const f = facts(), p = D.OK.pref(), y = birth(), name = mcName.value.trim();
     [...$("mcTheme").children].forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.t === theme)));
@@ -2723,6 +2723,11 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     { id: "myinfl", ic: "diary", t: "わたしの物価はかせ", d: "おこづかい物価で、自分の使い道を入れてみた", go: "diary" },
     { id: "lit", ic: "sources", t: "グラフ名探偵", d: "グラフの目もりを「0から」にして、本当の大きさを見た", go: "sources" },
     { id: "vs", ic: "rank", t: "県くらべっこ", d: "2つの県を入れかえたり、えらびなおしたりしてくらべた", go: "map" },
+    { id: "guess", ic: "hours", t: "値段あて名人", d: "値段あてチャレンジで、400点以上をとった", go: "hours" },
+    { id: "sugo", ic: "quiz", t: "すごろくの勝者", d: "お金すごろくで、勝った", go: "quiz" },
+    { id: "words", ic: "words", t: "ことば名人", d: "ことばカードを、ぜんぶ覚えた", go: "words" },
+    { id: "streak", ic: "time", t: "3日れんぞく", d: "今日の1問に、3日つづけて答えた", go: "daily" },
+    { id: "since", ic: "save", t: "わたしの年表", d: "生まれた年を入れて、生まれてからの変化を見た", go: "mycard" },
     { id: "hakase", ic: "stamps", t: "物差しはかせ", d: "スタンプを、ぜんぶあつめた", go: "stamps" },
   ];
   let got = new Set(store.get("badges", []));
@@ -2769,7 +2774,15 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     if (t.closest("#miBox [data-d]")) give("myinfl");
     if (t.closest('#ltSeg [data-z="0"]')) give("lit");
     if (t.closest("#vsSwap")) give("vs");
+    if (t.closest("#gsBox")) later(() => { const b = document.querySelector("#gsBox .gs-big b"); if (b && +b.textContent >= 400) give("guess"); });
+    if (t.closest("#flashBox")) later(() => { if (store.get("flashKnown", []).length >= document.querySelectorAll("#wordGrid .word").length) give("words"); });
+    if (t.closest("#dailyBox")) later(() => { if ((store.get("daily", {}).streak || 0) >= 3) give("streak"); });
   }, true);
+  // すごろくは、ものさしくんの番で終わることもあるので、画面の変化を見て判断する
+  const sg = $("sgBox");
+  if (sg && "MutationObserver" in D) new MutationObserver(() => { const b = sg.querySelector(".sg-msg b"); if (b && /の勝ち！$/.test(b.textContent) && !/^(ものさしくん|ともだち)の勝ち/.test(b.textContent)) give("sugo"); }).observe(sg, { childList: true, subtree: true });
+  const by = $("mcBirth"); if (by) by.addEventListener("input", () => { const y = +by.value; if (y >= 1970 && y <= 2025) give("since"); });
+  if ((store.get("daily", {}).streak || 0) >= 3) give("streak");
   // つまみやセレクトで動かしたとき
   document.addEventListener("input", (e) => { if (e.target.id === "clIn" && +e.target.value === D.CASHLESS.from) give("cashless"); });
   document.addEventListener("change", (e) => { if (e.target.id === "vsA" || e.target.id === "vsB") give("vs"); });
@@ -2815,7 +2828,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     const card = (id, k, btn, cls) => `<a class="rs-card ${cls}" href="#${id}"><span class="rs-k">${k}</span>
       <span class="rs-t"><span class="rs-n">${esc(num(id))}</span>${esc(title(id))}</span><span class="rs-go">${btn} →</span></a>`;
     box.innerHTML = `<div class="rs-prog"><div class="rs-ringwrap">${ring(got, ids.length)}<span class="rs-pct"><b>${got}</b>/${ids.length}</span></div>
-        <div><span class="rs-hi">おかえりなさい</span><span class="rs-sub">スタンプ ${got}/${ids.length}・バッジ ${badges}/${D.OK.badgeTotal || 15}</span></div></div>
+        <div><span class="rs-hi">おかえりなさい</span><span class="rs-sub">スタンプ ${got}/${ids.length}・バッジ ${badges}/${D.OK.badgeTotal || 20}</span></div></div>
       ${last && $(last) ? card(last, "つづきから", "つづきを読む", "last") : ""}
       ${next ? card(next, "まだ読んでいない章", "読んでみる", "next") : `<a class="rs-card next" href="#stamps"><span class="rs-k">ぜんぶ読みました！</span><span class="rs-t">チャレンジバッジをあつめよう</span><span class="rs-go">バッジを見る →</span></a>`}`;
   }
@@ -3010,6 +3023,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   const box = $("newsRow"); if (!box) return;
   // 新しい順。d は「YYYY-MM-DD」
   const NEWS = [
+    { d: "2026-10-21", ic: "stamps", t: "バッジが20こに", p: "値段あて・すごろく・ことばカード・今日の1問・わたしの年表のバッジがふえました。", go: "stamps" },
     { d: "2026-10-21", ic: "hours", t: "値段あてチャレンジ", p: "おにぎり・お米・ランドセル…この品物、いくら？ つまみで当てるゲーム。", go: "hours" },
     { d: "2026-10-21", ic: "time", t: "わたしが生まれてから", p: "生まれた年を入れると、物価・時給・ドル・消費税・人口が、生まれてから今までにどう変わったかがわかります。", go: "mycard" },
     { d: "2026-10-21", ic: "stamps", t: "章の見出しがはなやかに", p: "大きなかざりアイコンと「読んだ」スタンプ。ことば「少子高齢化」と人口のクイズも追加。", go: "toc" },
@@ -3043,7 +3057,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
     { d: "2026-10-14", ic: "words", t: "なぜなに相談室", p: "「お金を刷ればお金持ち？」など、8つの疑問にものさしくんが答えます。", go: "words" },
     { d: "2026-10-14", ic: "mascot", t: "ものさしくん登場", p: "サイトの案内役。章のポイントやクイズで話しかけてきます。", go: "quiz" },
     { d: "2026-10-13", ic: "time", t: "値段の決まり方", p: "需要と供給のグラフを、つまみで動かしてみよう。", go: "time" },
-    { d: "2026-10-12", ic: "stamps", t: "チャレンジバッジ", p: "やってみたことで、15このバッジがもらえます。", go: "stamps" },
+    { d: "2026-10-12", ic: "stamps", t: "チャレンジバッジ", p: "やってみたことで、20このバッジがもらえます。", go: "stamps" },
     { d: "2026-10-12", ic: "quiz", t: "しくみクイズ", p: "税金・円安・給料のしくみを、5問で確かめよう。", go: "quiz" },
     { d: "2026-10-12", ic: "tax", t: "お金のめぐり図", p: "払った1,100円が、会社・国・家計をめぐる旅。", go: "tax" },
     { d: "2026-10-12", ic: "race", t: "買い物かご", p: "同じかごを買うのに、10年前と今で何分はたらく？", go: "race" },
@@ -3051,7 +3065,7 @@ window.CPI_MONTHLY = { from: "2024-09", yoy: [2.5,2.3,2.9,3.7,4.0,3.6,3.5,3.6,3.
   // 見たことのあるお知らせ（題名）を覚えておく。前の版の「最後に見た日付」も読みかえる
   const old = store.get("newsSeen", null);
   let seen = store.get("newsSeenIds", null);
-  const V33 = ["値段あてチャレンジ", "わたしが生まれてから", "章の見出しがはなやかに", "日本を100人にすると", "あそんで学ぶコース", "ことばカード", "おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
+  const V33 = ["バッジが20こに", "値段あてチャレンジ", "わたしが生まれてから", "章の見出しがはなやかに", "日本を100人にすると", "あそんで学ぶコース", "ことばカード", "おうちの人と話そう", "教室ポスター", "先生向けガイドに低学年のプラン", "お金すごろく", "今日の1問", "バッジが15こに", "わたしのおこづかい物価", "明るさ切りかえボタン", "物差しカードが新しく", "キャッシュレスの広がり", "体験コーナーをホームに", "おつりチャレンジ", "数字にだまされない", "2つの県をくらべっこ", "国のお金メーター", "みんなでクイズ", "ワークシートが8問に", "しくみクイズが20問に", "国の1年のお金を1万円に", "さがす・もくじがパワーアップ", "一生のお金すごろく", "お金の歴史", "よみあげボタン"]; // 日付だけで覚えていた版（v32）のあとに足したもの
   if (!seen && old) seen = NEWS.filter((n) => n.d <= old && !V33.includes(n.t)).map((n) => n.t);
   const visited = !!seen; seen = new Set(seen || []);
   const fresh = (n) => visited && !seen.has(n.t);

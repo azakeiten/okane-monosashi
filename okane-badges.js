@@ -17,6 +17,11 @@
     { id: "myinfl", ic: "diary", t: "わたしの物価はかせ", d: "おこづかい物価で、自分の使い道を入れてみた", go: "diary" },
     { id: "lit", ic: "sources", t: "グラフ名探偵", d: "グラフの目もりを「0から」にして、本当の大きさを見た", go: "sources" },
     { id: "vs", ic: "rank", t: "県くらべっこ", d: "2つの県を入れかえたり、えらびなおしたりしてくらべた", go: "map" },
+    { id: "guess", ic: "hours", t: "値段あて名人", d: "値段あてチャレンジで、400点以上をとった", go: "hours" },
+    { id: "sugo", ic: "quiz", t: "すごろくの勝者", d: "お金すごろくで、勝った", go: "quiz" },
+    { id: "words", ic: "words", t: "ことば名人", d: "ことばカードを、ぜんぶ覚えた", go: "words" },
+    { id: "streak", ic: "time", t: "3日れんぞく", d: "今日の1問に、3日つづけて答えた", go: "daily" },
+    { id: "since", ic: "save", t: "わたしの年表", d: "生まれた年を入れて、生まれてからの変化を見た", go: "mycard" },
     { id: "hakase", ic: "stamps", t: "物差しはかせ", d: "スタンプを、ぜんぶあつめた", go: "stamps" },
   ];
   let got = new Set(store.get("badges", []));
@@ -63,7 +68,15 @@
     if (t.closest("#miBox [data-d]")) give("myinfl");
     if (t.closest('#ltSeg [data-z="0"]')) give("lit");
     if (t.closest("#vsSwap")) give("vs");
+    if (t.closest("#gsBox")) later(() => { const b = document.querySelector("#gsBox .gs-big b"); if (b && +b.textContent >= 400) give("guess"); });
+    if (t.closest("#flashBox")) later(() => { if (store.get("flashKnown", []).length >= document.querySelectorAll("#wordGrid .word").length) give("words"); });
+    if (t.closest("#dailyBox")) later(() => { if ((store.get("daily", {}).streak || 0) >= 3) give("streak"); });
   }, true);
+  // すごろくは、ものさしくんの番で終わることもあるので、画面の変化を見て判断する
+  const sg = $("sgBox");
+  if (sg && "MutationObserver" in D) new MutationObserver(() => { const b = sg.querySelector(".sg-msg b"); if (b && /の勝ち！$/.test(b.textContent) && !/^(ものさしくん|ともだち)の勝ち/.test(b.textContent)) give("sugo"); }).observe(sg, { childList: true, subtree: true });
+  const by = $("mcBirth"); if (by) by.addEventListener("input", () => { const y = +by.value; if (y >= 1970 && y <= 2025) give("since"); });
+  if ((store.get("daily", {}).streak || 0) >= 3) give("streak");
   // つまみやセレクトで動かしたとき
   document.addEventListener("input", (e) => { if (e.target.id === "clIn" && +e.target.value === D.CASHLESS.from) give("cashless"); });
   document.addEventListener("change", (e) => { if (e.target.id === "vsA" || e.target.id === "vsB") give("vs"); });
